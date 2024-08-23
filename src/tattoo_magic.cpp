@@ -8,35 +8,19 @@ namespace slavetats_ng
 {
 	fail_t activate_tattoo_magic(RE::Actor* a_target, int a_tattoo, bool a_deactivate_first)
 	{
-		bool magic = false;
-
-		RE::BSFixedString tattoo_event = JMap::getStr(a_tattoo, "event");
-		if (tattoo_event != "") {
-			magic = true;
-			int evt;
-
-			if (a_deactivate_first) {
-
-			}
-		}
-
-
-
-
-
-
+		// Not supported
 		return false;
 	}
 
 	fail_t deactivate_tattoo_magic(RE::Actor* a_target, int a_tattoo)
 	{
-		// TODO
+		// Not supported
 		return false;
 	}
 
 	fail_t deactivate_all_tattoo_magic(RE::Actor* a_target)
 	{
-		// TODO
+		// Not supported
 		return false;
 	}
 
