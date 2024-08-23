@@ -127,7 +127,7 @@ find_package(unordered_dense CONFIG REQUIRED)
 
 find_path(SRELL_INCLUDE_DIRS "srell.hpp")
 #find_path(MERGEMAPPER_INCLUDE_DIRS "MergeMapperPluginAPI.h")
-#find_path(CLIBUTIL_INCLUDE_DIRS "CLibUtil/string.hpp")
+find_path(CLIBUTIL_INCLUDE_DIRS "CLibUtil/string.hpp")
 
 # ---- Add source files ----
 
@@ -182,7 +182,7 @@ target_include_directories(
 		${CMAKE_CURRENT_SOURCE_DIR}/src
 		${SRELL_INCLUDE_DIRS}
 #		${MERGEMAPPER_INCLUDE_DIRS}
-#		${CLIBUTIL_INCLUDE_DIRS}
+		${CLIBUTIL_INCLUDE_DIRS}
 )
 
 target_link_libraries(
