@@ -1,172 +1,27 @@
-// #include "Hooks.h"
-// #include "Manager.h"
-
-
-#include "JContainers/jc_interface.h"
+#include "../include/jcontainers_wrapper.h"
+#include "../include/nioverride_wrapper.h"
+#include "../include/papyrus_interface.h"
 
 /*
-void MessageHandler(SKSE::MessagingInterface::Message* a_message)
-{
-	switch (a_message->type) {
-	case SKSE::MessagingInterface::kPostLoad:
-		BaseObjectSwapper::Install();
-		break;
-	case SKSE::MessagingInterface::kPostPostLoad:
-		{
-			logger::info("{:*^30}", "MERGES");
-			MergeMapperPluginAPI::GetMergeMapperInterface001();
-			if (g_mergeMapperInterface) {
-				const auto version = g_mergeMapperInterface->GetBuildNumber();
-				logger::info("Got MergeMapper interface buildnumber {}", version);
-			} else {
-				logger::info("MergeMapper not detected");
-			}
-		}
-		break;
-	case SKSE::MessagingInterface::kDataLoaded:
-		FormSwap::Manager::GetSingleton()->PrintConflicts();
-		break;
-	default:
-		break;
-	}
-}
-*/
-
-
-
-namespace
-{
-	template <class F>
-	void get_class_function(const jc::reflection_interface* refl, const char* a_funcName, const char* a_className, F& a_func)
-	{
-		a_func = reinterpret_cast<F>(refl->tes_function_of_class(a_funcName, a_className));
-		if (!a_func) {
-			logger::error("slavetats_ng: couldn't obtain function {}::{}", a_className, a_funcName);
-		} else {
-			logger::info("slavetats_ng: found function {}::{}", a_className, a_funcName);
-		}
-	}
-}
-
-namespace slavetats_ng
-{
-	namespace jcwrapper
-	{
-		inline void* jc_default_domain = nullptr;
-
-
-
-		// JMap
-		inline int32_t           (*jmap_all_keys_func)(void*, int32_t a_obj) = nullptr;
-		inline int32_t           (*jmap_all_values_func)(void*, int32_t a_obj) = nullptr;
-		inline int32_t           (*jmap_count_func)(void*, int32_t a_obj) = nullptr;
-		inline float             (*jmap_get_flt_func)(void*, int32_t a_obj, RE::BSFixedString a_key, float a_default) = nullptr;
-		inline int32_t           (*jmap_get_int_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_default) = nullptr;
-		inline int32_t           (*jmap_get_obj_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_default) = nullptr;
-		inline RE::BSFixedString (*jmap_get_str_func)(void*, int32_t a_obj, RE::BSFixedString a_key, RE::BSFixedString a_default) = nullptr;
-		inline bool              (*jmap_has_key_func)(void*, int32_t a_obj, RE::BSFixedString a_key) = nullptr;
-		inline RE::BSFixedString (*jmap_next_key_func)(void*, int32_t a_obj, RE::BSFixedString a_previous_key, RE::BSFixedString a_end_key) = nullptr;
-		inline int32_t           (*jmap_object_func)(void*) = nullptr;
-		inline void              (*jmap_set_flt_func)(void*, int32_t a_obj, RE::BSFixedString a_key, float a_value) = nullptr;
-		inline void              (*jmap_set_int_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_value) = nullptr;
-		inline void              (*jmap_set_obj_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_value) = nullptr;
-		inline void              (*jmap_set_str_func)(void*, int32_t a_obj, RE::BSFixedString a_key, RE::BSFixedString a_value) = nullptr;
-
-		// JArray
-		inline void              (*jarray_add_obj_func)(void*, int32_t a_arr, int32_t a_obj, int32_t a_index) = nullptr;
-		inline void              (*jarray_clear_func)(void*, int32_t a_obj) = nullptr;
-		inline int32_t           (*jarray_count_func)(void*, int32_t a_obj) = nullptr;
-		inline void		         (*jarray_erase_index_func)(void*, int32_t a_arr, int32_t a_index) = nullptr;
-		inline int32_t           (*jarray_get_obj_func)(void*, int32_t a_obj, int32_t a_index) = nullptr;
-		inline RE::BSFixedString (*jarray_get_str_func)(void*, int32_t a_obj, int32_t a_index, RE::BSFixedString a_default) = nullptr;
-
-		// JValue (object)
-		inline int32_t (*jvalue_add_to_pool_func)(void*, int32_t a_obj, RE::BSFixedString a_pool_name) = nullptr;
-		inline int32_t (*jvalue_clean_pool_func)(void*, RE::BSFixedString a_pool_name) = nullptr;
-		inline bool    (*jvalue_is_array_func)(void*, int32_t a_obj) = nullptr;
-		inline int32_t (*jvalue_read_from_directory_func)(void*, RE::BSFixedString a_directory_path, RE::BSFixedString a_extension) = nullptr;
-		inline int32_t (*jvalue_read_from_file_func)(void*, RE::BSFixedString a_file_path) = nullptr;
-		inline int32_t (*jvalue_write_to_file_func)(void*, int32_t a_obj, RE::BSFixedString a_file_path) = nullptr;
-
-		// JDB
-		inline int32_t (*jdb_solve_obj_func)(void*, RE::BSFixedString a_path, int32_t a_default_obj) = nullptr;
-		inline int32_t (*jdb_solve_obj_setter_func)(void*, RE::BSFixedString a_path, int32_t a_obj, bool a_create_missing_keys) = nullptr;
-
-
-		class JCWrapper
-		{
-		public:
-			static inline void Init(const jc::root_interface* root)
-			{
-				auto refl = root->query_interface<jc::reflection_interface>();
-				
-				// JMap
-				get_class_function(refl, "allKeys", "JMap", jmap_all_keys_func);
-				get_class_function(refl, "allValues", "JMap", jmap_all_values_func);
-				get_class_function(refl, "count", "JMap", jmap_count_func);
-				get_class_function(refl, "getFlt", "JMap", jmap_get_flt_func);
-				get_class_function(refl, "getInt", "JMap", jmap_get_int_func);
-				get_class_function(refl, "getObj", "JMap", jmap_get_obj_func);
-				get_class_function(refl, "getStr", "JMap", jmap_get_str_func);
-				get_class_function(refl, "hasKey", "JMap", jmap_has_key_func);
-				get_class_function(refl, "nextKey", "JMap", jmap_next_key_func);
-				get_class_function(refl, "object", "JMap", jmap_object_func);
-				get_class_function(refl, "setFlt", "JMap", jmap_set_flt_func);
-				get_class_function(refl, "setInt", "JMap", jmap_set_int_func);
-				get_class_function(refl, "setObj", "JMap", jmap_set_obj_func);
-				get_class_function(refl, "setStr", "JMap", jmap_set_str_func);
-
-				// JArray
-				get_class_function(refl, "addObj", "JArray", jarray_add_obj_func);
-				get_class_function(refl, "clear", "JArray", jarray_clear_func);
-				get_class_function(refl, "count", "JArray", jarray_count_func);
-				get_class_function(refl, "eraseIndex", "JArray", jarray_erase_index_func);
-				get_class_function(refl, "getObj", "JArray", jarray_get_obj_func);
-				get_class_function(refl, "getStr", "JArray", jarray_get_str_func);
-
-				// JValue (object)
-				get_class_function(refl, "addToPool", "JValue", jvalue_add_to_pool_func);
-				get_class_function(refl, "cleanPool", "JValue", jvalue_clean_pool_func);
-				get_class_function(refl, "isArray", "JValue", jvalue_is_array_func);
-				get_class_function(refl, "readFromDirectory", "JValue", jvalue_read_from_directory_func);
-				get_class_function(refl, "readFromFile", "JValue", jvalue_read_from_file_func);
-				get_class_function(refl, "writeToFile", "JValue", jvalue_write_to_file_func);
-
-				// JDB
-				get_class_function(refl, "solveObj", "JDB", jdb_solve_obj_func);
-				get_class_function(refl, "solveObjSetter", "JDB", jdb_solve_obj_setter_func);
-			}
-
-		};
-	}
-
-}
-
-
-
-
-
-
-
-
-
-
 static std::string MyNativeFunction(RE::StaticFunctionTag*)
 {
 	return "Hello from C++!";
 }
+*/
 
 namespace
 {
+	/*
 	bool BindPapyrusFunctions(RE::BSScript::IVirtualMachine* vm)
 	{
 		vm->RegisterFunction("MyNativeFunction", "MyPapyrusScript", MyNativeFunction);
 		return true;
 	}
+	*/
 
 	void InitializePapyrus()
 	{
-		SKSE::GetPapyrusInterface()->Register(BindPapyrusFunctions);
+		SKSE::GetPapyrusInterface()->Register(slavetats_ng::papyrus::register_functions);
 	}
 
 	void InitializeLog()
@@ -187,6 +42,8 @@ namespace
 		spdlog::set_default_logger(std::move(log));
 		spdlog::set_pattern("[%H:%M:%S:%e] %v"s);
 
+		logger::info("Hello World Test Version");
+
 		logger::info(FMT_STRING("{} v{}"), Version::PROJECT, Version::NAME);
 	}
 
@@ -206,6 +63,10 @@ namespace
 				});
 			}
 			break;
+		case SKSE::MessagingInterface::kDataLoaded:
+			slavetats_ng::skee_wrapper::NiOverride::Init();
+			break;
+				
 		default:
 			break;
 		}

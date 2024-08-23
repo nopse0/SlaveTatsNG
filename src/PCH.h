@@ -14,7 +14,6 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <srell.hpp>
 
-/*
 #include <CLibUtil/distribution.hpp>
 #include <CLibUtil/hash.hpp>
 #include <CLibUtil/numeric.hpp>
@@ -23,7 +22,7 @@
 #include <ClibUtil/simpleINI.hpp>
 #include <ClibUtil/singleton.hpp>
 #include <ClibUtil/editorID.hpp>
-*/
+
 
 #define DLLEXPORT __declspec(dllexport)
 
@@ -90,6 +89,11 @@ namespace stl
 #	define OFFSET(se, ae) se
 #	define OFFSET_3(se, ae, vr) se
 #endif
+
+namespace slavetats_ng
+{
+	typedef bool fail_t;
+}
 
 // #include "Util.h"
 #include "Version.h"
