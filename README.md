@@ -1,8 +1,6 @@
-# Base Object Swapper
+# SlaveTatsNG
 
-SKSE/SKSEVR plugin and framework that allows swapping base forms at runtime
-[SSE/AE](https://www.nexusmods.com/skyrimspecialedition/mods/60805)
-[VR](https://www.nexusmods.com/skyrimspecialedition/mods/61734)
+SlaveTats as C++/SKSE plugin  
 
 ## Requirements
 * [CMake](https://cmake.org/)
@@ -31,20 +29,26 @@ SKSE/SKSEVR plugin and framework that allows swapping base forms at runtime
 
 ## Building
 ```
-git clone https://github.com/powerof3/BaseObjectSwapper.git
-cd BaseObjectSwapper
+git clone https://github.com/nopse0/SlaveTatsNG.git
+cd SlaveTatsNG
 # pull commonlib /extern to override the path settings
 git submodule init
 # to update submodules to checked in build
 git submodule update
 ```
 
+### AE
+```
+cmake --preset vs2022-windows-vcpkg-ae
+cmake --build buildae --config Release
+```
+
 ### SSE
 ```
-cmake --preset vs2022-windows-vcpkg
-cmake --build build --config Release
+cmake --preset vs2022-windows-vcpkg-se
+cmake --build buildse --config Release
 ```
-### VR
+### VR (currently not supported)
 ```
 cmake --preset vs2022-windows-vcpkg-vr
 cmake --build buildvr --config Release
