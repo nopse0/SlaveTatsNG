@@ -1,3 +1,24 @@
 set(sources ${sources}
+	src/cache.cpp
+	src/constants.cpp
+	src/high_level_api.cpp
+	src/logging.cpp
 	src/main.cpp
+	src/nioverride_wrapper.cpp
+	src/overlays.cpp
+	src/papyrus_cache.cpp
+	src/papyrus_constants.cpp
+	src/papyrus_high_level_api.cpp
+	src/papyrus_interface.cpp
+	src/papyrus_logging.cpp
+	src/papyrus_overlays.cpp
+	src/papyrus_primary_api.cpp
+	src/papyrus_query.cpp
+	src/papyrus_tattoo.cpp
+	src/papyrus_tattoo_magic.cpp
+	src/primary_api.cpp
+	src/query.cpp
+	src/skse64_native_papyrus.cpp
+	src/tattoo.cpp
+	src/tattoo_magic.cpp
 )

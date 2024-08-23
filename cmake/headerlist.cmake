@@ -1,5 +1,28 @@
 set(headers ${headers}
-	src/JContainers/jc_interface.h
-	src/JContainers/jcontainers_constants.h
+	include/JContainers/jc_interface.h
+	include/JContainers/jcontainers_constants.h
+	include/cache.h
+	include/constants.h
+	include/high_level_api.h
+	include/jcontainers_wrapper.h
+	include/logging.h
+	include/nioverride_wrapper.h
+	include/overlays.h
+	include/papyrus_cache.h
+	include/papyrus_constants.h
+	include/papyrus_high_level_api.h
+	include/papyrus_interface.h
+	include/papyrus_logging.h
+	include/papyrus_overlays.h
+	include/papyrus_primary_api.h
+	include/papyrus_query.h
+	include/papyrus_tattoo.h
+	include/papyrus_tattoo_magic.h
+	include/primary_api.h
+	include/query.h
+	include/skee-modders-resource-v0-4-19-16/SKEE_IPluginInterface.h
+	include/skse64_native_papyrus.h
+	include/tattoo.h
+	include/tattoo_magic.h
 	src/PCH.h
 )
