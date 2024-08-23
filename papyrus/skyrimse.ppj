@@ -1,0 +1,22 @@
+<?xml version='1.0'?><!-- Game is either sse, tesv, or fo4 -->
+<PapyrusProject xmlns="PapyrusProject.xsd" 
+    Flags="TESV_Papyrus_Flags.flg" 
+    Game="sse" 
+    Output="Scripts" 
+    Optimize="false" 
+    Release="false" 
+    Final="false">
+    <Imports>
+        <Import>.\Source\Scripts</Import>
+        <Import>.\Scripts\Source</Import>
+        <Import>D:\Games\Skyrim-1.6.1170\mods\MyChanges - sky_ui-5.2-source-scripts\Scripts\Source</Import>
+        <Import>D:\Games\Skyrim-1.6.1170\mods\JContainers SE\scripts\source</Import>
+        <Import>D:\Games\Skyrim-1.6.1170\mods\MyChanges - racemenu-source-scripts\Scripts\Source</Import>
+        <Import>D:\Games\Skyrim-1.6.1170\mods\skse\Scripts\Source</Import>
+        <Import>D:\Games\Skyrim-1.6.1170\mods\CKScripts\Scripts\Source</Import>
+    </Imports>
+    <Folders>
+        <Folder>.\Scripts\Source</Folder>
+        <Folder>.\Source\Scripts</Folder>
+    </Folders>
+</PapyrusProject>
