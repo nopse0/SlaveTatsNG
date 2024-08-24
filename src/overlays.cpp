@@ -547,7 +547,7 @@ namespace slavetats_ng
 		while (i > 0) {
 			i -= 1;
 
-			slot = JArray::getInt(empty_body_slots, i);
+			slot = JArray::getInt(empty_face_slots, i);
 			if (JArray::findInt(external_on_face, slot) < 0) {
 				clear_overlay(a_target, isFemale, "Face", slot);
 			}

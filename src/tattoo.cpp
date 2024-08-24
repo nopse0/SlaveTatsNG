@@ -254,8 +254,10 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString requirement = JMap::getStr(a_tattoo, "requires");
-		if (has_applied_tattoos_with_attribute(a_target, requirement)) {
-			return 0;
+		if (requirement != "") {
+			if (!has_applied_tattoos_with_attribute(a_target, requirement)) {
+				return 0;
+			}
 		}
 
 		int applied = JFormDB::getObj(a_target, ".SlaveTats.applied");
