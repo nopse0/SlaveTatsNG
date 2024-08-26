@@ -11,6 +11,11 @@ namespace slavetats_ng
 	fail_t simple_add_tattoo(RE::Actor* a_target, RE::BSFixedString a_section, RE::BSFixedString a_name, int a_color,
 		bool a_last, bool a_silent, float a_alpha)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		// if (a_name == "mzinDirtFaceFX") {
 		//	logger::info("Debugging mzinDirtFaceFX");
 		//}
@@ -62,6 +67,11 @@ namespace slavetats_ng
 	fail_t simple_remove_tattoo(RE::Actor* a_target, RE::BSFixedString a_section, RE::BSFixedString a_name,
 		bool a_last, bool a_silent)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		int a_template = JValue::addToPool(JMap::object(), "SlaveTatsHighLevel");
 		int matches = JValue::addToPool(JArray::object(), "SlaveTatsHighLevel");
 		int tattoo = 0;

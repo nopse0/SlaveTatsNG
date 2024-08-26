@@ -18,6 +18,11 @@ namespace slavetats_ng
 {
 	fail_t external_slots(RE::Actor* a_target, RE::BSFixedString a_area, int a_matches)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		RE::TESNPC* npc = a_target->GetActorBase();
 		bool isFemale = (bool)(npc->GetSex() == 1);
 
@@ -55,6 +60,11 @@ namespace slavetats_ng
 
 	fail_t get_applied_tattoos_by_area(RE::Actor* a_target, int a_on_body, int a_on_face, int a_on_hands, int a_on_feet)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		int applied = JFormDB::getObj(a_target, ".SlaveTats.applied");
 		//logger::info("get_applied_tattoos_by_area, applied={}", applied);
 		//_log_jcontainer(applied, "  ");
@@ -87,6 +97,11 @@ namespace slavetats_ng
 
 	int get_applied_tattoo_in_slot(RE::Actor* a_target, RE::BSFixedString a_area, int a_slot)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return 0;
+		}
+
 		int a_template = JValue::addToPool(JMap::object(), "SlaveTats-get_applied_tattoo_in_slot");
 
 		JMap::setStr(a_template, "area", a_area);
@@ -113,6 +128,11 @@ namespace slavetats_ng
 
 	int _available_slot(RE::Actor* a_target, RE::BSFixedString a_area)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return -1;
+		}
+
 		int external = JValue::addToPool(JArray::object(), "SlaveTats-_available_slot");
 
 		if (external_slots(a_target, a_area, external)) {
@@ -136,6 +156,11 @@ namespace slavetats_ng
 	}
 
 	fail_t _remove_tattoos(RE::Actor* a_target, int a_template, bool a_ignore_lock, bool a_silent) {
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		int applied = JFormDB::getObj(a_target, ".SlaveTats.applied");
 		if (applied == 0)
 			return false;
@@ -163,6 +188,11 @@ namespace slavetats_ng
 
 	fail_t remove_tattoos(RE::Actor* a_target, int a_template, bool a_ignore_lock, bool a_silent)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		log_tattoo("Asked to remove matching tattoos ", a_template);
 
 		if (upgrade_tattoos(a_target)) {
@@ -175,6 +205,11 @@ namespace slavetats_ng
 	fail_t remove_tattoo_from_slot(RE::Actor* a_target, RE::BSFixedString a_area, int a_slot, bool a_ignore_lock,
 		bool a_silent) 
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		int a_template = JValue::addToPool(JMap::object(), "SlaveTats-remove_tattoo_from_slot");
 
 		JMap::setStr(a_template, "area", a_area);
@@ -192,6 +227,11 @@ namespace slavetats_ng
 	fail_t query_applied_tattoos_with_attribute(RE::Actor* a_target, RE::BSFixedString a_attrib, int a_matches,
 		RE::BSFixedString a_except_area, int a_except_slot)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		int a_template = JValue::addToPool(JMap::object(), "SlaveTats-query_available_tattoos_with_attribute");
 		JMap::setStr(a_template, a_attrib, "ANY");
 		bool result = query_applied_tattoos(a_target, a_template, a_matches, a_except_area, a_except_slot);
@@ -202,6 +242,11 @@ namespace slavetats_ng
 
 	bool has_applied_tattoos_with_attribute(RE::Actor* a_target, RE::BSFixedString a_attrib, RE::BSFixedString a_except_area,
 		int a_except_slot) {
+		if (!a_target) {
+			logger::info("a_target is null");
+			return false;
+		}
+
 		int matches = JValue::addToPool(JArray::object(), "SlaveTats-has_applied_tattoos_with_attribute");
 		if (query_applied_tattoos_with_attribute(a_target, a_attrib, matches, a_except_area, a_except_slot)) {
 			// Log query failed
@@ -218,6 +263,11 @@ namespace slavetats_ng
 
 	int _add_and_get_tattoo(RE::Actor* a_target, int a_tattoo, int a_slot, bool a_ignore_lock, bool a_silent)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return 0;
+		}
+
 		RE::BSFixedString area = JMap::getStr(a_tattoo, "area");
 		RE::BSFixedString texture = JMap::getStr(a_tattoo, "texture");
 
@@ -281,7 +331,12 @@ namespace slavetats_ng
 	int add_and_get_tattoo(RE::Actor* a_target, int a_tattoo, int a_slot, bool a_ignore_lock,
 		bool a_silent, bool a_try_upgrade)
 	{
-		// TODO  log_tattoo("Asked to add a tattoo", tattoo)
+		if (!a_target) {
+			logger::info("a_target is null");
+			return 0;
+		}
+
+		log_tattoo("Asked to add a tattoo", a_tattoo);
 		if (a_try_upgrade && upgrade_tattoos(a_target)) {
 			return 0;
 		}
@@ -291,6 +346,11 @@ namespace slavetats_ng
 
 	fail_t add_tattoo(RE::Actor* a_target, int a_tattoo, int a_slot, bool a_ignore_lock, bool a_silent)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		if (add_and_get_tattoo(a_target, a_tattoo, a_slot, a_ignore_lock, a_silent) == 0) {
 			return true;
 		}

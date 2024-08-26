@@ -15,6 +15,11 @@ namespace slavetats_ng
 	fail_t query_applied_tattoos(RE::Actor* a_target, int a_template, int a_matches,
 		RE::BSFixedString a_except_area, int a_except_slot)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		int applied = JFormDB::getObj(a_target, ".SlaveTats.applied");
 		if (applied == 0)
 			return false;

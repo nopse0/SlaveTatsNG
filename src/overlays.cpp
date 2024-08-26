@@ -20,6 +20,11 @@ namespace slavetats_ng
 {
 	fail_t clear_overlay(RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		RE::BSFixedString nodeName = string(a_area) + " [ovl" + to_string(a_slot) + "]";
 		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
 		RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
@@ -57,6 +62,11 @@ namespace slavetats_ng
 	fail_t apply_overlay(RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_path, int a_color,
 		int a_glow, bool a_gloss, RE::BSFixedString a_bump, float a_alpha)
 	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, a_path.c_str(), true);
 		// Utility.Wait(0.01)
@@ -94,6 +104,7 @@ namespace slavetats_ng
 	fail_t upgrade_tattoos(RE::Actor* a_target) 
 	{
 		if (!a_target) {
+			logger::info("a_target is null");
 			return true;
 		}
 
@@ -226,7 +237,16 @@ namespace slavetats_ng
 		RE::BSFixedString bump;
 		float  alpha;
 
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
 		RE::TESNPC* actor_base = a_target->GetActorBase();
+		if (!actor_base) {
+			logger::info("actor_base is null");
+			return true;
+		}
+
 		RE::BSFixedString actor_name = actor_base->GetName();
 		bool        isFemale = actor_base->GetSex() == 1;
 		logger::info("SlaveTats: Beginning synchronization for {}", actor_name.c_str());
