@@ -62,6 +62,7 @@ namespace slavetats_ng
 		inline int32_t (*jvalue_clean_pool_func)(void*, RE::BSFixedString a_pool_name) = nullptr;
 		inline int32_t (*jvalue_deep_copy_func)(void*, int32_t a_obj) = nullptr;
 		inline bool    (*jvalue_is_array_func)(void*, int32_t a_obj) = nullptr;
+		inline bool    (*jvalue_is_form_map_func)(void*, int32_t a_obj) = nullptr;
 		inline bool    (*jvalue_is_map_func)(void*, int32_t a_obj) = nullptr;
 		inline int32_t (*jvalue_read_from_directory_func)(void*, RE::BSFixedString a_directory_path, RE::BSFixedString a_extension) = nullptr;
 		inline int32_t (*jvalue_read_from_file_func)(void*, RE::BSFixedString a_file_path) = nullptr;
@@ -71,6 +72,8 @@ namespace slavetats_ng
 		// JDB
 		inline int32_t (*jdb_solve_obj_func)(void*, RE::BSFixedString a_path, int32_t a_default_obj) = nullptr;
 		inline bool    (*jdb_solve_obj_setter_func)(void*, RE::BSFixedString a_path, int32_t a_obj, bool a_create_missing_keys) = nullptr;
+		inline void    (*jdb_set_obj_func)(void*, RE::BSFixedString a_path, int32_t a_obj) = nullptr;
+		inline int32_t (*jdb_root_func)(void*) = nullptr;
 
 		// JFormDB
 		inline int32_t           (*jformdb_get_obj_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key) = nullptr;
@@ -134,6 +137,7 @@ namespace slavetats_ng
 				get_class_function(refl, "cleanPool", "JValue", jvalue_clean_pool_func);
 				get_class_function(refl, "deepCopy", "JValue", jvalue_deep_copy_func);
 				get_class_function(refl, "isArray", "JValue", jvalue_is_array_func);
+				get_class_function(refl, "isFormMap", "JValue", jvalue_is_form_map_func);
 				get_class_function(refl, "isMap", "JValue", jvalue_is_map_func);
 				get_class_function(refl, "readFromDirectory", "JValue", jvalue_read_from_directory_func);
 				get_class_function(refl, "readFromFile", "JValue", jvalue_read_from_file_func);
@@ -143,6 +147,8 @@ namespace slavetats_ng
 				// JDB
 				get_class_function(refl, "solveObj", "JDB", jdb_solve_obj_func);
 				get_class_function(refl, "solveObjSetter", "JDB", jdb_solve_obj_setter_func);
+				get_class_function(refl, "setObj", "JDB", jdb_set_obj_func);
+				get_class_function(refl, "root", "JDB", jdb_root_func);
 
 				// JFormDB
 				get_class_function(refl, "getObj", "JFormDB", jformdb_get_obj_func);
@@ -317,6 +323,10 @@ namespace slavetats_ng
 			{
 				return jvalue_is_array_func ? jvalue_is_array_func(jc_default_domain, a_obj) : false;
 			}
+			static inline bool isFormMap(int32_t a_obj)
+			{
+				return jvalue_is_form_map_func ? jvalue_is_form_map_func(jc_default_domain, a_obj) : false;
+			}
 			static inline bool isMap(int32_t a_obj)
 			{
 				return jvalue_is_map_func ? jvalue_is_map_func(jc_default_domain, a_obj) : false;
@@ -350,6 +360,15 @@ namespace slavetats_ng
 			static inline bool solveObjSetter(RE::BSFixedString a_path, int32_t a_obj, bool a_create_missing_keys = false)
 			{
 				return jdb_solve_obj_setter_func ? jdb_solve_obj_setter_func(jc_default_domain, a_path, a_obj, a_create_missing_keys) : 0;
+			}
+			static inline void setObj(RE::BSFixedString a_path, int32_t a_obj)
+			{
+				if (jdb_set_obj_func)
+					jdb_set_obj_func(jc_default_domain, a_path, a_obj);
+			}
+			static inline int32_t root()
+			{
+				return jdb_root_func ? jdb_root_func(jc_default_domain) : 0;
 			}
 		};
 

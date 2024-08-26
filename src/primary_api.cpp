@@ -3,6 +3,7 @@
 #include "../include/query.h"
 #include "../include/skse64_native_papyrus.h"
 #include "../include/primary_api.h"
+#include "../include/logging.h"
 
 
 using namespace slavetats_ng::jcwrapper;
@@ -46,10 +47,13 @@ namespace slavetats_ng
 			a_domain = "default";
 
 		dom = JMap::getObj(cache, a_domain);
+		// logger::info("dom =");
+		// _log_jcontainer(dom, "");
 
 		if (a_template) {
 			area_name = JMap::getStr(a_template, "area");
 			section_name = JMap::getStr(a_template, "section");
+			// _log_jcontainer(a_template, "");
 
 			if (area_name != "" && area_name != "ANY" && StringUtil::Find(area_name, "*") < 0) {
 				area = JMap::getObj(dom, area_name);
@@ -91,6 +95,8 @@ namespace slavetats_ng
 				section_name = JMap::nextKey(area, section_name);
 			}
 
+			// logger::info("dom before nextKey:");
+			// _log_jcontainer(dom, "");
 			area_name = JMap::nextKey(dom, area_name);
 		}
 		return false;

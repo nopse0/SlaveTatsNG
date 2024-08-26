@@ -2,6 +2,8 @@
 #include "../include/constants.h"
 #include "../include/query.h"
 #include "../include/cache.h"
+#include "../include/logging.h"
+
 
 using namespace slavetats_ng::jcwrapper;
 using std::string;
@@ -68,7 +70,7 @@ namespace slavetats_ng
 			}
 		}
 
-		JDB::solveObjSetter(".SlaveTats.cache", areas, true);
+		JDB::solveObjSetter(".SlaveTatsNG.cache", areas, true);
 		JValue::writeToFile(areas, "Data/slavetats_cache.json");
 
 		JValue::cleanPool("SlaveTats-cache_available_tattoos");
@@ -78,7 +80,12 @@ namespace slavetats_ng
 
 	int acquire_cache()
 	{
-		int cache = JDB::solveObj(".SlaveTats.cache");
+		// int st = JDB::solveObj(".SlaveTats");
+		// _log_jcontainer(st, "");
+		// int stc = JDB::solveObj(".SlaveTatsNG");
+		// _log_jcontainer(stc, "");
+
+		int cache = JDB::solveObj(".SlaveTatsNG.cache");
 
 		if (cache)
 			return cache;
@@ -86,7 +93,10 @@ namespace slavetats_ng
 		cache = JValue::readFromFile("Data/slavetats_cache.json");
 
 		if (cache) {
-			JDB::solveObjSetter(".SlaveTats.cache", cache, true);
+			// Setting ".SlaveTats.cache" here doesn't work, maybe because ".SlaveTats" is a JFormDB ?
+			JDB::solveObjSetter(".SlaveTatsNG.cache", cache, true);
+			// int temp = JDB::solveObj(".SlaveTatsNG.cache");
+			// logger::info("temp = {}", temp);
 			return cache;
 		}
 

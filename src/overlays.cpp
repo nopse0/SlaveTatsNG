@@ -26,13 +26,13 @@ namespace slavetats_ng
 
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 		
-		bool hasFemaleOverrides = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
-		if (hasFemaleOverrides)
+		bool hasBumpOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
+		if (hasBumpOverride)
 			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, blankPrefix.c_str(), true);
 
 		NiOverride::ApplyNodeOverrides(a_target);
 
-		if (hasFemaleOverrides)
+		if (hasBumpOverride)
 			NiOverride::RemoveNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
 
 		NiOverride::RemoveNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 0);

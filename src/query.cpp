@@ -187,8 +187,10 @@ namespace slavetats_ng
 	{
 		int i = 0;
 		int max = JArray::count(a_src);
+		// _log_jcontainer(a_src, "");
 		while (i < max) {
 			int tat = JArray::getObj(a_src, i);
+			// log_tattoo("Current tattoo: ", tat);
 			RE::BSFixedString tatDomain = JMap::getStr(tat, "domain", "default");
 			if (a_domain == tatDomain) {
 				if (a_applied == 0 ||

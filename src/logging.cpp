@@ -78,14 +78,17 @@ namespace slavetats_ng
 				}
 			}
 			logger::info("{}]", a_indent.c_str());
+		} else if (JValue::isFormMap(a_obj)) {
+			logger::info("Is a FormMap");
 		} else {
-			logger::info("Not a map or array");
+			logger::info("Not a Map or Array or FormMap");
 		}
 	}
 	
 	
 	void log_tattoo(RE::BSFixedString a_msg, int a_tattoo) 
 	{
+		logger::info("{} (tattoo = {})", a_msg.c_str(), a_tattoo);
 		if (a_tattoo != 0) {
 			_log_jcontainer(a_tattoo, "  ");
 		} else {
