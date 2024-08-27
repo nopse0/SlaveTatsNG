@@ -1,3 +1,3 @@
-[submodule "extern/CommonLibVR"]
-	path = extern/CommonLibVR
+[submodule "extern/CommonLibSSE-NG"]
+	path = extern/CommonLibSSE-NG
 	url = https://github.com/alandtse/CommonLibVR.git
