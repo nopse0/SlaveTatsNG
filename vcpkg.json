@@ -5,12 +5,15 @@
   "homepage": "",
   "license": "MIT",
   "dependencies": [
-    "clib-util",
-    "rsm-binary-io",
-    "srell",
+    "fmt",
+    "directxtk",
+    "rapidcsv",
     "spdlog",
-    "unordered-dense",
-    "xbyak"
+    "xbyak",
+    "catch2",
+    "magic-enum",
+    "nlohmann-json",
+    "clib-util"
   ],
-  "builtin-baseline": "b8ac6696e3af59f4f0666ab81a48ae589cde00a8"
+  "builtin-baseline": "83972272512ce4ede5fc3b2ba98f6468b179f192"
 }

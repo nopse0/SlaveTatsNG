@@ -3,16 +3,10 @@
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
 
-#include <ranges>
-
 #include "RE/Skyrim.h"
 #include "SKSE/SKSE.h"
 
-// #include <MergeMapperPluginAPI.h>
-
-#include <ankerl/unordered_dense.h>
 #include <spdlog/sinks/basic_file_sink.h>
-#include <srell.hpp>
 
 #include <CLibUtil/distribution.hpp>
 #include <CLibUtil/hash.hpp>
@@ -29,34 +23,28 @@
 namespace logger = SKSE::log;
 using namespace std::literals;
 
-/*
-using namespace clib_util;
-using namespace clib_util::singleton;
-using SeedRNG = clib_util::RNG;
-*/
-
 // for visiting variants
-template <class... Ts>
-struct overload : Ts...
-{
-	using Ts::operator()...;
-};
+// template <class... Ts>
+// struct overload : Ts...
+//{
+//	using Ts::operator()...;
+//};
 
-using FormIDStr = std::variant<RE::FormID, std::string>;
+//using FormIDStr = std::variant<RE::FormID, std::string>;
 
-template <class K, class D>
-using Map = ankerl::unordered_dense::map<K, D>;
-template <class T>
-using Set = ankerl::unordered_dense::set<T>;
-template <class T>
-using OrderedSet = std::set<T>;
+//template <class K, class D>
+//using Map = ankerl::unordered_dense::map<K, D>;
+//template <class T>
+//using Set = ankerl::unordered_dense::set<T>;
+//template <class T>
+//using OrderedSet = std::set<T>;
 
-using FormIDSet = Set<RE::FormID>;
-using FormIDOrSet = std::variant<RE::FormID, FormIDSet>;
-using FormIDOrderedSet = OrderedSet<RE::FormID>;
+//using FormIDSet = Set<RE::FormID>;
+//using FormIDOrSet = std::variant<RE::FormID, FormIDSet>;
+//using FormIDOrderedSet = OrderedSet<RE::FormID>;
 
-template <class T>
-using FormIDMap = Map<RE::FormID, T>;
+//template <class T>
+//using FormIDMap = Map<RE::FormID, T>;
 
 namespace stl
 {
@@ -79,16 +67,20 @@ namespace stl
 	}
 }
 
-#ifdef SKYRIM_AE
-#	define OFFSET(se, ae) ae
-#	define OFFSET_3(se, ae, vr) ae
-#elif SKYRIMVR
-#	define OFFSET(se, ae) se
-#	define OFFSET_3(se, ae, vr) vr
-#else
-#	define OFFSET(se, ae) se
-#	define OFFSET_3(se, ae, vr) se
-#endif
+//#ifdef SKYRIM_AE
+//#	define OFFSET(se, ae) ae
+//#	define OFFSET_3(se, ae, vr) ae
+//#elif SKYRIMVR
+//#	define OFFSET(se, ae) se
+//#	define OFFSET_3(se, ae, vr) vr
+//#else
+//#	define OFFSET(se, ae) se
+//#	define OFFSET_3(se, ae, vr) se
+//#endif
+
+
+#include <latch>
+#include "Plugin.h"
 
 namespace slavetats_ng
 {
@@ -96,5 +88,5 @@ namespace slavetats_ng
 }
 
 // #include "Util.h"
-#include "Version.h"
+//#include "Version.h"
 

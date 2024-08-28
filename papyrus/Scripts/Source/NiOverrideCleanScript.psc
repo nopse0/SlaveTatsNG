@@ -2,6 +2,7 @@ Scriptname NiOverrideCleanScript extends SKI_ConfigBase
 Int RemoveAllNiOverridesOID_T
 Int AddTattooOID_T
 Int RemoveTattooOID_T
+String ClearJFormDB_OID_T
 String Page_PurgeOverrides = "Purge Overrides"
 String Page_SlaveTatsNG = "SlaveTatsNG"
 Event OnConfigInit()
@@ -16,6 +17,7 @@ Event OnPageReset(String page)
 	elseif page == Page_SlaveTatsNG
 		AddTattooOID_T = AddTextOption("Add Tattoo", "")
 		RemoveTattooOID_T = AddTextOption("Remove Tattoo", "")
+		ClearJFormDB_OID_T = AddTextOption("Clear .SlaveTats JFormDB", "")
     endif
 EndEvent
 Event OnOptionSelect(Int OptionID)
@@ -28,9 +30,16 @@ Event OnOptionSelect(Int OptionID)
 			AddTattoo()
 		elseif OptionID == RemoveTattooOID_T
 			RemoveTattoo()
+		elseif OptionID == ClearJFormDB_OID_T
+			ClearJFormDB()
 		endif
+
     endif
 EndEvent
+Function ClearJFormDB()
+	JDB.setObj(".SlaveTats", 0)
+	Debug.MessageBox(".SlaveTats JFormDB cleared, save game now and restart.")
+EndFunction
 Function AddTattoo()
 	SlaveTatsNG.simple_add_tattoo(Game.GetPlayer(), "Bathing In Skyrim", "mzinDirtFaceFX")
     ;Debug.Trace("float: " + SlaveTatsNG.test_float_result())

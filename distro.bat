@@ -1,9 +1,10 @@
+rem set pluginsrc=C:\Build\SlaveTatsNG\buildae\Release
+set pluginsrc=C:\Build\SlaveTatsNG\buildae\Debug
 set dist=C:\Build\SlaveTatsNG\dist\SlaveTatsNG
 mkdir %dist%
 mkdir %dist%\SKSE
 mkdir %dist%\SKSE\Plugins
 set plugindest=%dist%\SKSE\Plugins
-set pluginsrc=C:\Build\SlaveTatsNG\buildae\Debug
 copy %pluginsrc%\*.dll %plugindest%
 copy %pluginsrc%\*.pdb %plugindest%
 set papyrussrc=C:\Build\SlaveTatsNG\papyrus
