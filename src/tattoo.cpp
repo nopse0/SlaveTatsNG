@@ -155,7 +155,8 @@ namespace slavetats_ng
 		return -1;
 	}
 
-	fail_t _remove_tattoos(RE::Actor* a_target, int a_template, bool a_ignore_lock, bool a_silent) {
+	fail_t _remove_tattoos(RE::Actor* a_target, int a_template, bool a_ignore_lock, [[maybe_unused]] bool a_silent)
+	{
 		if (!a_target) {
 			logger::info("a_target is null");
 			return true;

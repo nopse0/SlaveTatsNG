@@ -607,7 +607,7 @@ namespace slavetats_ng
 		}
 
 		int tattoo;
-		int evt;
+		// int evt;
 
 		i = JArray::count(to_deactivate);
 		while (i > 0) {

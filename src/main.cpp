@@ -31,7 +31,7 @@ namespace
 			stl::report_and_fail("Failed to find standard logging directory"sv);
 		}
 
-		*path /= fmt::format(FMT_STRING("{}.log"), Version::PROJECT);
+		*path /= fmt::format(FMT_STRING("{}.log"), Plugin::NAME);
 		auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 
 		auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
@@ -44,7 +44,7 @@ namespace
 
 		logger::info("Hello World Test Version");
 
-		logger::info(FMT_STRING("{} v{}"), Version::PROJECT, Version::NAME);
+		logger::info(FMT_STRING("{} v{}"), Plugin::NAME, Plugin::VERSION.string());
 	}
 
 	void messagingHook(SKSE::MessagingInterface::Message* a_message)
@@ -74,46 +74,22 @@ namespace
 }
 
 
-
-#ifdef SKYRIM_AE
-extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() {
+extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() noexcept {
 	SKSE::PluginVersionData v;
-	v.PluginVersion({ Version::MAJOR, Version::MINOR, Version::PATCH });
-	v.PluginName("SlaveTatsNG");
-	v.AuthorName("nopse0");
-	v.UsesAddressLibrary();
-	v.UsesUpdatedStructs();
-	v.CompatibleVersions({ SKSE::RUNTIME_LATEST });
-
+	v.PluginName(Plugin::NAME.data());
+	v.PluginVersion(Plugin::VERSION);
+	v.UsesAddressLibrary(true);
+	v.HasNoStructUse();
 	return v;
 }();
-#else
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
+
+extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query([[maybe_unused]] const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
+	a_info->name = SKSEPlugin_Version.pluginName;
 	a_info->infoVersion = SKSE::PluginInfo::kVersion;
-	a_info->name = "SlaveTatsNG";
-	a_info->version = Version::MAJOR;
-
-	if (a_skse->IsEditor()) {
-		logger::critical("Loaded in editor, marking as incompatible"sv);
-		return false;
-	}
-
-	const auto ver = a_skse->RuntimeVersion();
-	if (ver
-#	ifndef SKYRIMVR
-		< SKSE::RUNTIME_1_5_39
-#	else
-		> SKSE::RUNTIME_VR_1_4_15_1
-#	endif
-	) {
-		logger::critical(FMT_STRING("Unsupported runtime version {}"), ver.string());
-		return false;
-	}
-
+	a_info->version = SKSEPlugin_Version.pluginVersion;
 	return true;
 }
-#endif
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {

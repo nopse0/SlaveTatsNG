@@ -6,6 +6,9 @@ set(headers ${headers}
 	include/high_level_api.h
 	include/jcontainers_wrapper.h
 	include/logging.h
+	include/nioverride_impl.h
+	include/nioverride_impl_current.h
+	include/nioverride_impl_old.h
 	include/nioverride_wrapper.h
 	include/overlays.h
 	include/papyrus_cache.h
