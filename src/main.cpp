@@ -47,13 +47,27 @@ namespace
 		logger::info(FMT_STRING("{} v{}"), Plugin::NAME, Plugin::VERSION.string());
 	}
 
+	std::string getJContainersPluginName()
+	{
+		auto patchVersion = REL::Module::get().version().patch();
+
+		std::string pluginName{ "JContainers64" };
+		if (REL::Module::IsVR()) {
+			pluginName = "JContainersVR";
+		} else if (patchVersion == 659) {
+			pluginName = "JContainersGOG";
+		}
+
+		return pluginName;
+	}
+
 	void messagingHook(SKSE::MessagingInterface::Message* a_message)
 	{
 		switch (a_message->type) {
 		case SKSE::MessagingInterface::kPostLoad:
 			if (a_message->type == SKSE::MessagingInterface::kPostLoad) {
-				std::string pluginName{ "JContainers64" };
-				logger::info("JContainers Plugin Name: {}", pluginName);
+				std::string pluginName = getJContainersPluginName();
+				logger::info("JContainers Plugin Name seems to be: {}", pluginName);
 
 				SKSE::GetMessagingInterface()->RegisterListener(pluginName.c_str(), [](SKSE::MessagingInterface::Message* a_msg) {
 					if (a_msg && a_msg->type == jc::message_root_interface) {

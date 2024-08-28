@@ -1,5 +1,5 @@
-rem set pluginsrc=C:\Build\SlaveTatsNG\buildae\Release
-set pluginsrc=C:\Build\SlaveTatsNG\buildae\Debug
+set pluginsrc=C:\Build\SlaveTatsNG\build\Release
+rem set pluginsrc=C:\Build\SlaveTatsNG\build\Debug
 set dist=C:\Build\SlaveTatsNG\dist\SlaveTatsNG
 mkdir %dist%
 mkdir %dist%\SKSE
