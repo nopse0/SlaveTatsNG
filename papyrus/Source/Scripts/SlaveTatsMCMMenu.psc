@@ -409,6 +409,11 @@ event OnPageReset(string page)
 
         int external = JValue.addToPool(JArray.object(), "SlaveTats-OnPageReset")
         SlaveTats.external_slots(target, area, external)
+        ; Debug.Trace("External: " + external)
+        ; Debug.Trace("BEGIN")
+        ; SlaveTats._log_jcontainer(external, "  ")
+        ; Debug.Trace("END")
+
 
         int slots = SlaveTats.SLOTS(area)
         Debug.Trace("SlaveTatsNG-MCM - area=" + area + ", slots= " + slots)

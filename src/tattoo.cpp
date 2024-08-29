@@ -35,7 +35,7 @@ namespace slavetats_ng
 		int i = SLOTS(a_area);
 		while (i > 0) {
 			i -= 1;
-			RE::BSFixedString nodeName = string(a_area) + " [Ovl " + to_string(i) + "]";
+			RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(i) + "]";
 			RE::BSFixedString overlay_path = NiOverride::GetNodeOverrideString(a_target, isFemale, nodeName.c_str(), 9, 0);
 			RE::BSFixedString suffixWithSep(string("\\") + suffix.c_str());
 
@@ -43,7 +43,7 @@ namespace slavetats_ng
 				StringUtil::SubString(overlay_path, 0, prefix_length) != prefix.c_str() &&
 				overlay_path != suffix &&
 				StringUtil::SubString(overlay_path, (int)overlay_path.length() - suffix_length - 1) != suffixWithSep)
-				{
+			{
 				JArray::addInt(a_matches, i);
 			} else {
 				overlay_path = NiOverride::GetNodeOverrideString(a_target, isFemale, nodeName.c_str(), 9, 6);

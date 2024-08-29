@@ -25,7 +25,7 @@ namespace slavetats_ng
 			return true;
 		}
 
-		RE::BSFixedString nodeName = string(a_area) + " [ovl" + to_string(a_slot) + "]";
+		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
 		RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 

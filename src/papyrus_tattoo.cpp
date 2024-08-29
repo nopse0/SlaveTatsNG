@@ -12,7 +12,15 @@ namespace slavetats_ng
 
 			fail_t external_slots(RE::StaticFunctionTag*, RE::Actor* a_target, RE::BSFixedString a_area, int a_matches)
 			{
-				return ng::external_slots(a_target, a_area, a_matches);
+				fail_t result = false;
+				// std::thread t1{
+				//	[&] {
+						result = ng::external_slots(a_target, a_area, a_matches);
+						// logger::info("result is {}", result);
+				//	}
+				// };
+				// t1.join();
+				return result;
 			}
 			
 			fail_t get_applied_tattoos_by_area(RE::StaticFunctionTag*, RE::Actor* a_target, int a_on_body, int a_on_face, int a_on_hands, int a_on_feet)

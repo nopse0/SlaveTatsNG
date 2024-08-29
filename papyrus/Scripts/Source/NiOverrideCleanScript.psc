@@ -2,7 +2,8 @@ Scriptname NiOverrideCleanScript extends SKI_ConfigBase
 Int RemoveAllNiOverridesOID_T
 Int AddTattooOID_T
 Int RemoveTattooOID_T
-String ClearJFormDB_OID_T
+Int ClearJFormDB_OID_T
+Int AddExternalOverlay_OID_T
 String Page_PurgeOverrides = "Purge Overrides"
 String Page_SlaveTatsNG = "SlaveTatsNG"
 Event OnConfigInit()
@@ -18,6 +19,7 @@ Event OnPageReset(String page)
 		AddTattooOID_T = AddTextOption("Add Tattoo", "")
 		RemoveTattooOID_T = AddTextOption("Remove Tattoo", "")
 		ClearJFormDB_OID_T = AddTextOption("Clear .SlaveTats JFormDB", "")
+		AddExternalOverlay_OID_T = AddTextOption("Add external overlay", "")
     endif
 EndEvent
 Event OnOptionSelect(Int OptionID)
@@ -32,10 +34,28 @@ Event OnOptionSelect(Int OptionID)
 			RemoveTattoo()
 		elseif OptionID == ClearJFormDB_OID_T
 			ClearJFormDB()
+		elseif OptionID == AddExternalOverlay_OID_T
+			AddExternalOverlay()
 		endif
-
     endif
 EndEvent
+Function ApplyOverlay(Actor akTarget, Bool Gender, String Area, String OverlaySlot, String TextureToApply)
+	Float Alpha = 1.0
+	NiOverride.AddOverlays(akTarget)
+	String Node = Area + " [ovl" + OverlaySlot + "]"
+	NiOverride.AddNodeOverrideString(akTarget, Gender, Node, 9, 0, TextureToApply, true)
+	NiOverride.AddNodeOverrideInt(akTarget, Gender, Node, 7, -1, 0, true);tint color
+    NiOverride.AddNodeOverrideInt(akTarget, Gender, Node, 0, -1, 0, true);color
+	NiOverride.AddNodeOverrideFloat(akTarget, Gender, Node, 1, -1, 1.0, true)
+	NiOverride.AddNodeOverrideFloat(akTarget, Gender, Node, 8, -1, Alpha, true)
+	NiOverride.AddNodeOverrideFloat(akTarget, Gender, Node, 2, -1, 0.0, true);gloss
+	NiOverride.AddNodeOverrideFloat(akTarget, Gender, Node, 3, -1, 0.0, true);SpecStr
+	NiOverride.ApplyNodeOverrides(akTarget)
+	Debug.Trace("ApplyOverlay done")
+EndFunction
+Function AddExternalOverlay()
+	ApplyOverlay(Game.GetPlayer(), true, "Face", 5, "actors\\character\\norbert\\forehead_slut.dds")
+EndFunction
 Function ClearJFormDB()
 	JDB.setObj(".SlaveTats", 0)
 	Debug.MessageBox(".SlaveTats JFormDB cleared, save game now and restart.")
