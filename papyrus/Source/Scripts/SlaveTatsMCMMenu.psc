@@ -47,12 +47,20 @@ string function AREA(string page) global
 endfunction
 
 bool function _setup_sections(string area, int slot)
+    ; Debug.Trace("_setup_sections entered")
     int cache = SlaveTats.acquire_cache()
+    ; Debug.Trace("Cache:" + cache)
+    ; Debug.Trace("BEGIN DUMP")
+    ; SlaveTats._log_jcontainer(cache, "  ")
+    ; Debug.Trace("END DUMP")
+
     int domain = JMap.getObj(cache, "default")
 
     tattoos = JValue.releaseAndRetain(tattoos, JValue.deepCopy(JMap.getObj(domain, area)))
+    ; Debug.Trace("Area:" + area)
+    ; SlaveTats.log_tattoo("Tattos:", tattoos)
     JMap.setObj(tattoos, "[No Tattoo]", JValue.objectFromPrototype("[{\"name\":\"[No Tattoo]\", \"section\":\"[No Tattoo]\", \"area\":\"" + area + "\"}]"))
-    sections = JMap.allKeys(tattoos)
+    sections = JValue.releaseAndRetain(sections, JMap.allKeys(tattoos))
     section_menu_items = JMap.allKeysPArray(tattoos)
 
     applied = JValue.addToPool(JArray.object(), "SlaveTats-_setup_tattoos")
@@ -188,6 +196,8 @@ event OnVersionUpdate(int version)
 endevent
 
 event OnConfigOpen()
+    ; Debug.Trace("Entering OnConfigOpen")
+
     if !JContainers.isInstalled()
         ShowMessage("Warning: This version of SlaveTats uses version 3 or greater of the JContainers API. You do not have JContainers installed.", false)
         return
@@ -363,6 +373,9 @@ event OnConfigClose()
     JValue.release(sections)
     JValue.release(tattoos)
     SlaveTats.release_cache()
+    ; Test
+    ; SlaveTats.acquire_cache()
+    ; SlaveTats.release_cache()
 endevent
 
 event OnPageReset(string page)

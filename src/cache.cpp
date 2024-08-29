@@ -32,7 +32,7 @@ namespace slavetats_ng
 			JMap::setObj(domain, area_name, area);
 		}
 
-		int section = JMap::getObj(domain, section_name);
+		int section = JMap::getObj(area, section_name);
 		if (section == 0) {
 			section = JValue::addToPool(JArray::object(), "SlaveTats-cache_available_tattoos");
 			JMap::setObj(area, section_name, section);
@@ -86,6 +86,7 @@ namespace slavetats_ng
 		// _log_jcontainer(stc, "");
 
 		int cache = JDB::solveObj(".SlaveTatsNG.cache");
+		logger::info("acquire_cache(): cache is {}", cache);
 
 		if (cache)
 			return cache;

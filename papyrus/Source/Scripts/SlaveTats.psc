@@ -63,7 +63,7 @@ int function acquire_cache() global
 endfunction
 
 function release_cache() global
-    JDB.solveObjSetter(".SlaveTats.cache", 0)
+    JDB.solveObjSetter(".SlaveTatsNG.cache", 0)
 endfunction
 
 function _append(int dest, int val) global

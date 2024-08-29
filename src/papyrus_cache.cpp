@@ -24,7 +24,15 @@ namespace slavetats_ng
 			}
 			int acquire_cache(RE::StaticFunctionTag*)
 			{
-				return ng::acquire_cache();
+				// int result = false;
+				// std::thread t1{
+				//	[&] {
+						int result = ng::acquire_cache();
+						logger::info("acquire_cache: result is {}", result);
+				//	}
+				//};
+				//t1.join();
+				return result;
 			}
 
 			void register_functions(const char* clazz, RE::BSScript::IVirtualMachine* vm)
