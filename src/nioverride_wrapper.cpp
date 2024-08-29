@@ -10,22 +10,32 @@ namespace slavetats_ng
 	{
 		void NiOverride::Init()
 		{
+			bool useLegacy = true;
+
 			auto iMap = get_interface_map();
-			if (!iMap) {
-				logger::error("skee interface map not found ");
-			} else {
+			if (iMap) {
+				logger::info("SKEE interface map found");
 				auto overrideInterface = get_override_interface(iMap);
 				auto foundInterfaceVersion = overrideInterface->GetVersion();
-				logger::info("Found NiOverride interface with version: {}", foundInterfaceVersion);
+				logger::info("NiOverride interface version is: {}", foundInterfaceVersion);
 				auto minimumSupportedVersion = skee::IOverrideInterface::kCurrentPluginVersion;
-				logger::info("Supported minimum interface version is: {}", (uint32_t)minimumSupportedVersion);
+				logger::info("Minimum supported NiOverride interface version is: {}", (uint32_t)minimumSupportedVersion);
 				if (foundInterfaceVersion >= (uint32_t)minimumSupportedVersion) {
-					logger::info("Found interface is supported, using interface");
-					_funcs = nioverride_impl::nioverride_impl_current::current_binding::singleton();
+					logger::info("Found NiOverride interface version is supported, will use interface");
+					useLegacy = false;
 				} else {
-					logger::info("Found interface not supported, using legacy address tables");
-					_funcs = nioverride_impl::nioverride_impl_old::legacy_binding::singleton();
+					logger::info("Found NiOverride interface version is not supported, will use legacy address tables");
 				}
+			} else {
+				logger::info("SKEE interface map not found");
+			}
+
+			if (useLegacy) {
+				logger::info("Using legacy address tables");
+				_funcs = nioverride_impl::nioverride_impl_old::legacy_binding::singleton();
+			} else {
+				logger::info("Using NiOverride interface");
+				_funcs = nioverride_impl::nioverride_impl_current::current_binding::singleton();
 			}
 
 			CSimpleIniA skeeConfig;

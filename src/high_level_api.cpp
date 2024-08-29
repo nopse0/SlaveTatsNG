@@ -16,9 +16,9 @@ namespace slavetats_ng
 			return true;
 		}
 
-		if (a_name == "mzinDirtFaceFX") {
-			logger::info("Debugging mzinDirtFaceFX");
-		}
+		// if (a_name == "mzinDirtFaceFX") {
+		// 	logger::info("Debugging mzinDirtFaceFX");
+		//}
 
 		int a_template = JValue::addToPool(JMap::object(), "SlaveTatsHighLevel");
 		int matches = JValue::addToPool(JArray::object(), "SlaveTatsHighLevel");
