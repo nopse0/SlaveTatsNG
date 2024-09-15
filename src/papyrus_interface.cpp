@@ -8,6 +8,7 @@
 #include "../include/papyrus_query.h"
 #include "../include/papyrus_tattoo.h"
 #include "../include/papyrus_tattoo_magic.h"
+#include "../include/vm_hook.h"
 
 namespace slavetats_ng
 {
@@ -36,6 +37,7 @@ namespace slavetats_ng
 
 		bool register_functions(RE::BSScript::IVirtualMachine* vm)
 		{
+			slavetats_ng::vm_hook::vm_hook::install(vm);
 			constants::papyrus::register_functions(papyrus_class_name, vm);
 			cache::papyrus::register_functions(papyrus_class_name, vm);
 			high_level_api::papyrus::register_functions(papyrus_class_name, vm);

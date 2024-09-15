@@ -1,6 +1,7 @@
 set(headers ${headers}
 	include/JContainers/jc_interface.h
 	include/JContainers/jcontainers_constants.h
+	include/VMTHook.h
 	include/cache.h
 	include/constants.h
 	include/high_level_api.h
@@ -27,5 +28,6 @@ set(headers ${headers}
 	include/skse64_native_papyrus.h
 	include/tattoo.h
 	include/tattoo_magic.h
+	include/vm_hook.h
 	src/PCH.h
 )

@@ -1,3 +1,6 @@
 [submodule "extern/CommonLibSSE-NG"]
 	path = extern/CommonLibSSE-NG
 	url = https://github.com/alandtse/CommonLibVR.git
+[submodule "extern/VMTHook"]
+	path = extern/VMTHook
+	url = https://github.com/gfreivasc/VMTHook.git
