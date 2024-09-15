@@ -16,20 +16,18 @@ namespace slavetats_ng
 		bool vm_hook::bind_native_function_hook([[maybe_unused]] RE::BSScript::IVirtualMachine* self, RE::BSScript::IFunction* a_fn)
 		{
 			bool result;
-			std::thread t1{
-				[&] {
-					logger::info("[vm_hook] calling bind_native_function");
+			//std::thread t1{
+			//	[&] {
 					auto addr = (char*)&(*a_fn) + 0x50;
 					const auto callback = *reinterpret_cast<std::uintptr_t*>(addr);
 					logger::info("[vm_hook] object: {}, name: {}, callback: {}", a_fn->GetObjectTypeName(), a_fn->GetName(), callback);
 					result = bind_native_function(self, a_fn);
-				}
-			};
-			t1.join();
+			//	}
+			//};
+			//t1.join();
 			return result;
 		}
 
-		//typedef bool(__thiscall *bind_native_function_t)(RE::BSScript::IVirtualMachine* a_self, RE::BSScript::IFunction* a_fn);
 		vm_hook::bind_native_function_t vm_hook::bind_native_function = nullptr;
 		
 

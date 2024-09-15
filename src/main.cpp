@@ -2,26 +2,23 @@
 #include "../include/nioverride_wrapper.h"
 #include "../include/papyrus_interface.h"
 
-/*
-static std::string MyNativeFunction(RE::StaticFunctionTag*)
+namespace slavetats_ng
 {
-	return "Hello from C++!";
+	const char* const config_file = "data/skse/plugins/SlaveTatsNG.ini";
+
+	class config
+	{
+	public:
+		inline static bool vm_hook = false;
+	};
 }
-*/
 
 namespace
 {
-	/*
-	bool BindPapyrusFunctions(RE::BSScript::IVirtualMachine* vm)
-	{
-		vm->RegisterFunction("MyNativeFunction", "MyPapyrusScript", MyNativeFunction);
-		return true;
-	}
-	*/
-
 	void InitializePapyrus()
 	{
-		SKSE::GetPapyrusInterface()->Register(slavetats_ng::papyrus::register_functions);
+		SKSE::GetPapyrusInterface()->Register(
+			[](RE::BSScript::IVirtualMachine* vm) { return slavetats_ng::papyrus::register_functions(vm, slavetats_ng::config::vm_hook); });
 	}
 
 	void InitializeLog()
@@ -41,8 +38,6 @@ namespace
 
 		spdlog::set_default_logger(std::move(log));
 		spdlog::set_pattern("[%H:%M:%S:%e] %v"s);
-
-		logger::info("Hello World Test Version");
 
 		logger::info(FMT_STRING("{} v{}"), Plugin::NAME, Plugin::VERSION.string());
 	}
@@ -110,6 +105,14 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	SKSE::Init(a_skse);
 
 	InitializeLog();
+
+	CSimpleIniA config;
+	SI_Error    rc = config.LoadFile(slavetats_ng::config_file);
+	logger::info("Load {}, result = {}", slavetats_ng::config_file, rc);
+	if (rc >= 0) {
+		clib_util::ini::get_value(config, slavetats_ng::config::vm_hook, "Config", "vmHook", ";");
+	}
+	
 	InitializePapyrus();
 
 	logger::info("Game version : {}", a_skse->RuntimeVersion().string());

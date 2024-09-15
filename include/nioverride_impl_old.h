@@ -77,7 +77,13 @@ namespace slavetats_ng
 						static std::latch       _latch(1);
 
 						if (!_initialized.exchange(true)) {
-							HMODULE skeeBaseAddr = GetModuleHandleA("skee64.dll");
+							HMODULE skeeBaseAddr = GetModuleHandleA("skeevr.dll");
+							if (skeeBaseAddr == NULL) {
+								skeeBaseAddr = GetModuleHandleA("skee64.dll");
+								logger::info("GetModuleHandleA('skee64.dll') = {}", (uintptr_t)skeeBaseAddr);
+							} else {
+								logger::info("GetModuleHandleA('skeevr.dll') = {}", (uintptr_t)skeeBaseAddr);
+							}
 							auto&   skeeOffsets = _offsets640;
 
 							const auto skyrimVer = REL::Module::get().version();

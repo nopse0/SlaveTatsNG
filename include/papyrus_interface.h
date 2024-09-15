@@ -6,6 +6,6 @@ namespace slavetats_ng
 	{
 		inline const char* const papyrus_class_name = "SlaveTatsNG";
 
-		bool register_functions(RE::BSScript::IVirtualMachine* vm);
+		bool register_functions(RE::BSScript::IVirtualMachine* vm, bool install_vm_hook);
 	}
 }

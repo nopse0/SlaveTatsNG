@@ -39,9 +39,9 @@ namespace slavetats_ng
 			}
 
 			CSimpleIniA skeeConfig;
-			SI_Error    rc = skeeConfig.LoadFile(SKEE_CONFIG_PATH);
+			SI_Error    rc = skeeConfig.LoadFile(skee_config_file);
 
-			logger::info("Loaded {}", SKEE_CONFIG_PATH);
+			logger::info("Loaded {}", skee_config_file);
 
 			if (rc >= 0) {
 				clib_util::ini::get_value(skeeConfig, _numBodyOvls, "Overlays/Body", "iNumOverlays", ";");
