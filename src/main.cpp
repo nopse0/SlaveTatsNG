@@ -65,8 +65,11 @@ namespace
 				logger::info("JContainers Plugin Name seems to be: {}", pluginName);
 
 				SKSE::GetMessagingInterface()->RegisterListener(pluginName.c_str(), [](SKSE::MessagingInterface::Message* a_msg) {
+					logger::info("a_msg={}, msgtype={}, message_root_interface={}", (void*)a_msg, a_msg ? a_msg->type : -1, (int)jc::message_root_interface);
 					if (a_msg && a_msg->type == jc::message_root_interface) {
-						if (const jc::root_interface* root = jc::root_interface::from_void(a_msg->data))
+						const jc::root_interface* root = jc::root_interface::from_void(a_msg->data);
+						logger::info("root_interface={}", (void*)root);
+						if (root)
 							slavetats_ng::jcwrapper::JCWrapper::Init(root);
 					}
 				});

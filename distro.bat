@@ -1,6 +1,6 @@
 set configsrc=C:\Build\SlaveTatsNG\config
-rem set pluginsrc=C:\Build\SlaveTatsNG\build\Release
-set pluginsrc=C:\Build\SlaveTatsNG\build\Debug
+set pluginsrc=C:\Build\SlaveTatsNG\build\Release
+rem set pluginsrc=C:\Build\SlaveTatsNG\build\Debug
 set dist=C:\Build\SlaveTatsNG\dist\SlaveTatsNG
 mkdir %dist%
 mkdir %dist%\SKSE

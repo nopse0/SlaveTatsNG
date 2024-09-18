@@ -1,4 +1,4 @@
-set pluginsrc=C:\Build\SlaveTatsNG\build\Debug
+set pluginsrc=C:\Build\SlaveTatsNG\build\Release
 set scriptssrc=C:\Build\SlaveTatsNG\papyrus\Scripts
 rem set plugindest="D:\Games\Skyrim-1.6.1170\overwrite"
 set plugindest="D:\Games\Skyrim-1.5.97\overwrite"
