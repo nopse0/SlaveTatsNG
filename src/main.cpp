@@ -54,7 +54,7 @@ namespace
 		std::string pluginName{ "JContainers64" };
 		if (REL::Module::IsVR()) {
 			pluginName = "JContainersVR";
-		} else if (patchVersion == 659) {
+		} else if (patchVersion == 659 || patchVersion == 1179) {
 			pluginName = "JContainersGOG";
 		}
 
