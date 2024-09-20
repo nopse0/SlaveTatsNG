@@ -93,13 +93,20 @@ namespace slavetats_ng
 		public:
 			static inline void Init(const jc::root_interface* root)
 			{
+				logger::info("In JCWrapper::Init()");
+
 				auto refl = root->query_interface<jc::reflection_interface>();
+				logger::info("query_interface<jc::reflection_interface>: refl = {}", (void*)refl);
 
 				auto dom = root->query_interface<jc::domain_interface>();
+				logger::info("query_interface<jc::domain_interface>: dom = {}", (void*)dom);
+
 				jc_default_domain = dom->get_default_domain();
+				logger::info("dom->get_default_domain(): default_domain = {}", (void*)jc_default_domain);
 
 				// JMap
 				get_class_function(refl, "allKeys", "JMap", jmap_all_keys_func);
+				logger::info("After get_class_function(allKeys, JMap)");
 				get_class_function(refl, "allValues", "JMap", jmap_all_values_func);
 				get_class_function(refl, "count", "JMap", jmap_count_func);
 				get_class_function(refl, "getFlt", "JMap", jmap_get_flt_func);

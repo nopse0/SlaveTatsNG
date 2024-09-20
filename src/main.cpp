@@ -59,8 +59,8 @@ namespace
 	void messagingHook(SKSE::MessagingInterface::Message* a_message)
 	{
 		switch (a_message->type) {
-		case SKSE::MessagingInterface::kPostLoad:
-			if (a_message->type == SKSE::MessagingInterface::kPostLoad) {
+		case SKSE::MessagingInterface::kPostPostLoad:
+			if (a_message->type == SKSE::MessagingInterface::kPostPostLoad) {
 				std::string pluginName = getJContainersPluginName();
 				logger::info("JContainers Plugin Name seems to be: {}", pluginName);
 
