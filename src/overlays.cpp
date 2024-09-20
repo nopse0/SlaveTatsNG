@@ -643,21 +643,25 @@ namespace slavetats_ng
 			}
 		}
 
-		entry = JArray::getObj(on_feet, i);
-		if (is_tattoo(entry)) {
-			slot = JMap::getInt(entry, "slot");
-			path = string(prefix) + string(JMap::getStr(entry, "texture"));
-			color = JMap::getInt(entry, "color");
-			glow = JMap::getInt(entry, "glow");
-			gloss = (bool)JMap::getInt(entry, "gloss");
-			bump = JMap::getStr(entry, "bump");
-			alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
-			if (JArray::findInt(external_on_feet, slot) < 0) {
-				if (!apply_overlay_deferred(a_target, isFemale, "Feet", slot, path, color, glow, gloss, bump, alpha)) {
-					JArray::addObj(to_activate, entry);
-					idx = JArray::findInt(empty_feet_slots, slot);
-					if (idx >= 0) {
-						JArray::eraseIndex(empty_feet_slots, idx);
+		i = on_feet_count;
+		while (i > 0) {
+			i -= 1;
+			entry = JArray::getObj(on_feet, i);
+			if (is_tattoo(entry)) {
+				slot = JMap::getInt(entry, "slot");
+				path = string(prefix) + string(JMap::getStr(entry, "texture"));
+				color = JMap::getInt(entry, "color");
+				glow = JMap::getInt(entry, "glow");
+				gloss = (bool)JMap::getInt(entry, "gloss");
+				bump = JMap::getStr(entry, "bump");
+				alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
+				if (JArray::findInt(external_on_feet, slot) < 0) {
+					if (!apply_overlay_deferred(a_target, isFemale, "Feet", slot, path, color, glow, gloss, bump, alpha)) {
+						JArray::addObj(to_activate, entry);
+						idx = JArray::findInt(empty_feet_slots, slot);
+						if (idx >= 0) {
+							JArray::eraseIndex(empty_feet_slots, idx);
+						}
 					}
 				}
 			}

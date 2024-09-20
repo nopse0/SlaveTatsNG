@@ -57,10 +57,12 @@ bool function _setup_sections(string area, int slot)
     int domain = JMap.getObj(cache, "default")
 
     tattoos = JValue.releaseAndRetain(tattoos, JValue.deepCopy(JMap.getObj(domain, area)))
+    Debug.Trace("area/slot/tattoos: " + area + "/" + slot + "/" + tattoos)
     ; Debug.Trace("Area:" + area)
     ; SlaveTats.log_tattoo("Tattos:", tattoos)
     JMap.setObj(tattoos, "[No Tattoo]", JValue.objectFromPrototype("[{\"name\":\"[No Tattoo]\", \"section\":\"[No Tattoo]\", \"area\":\"" + area + "\"}]"))
     sections = JValue.releaseAndRetain(sections, JMap.allKeys(tattoos))
+    Debug.Trace("area/slot/sections: " + area + "/" + slot + "/" + sections)
     section_menu_items = JMap.allKeysPArray(tattoos)
 
     applied = JValue.addToPool(JArray.object(), "SlaveTats-_setup_tattoos")
@@ -312,7 +314,7 @@ event OnConfigOpen()
     endwhile
 
     FormList HairColorList = Game.GetFormFromFile(0xE7BED, "Skyrim.esm") as FormList
-    FormList SlaveTatsHairColors = Game.GetFormFromFile(0x6774, "SlaveTats.esp") as FormList
+    FormList SlaveTatsHairColors = Game.GetFormFromFile(0x380b, "SlaveTats.esp") as FormList
 
     int offset = 1
     num_hair_colors = offset + HairColorList.GetSize() + SlaveTatsHairColors.GetSize()
@@ -369,9 +371,12 @@ event OnConfigClose()
         SlaveTats.synchronize_tattoos(JArray.getForm(keys, i) as Actor)
     endwhile
 
+    Debug.Trace("OnConfigClose: sections/tattoos = " + sections + "/" + tattoos)
     JValue.cleanPool("SlaveTats-OnConfigClose")
     JValue.release(sections)
+    sections = 0
     JValue.release(tattoos)
+    tattoos = 0
     SlaveTats.release_cache()
     ; Test
     ; SlaveTats.acquire_cache()
