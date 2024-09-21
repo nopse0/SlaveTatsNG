@@ -9,8 +9,6 @@ namespace slavetats_ng
 {
 	namespace skee_wrapper
 	{
-		inline const char* const skee_config_file = "Data/SKSE/Plugins/skee64.ini";
-
 		static inline skee::IInterfaceMap* get_interface_map()
 		{
 			skee::InterfaceExchangeMessage msg;
