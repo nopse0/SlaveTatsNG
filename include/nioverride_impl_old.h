@@ -161,18 +161,18 @@ namespace slavetats_ng
 					_RemoveOverlays_t        _RemoveOverlays = nullptr;
 
 					static inline std::array<int, 12> _offsets4_15{
-						0xBA0B0,  // GetNodeOverrideInt
-						0xB9FD0,  // GetNodeOverrideFloat
-						0xB9B60,  // GetNodeOverrideString
-						0xB9910,  // AddNodeOverrideInt
-						0xB96B0,  // AddNodeOverrideFloat
-						0xB9B60,  // AddNodeOverrideString
-						0x96970,  // HasNodeOverride
-						0x96DE0,  // RemoveNodeOverride
-						0x96920,  // ApplyNodeOverrides
-						0x96350,  // AddOverlays
-						0x96370,  // HasOverlays 
-						0x96390   // RemoveOverlays
+						0xBA0B0,  // GetNodeOverrideInt  140718186930352 - 140718186168320 = 762.032 = B A0B0
+						0xB9FD0,  // GetNodeOverrideFloat 140718186930128 - 140718186168320 = 761.808 = B 9FD0
+						0xBA260,  // GetNodeOverrideString  140718186930784 - 140718186168320 = 762.464 = B A260
+						0xB9910,  // AddNodeOverrideInt 140718186928400 - 140718186168320 = 760.080 = B 9910
+						0xB96B0,  // AddNodeOverrideFloat 140718186927792 - 140718186168320 = 759.472 = B 96B0
+						0xB9B60,  // AddNodeOverrideString 140718186928992 - 140718186168320 = 760.672 = B 9B60
+						0x96970,  // HasNodeOverride 140718186785136 - 140718186168320 = 616.816 = 9 6970
+						0x96DE0,  // RemoveNodeOverride 140718186786272 - 140718186168320 = 617.952 = 9 6DE0
+						0x96920,  // ApplyNodeOverrides 140718186785056 - 140718186168320 = 616.736 = 9 6920
+						0x96350,  // AddOverlays 140718186783568 - 140718186168320 = 615.248 = 9 6350
+						0x96370,  // HasOverlays 140718186783600 - 140718186168320 = 615.280 = 9 6370
+						0x96390   // RemoveOverlays 140718186783632 - 140718186168320 = 615.312 = 9 6390
 					};
 
 
