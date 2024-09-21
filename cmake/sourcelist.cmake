@@ -3,6 +3,7 @@ set(sources ${sources}
 	src/cache.cpp
 	src/constants.cpp
 	src/high_level_api.cpp
+	src/jcontainers_wrapper.cpp
 	src/logging.cpp
 	src/main.cpp
 	src/nioverride_wrapper.cpp

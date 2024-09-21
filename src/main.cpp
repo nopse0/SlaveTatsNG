@@ -59,8 +59,8 @@ namespace
 	void messagingHook(SKSE::MessagingInterface::Message* a_message)
 	{
 		switch (a_message->type) {
-		case SKSE::MessagingInterface::kPostPostLoad:
-			if (a_message->type == SKSE::MessagingInterface::kPostPostLoad) {
+		case SKSE::MessagingInterface::kPostLoad:
+			if (a_message->type == SKSE::MessagingInterface::kPostLoad) {
 				std::string pluginName = getJContainersPluginName();
 				logger::info("JContainers Plugin Name seems to be: {}", pluginName);
 
@@ -70,12 +70,14 @@ namespace
 						const jc::root_interface* root = jc::root_interface::from_void(a_msg->data);
 						logger::info("root_interface={}", (void*)root);
 						if (root)
-							slavetats_ng::jcwrapper::JCWrapper::Init(root);
+							// Seems to be a deadlock or so here, so we defer the actual JContainers initialization
+							slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->PreInit(root);
 					}
 				});
 			}
 			break;
 		case SKSE::MessagingInterface::kDataLoaded:
+			slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
 			slavetats_ng::skee_wrapper::NiOverride::Init();
 			break;
 				
