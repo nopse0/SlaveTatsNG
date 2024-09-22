@@ -1,7 +1,9 @@
 set(sources ${sources}
+	src/VMTHook.cpp
 	src/cache.cpp
 	src/constants.cpp
 	src/high_level_api.cpp
+	src/jcontainers_wrapper.cpp
 	src/logging.cpp
 	src/main.cpp
 	src/nioverride_wrapper.cpp
@@ -21,4 +23,5 @@ set(sources ${sources}
 	src/skse64_native_papyrus.cpp
 	src/tattoo.cpp
 	src/tattoo_magic.cpp
+	src/vm_hook.cpp
 )
