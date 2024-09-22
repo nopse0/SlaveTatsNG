@@ -77,7 +77,13 @@ namespace slavetats_ng
 						static std::latch       _latch(1);
 
 						if (!_initialized.exchange(true)) {
-							HMODULE skeeBaseAddr = GetModuleHandleA("skee64.dll");
+							HMODULE skeeBaseAddr = GetModuleHandleA("skeevr.dll");
+							if (skeeBaseAddr == NULL) {
+								skeeBaseAddr = GetModuleHandleA("skee64.dll");
+								logger::info("GetModuleHandleA('skee64.dll') = {}", (uintptr_t)skeeBaseAddr);
+							} else {
+								logger::info("GetModuleHandleA('skeevr.dll') = {}", (uintptr_t)skeeBaseAddr);
+							}
 							auto&   skeeOffsets = _offsets640;
 
 							const auto skyrimVer = REL::Module::get().version();
@@ -90,6 +96,9 @@ namespace slavetats_ng
 							} else if (skyrimVer.major() == 1 && skyrimVer.minor() == 6 && skyrimVer.patch() == 659) {
 								logger::info("Using NIOverride addresses for Skyrim 1.6.659");
 								skeeOffsets = _offsets659;
+							} else if (skyrimVer.major() == 1 && skyrimVer.minor() == 4 && skyrimVer.patch() == 15) {
+								logger::info("Using NIOverride addresses for Skyrim 1.4.15");
+								skeeOffsets = _offsets4_15;
 							}
 
 							auto addr = (char*)skeeBaseAddr + skeeOffsets[0];
@@ -150,6 +159,22 @@ namespace slavetats_ng
 					_HasOverlays_t           _HasOverlays = nullptr;
 					_RemoveNodeOverride_t    _RemoveNodeOverride = nullptr;
 					_RemoveOverlays_t        _RemoveOverlays = nullptr;
+
+					static inline std::array<int, 12> _offsets4_15{
+						0xBA0B0,  // GetNodeOverrideInt  140718186930352 - 140718186168320 = 762.032 = B A0B0
+						0xB9FD0,  // GetNodeOverrideFloat 140718186930128 - 140718186168320 = 761.808 = B 9FD0
+						0xBA260,  // GetNodeOverrideString  140718186930784 - 140718186168320 = 762.464 = B A260
+						0xB9910,  // AddNodeOverrideInt 140718186928400 - 140718186168320 = 760.080 = B 9910
+						0xB96B0,  // AddNodeOverrideFloat 140718186927792 - 140718186168320 = 759.472 = B 96B0
+						0xB9B60,  // AddNodeOverrideString 140718186928992 - 140718186168320 = 760.672 = B 9B60
+						0x96970,  // HasNodeOverride 140718186785136 - 140718186168320 = 616.816 = 9 6970
+						0x96DE0,  // RemoveNodeOverride 140718186786272 - 140718186168320 = 617.952 = 9 6DE0
+						0x96920,  // ApplyNodeOverrides 140718186785056 - 140718186168320 = 616.736 = 9 6920
+						0x96350,  // AddOverlays 140718186783568 - 140718186168320 = 615.248 = 9 6350
+						0x96370,  // HasOverlays 140718186783600 - 140718186168320 = 615.280 = 9 6370
+						0x96390   // RemoveOverlays 140718186783632 - 140718186168320 = 615.312 = 9 6390
+					};
+
 
 					static inline std::array<int, 12> _offsets97{
 						0xBE160,
