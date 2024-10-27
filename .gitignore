@@ -1,0 +1,6 @@
+papyrus/Scripts/*.pex
+.vs
+build
+dist
+
+
