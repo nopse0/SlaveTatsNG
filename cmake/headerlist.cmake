@@ -7,6 +7,7 @@ set(headers ${headers}
 	include/high_level_api.h
 	include/jcontainers_wrapper.h
 	include/logging.h
+	include/mod_events.h
 	include/nioverride_impl.h
 	include/nioverride_impl_current.h
 	include/nioverride_impl_old.h
@@ -28,6 +29,7 @@ set(headers ${headers}
 	include/skse64_native_papyrus.h
 	include/tattoo.h
 	include/tattoo_magic.h
+	include/util.h
 	include/vm_hook.h
 	src/PCH.h
 )

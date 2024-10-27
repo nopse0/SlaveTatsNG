@@ -53,6 +53,7 @@ namespace slavetats_ng
 			get_class_function(refl, "nextKey", "JMap", jmap_next_key_func);
 			get_class_function(refl, "object", "JMap", jmap_object_func);
 			get_class_function(refl, "setFlt", "JMap", jmap_set_flt_func);
+			get_class_function(refl, "setForm", "JMap", jmap_set_form_func);
 			get_class_function(refl, "setInt", "JMap", jmap_set_int_func);
 			get_class_function(refl, "setObj", "JMap", jmap_set_obj_func);
 			get_class_function(refl, "setStr", "JMap", jmap_set_str_func);
@@ -72,6 +73,8 @@ namespace slavetats_ng
 			get_class_function(refl, "getObj", "JArray", jarray_get_obj_func);
 			get_class_function(refl, "getStr", "JArray", jarray_get_str_func);
 			get_class_function(refl, "object", "JArray", jarray_object_func);
+			get_class_function(refl, "objectWithSize", "JArray", jarray_object_with_size_func);
+			get_class_function(refl, "setObj", "JArray", jarray_set_obj_func);
 			get_class_function(refl, "valueType", "JArray", jarray_value_type_func);
 
 			// JValue (object)

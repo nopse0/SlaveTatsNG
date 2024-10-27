@@ -8,7 +8,8 @@
 #include "../include/tattoo_magic.h"
 #include "../include/overlays.h"
 #include "../include/logging.h"
-
+#include "../include/mod_events.h"
+#include "../include/util.h" 
 
 using namespace slavetats_ng::skee_wrapper;
 using namespace slavetats_ng::jcwrapper;
@@ -763,7 +764,11 @@ namespace slavetats_ng
 		}
 
 		int tattoo;
-		// int evt;
+		int evt;
+
+		//auto event = SKSE::ModCallbackEvent{ "SlaveTatsNG-added", "", std::bit_cast<float>(0xffffffff), nullptr };
+		//auto eventSource = SKSE::GetModCallbackEventSource();
+		//eventSource->SendEvent(&event);
 
 		i = JArray::count(to_deactivate);
 		while (i > 0) {
@@ -772,6 +777,16 @@ namespace slavetats_ng
 			tattoo = JArray::getObj(to_deactivate, i);
 
 			deactivate_tattoo_magic(a_target, tattoo);
+
+
+			_log_jcontainer(to_deactivate, "");
+			evt = mod_events::mod_events::GetSingleton()->create();
+			if (evt) {
+				JMap::setStr(evt, "section", JMap::getStr(tattoo, "section"));
+				JMap::setStr(evt, "name", JMap::getStr(tattoo, "name"));
+				JMap::setForm(evt, "form", a_target);
+				mod_events::mod_events::GetSingleton()->send(evt, "SlaveTatsNG-removed");
+			}
 
 			// TODO send mod event
 			/*
@@ -785,12 +800,22 @@ namespace slavetats_ng
 			*/
 		}
 
+		_log_jcontainer(to_activate, "");
 		i = JArray::count(to_activate);
 		idx = 0;
 		while (idx < i) {
 			tattoo = JArray::getObj(to_activate, idx);
 
 			activate_tattoo_magic(a_target, tattoo);
+
+ 			evt = mod_events::mod_events::GetSingleton()->create();
+			if (evt) {
+				JMap::setStr(evt, "section", JMap::getStr(tattoo, "section"));
+				JMap::setStr(evt, "name", JMap::getStr(tattoo, "name"));
+				JMap::setForm(evt, "form", a_target);
+				mod_events::mod_events::GetSingleton()->send(evt, "SlaveTatsNG-added");
+			}
+
 
 			// TODO send mod event
 			/*

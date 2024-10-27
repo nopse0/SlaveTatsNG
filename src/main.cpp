@@ -1,6 +1,7 @@
 #include "../include/jcontainers_wrapper.h"
 #include "../include/nioverride_wrapper.h"
 #include "../include/papyrus_interface.h"
+#include "../include/mod_events.h"
 
 namespace slavetats_ng
 {
@@ -79,6 +80,7 @@ namespace
 		case SKSE::MessagingInterface::kDataLoaded:
 			slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
 			slavetats_ng::skee_wrapper::NiOverride::Init();
+			slavetats_ng::mod_events::mod_events::GetSingleton()->init(1000);
 			break;
 				
 		default:

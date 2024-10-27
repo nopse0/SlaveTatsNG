@@ -44,6 +44,7 @@ namespace slavetats_ng
 		inline RE::BSFixedString (*jmap_next_key_func)(void*, int32_t a_obj, RE::BSFixedString a_previous_key, RE::BSFixedString a_end_key) = nullptr;
 		inline int32_t           (*jmap_object_func)(void*) = nullptr;
 		inline void              (*jmap_set_flt_func)(void*, int32_t a_obj, RE::BSFixedString a_key, float a_value) = nullptr;
+		inline void              (*jmap_set_form_func)(void*, int32_t a_obj, RE::BSFixedString a_key, RE::TESForm* a_value) = nullptr;
 		inline void              (*jmap_set_int_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_value) = nullptr;
 		inline void              (*jmap_set_obj_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_value) = nullptr;
 		inline void              (*jmap_set_str_func)(void*, int32_t a_obj, RE::BSFixedString a_key, RE::BSFixedString a_value) = nullptr;
@@ -63,6 +64,8 @@ namespace slavetats_ng
 		inline int32_t           (*jarray_get_obj_func)(void*, int32_t a_obj, int32_t a_index, int32_t a_default) = nullptr;
 		inline RE::BSFixedString (*jarray_get_str_func)(void*, int32_t a_obj, int32_t a_index, RE::BSFixedString a_default) = nullptr;
 		inline int32_t           (*jarray_object_func)(void*) = nullptr;
+		inline void              (*jarray_set_obj_func)(void*, int32_t a_arr, int32_t a_index, int32_t a_container) = nullptr;
+		inline int32_t           (*jarray_object_with_size_func)(void*, int32_t a_size) = nullptr;
 		inline int32_t           (*jarray_value_type_func)(void*, int32_t a_obj, int32_t a_index) = nullptr;
 
 
@@ -151,6 +154,11 @@ namespace slavetats_ng
 				if (jmap_set_flt_func) 
 					jmap_set_flt_func(jc_default_domain, a_obj, a_key, a_value);
 			}
+			static inline void setForm(int32_t a_obj, RE::BSFixedString a_key, RE::TESForm* a_value)
+			{
+				if (jmap_set_form_func)
+					jmap_set_form_func(jc_default_domain, a_obj, a_key, a_value);
+			}
 			static inline void setInt(int32_t a_obj, RE::BSFixedString a_key, int32_t a_value)
 			{
 				if (jmap_set_int_func)
@@ -231,6 +239,15 @@ namespace slavetats_ng
 			static inline int object()
 			{
 				return jarray_object_func ? jarray_object_func(jc_default_domain) : 0;
+			}
+			static inline int objectWithSize(int32_t a_size)
+			{
+				return jarray_object_with_size_func ? jarray_object_with_size_func(jc_default_domain, a_size) : 0;
+			}
+			static inline void setObj(int32_t a_arr, int32_t a_index, int32_t a_container)
+			{
+				if (jarray_set_obj_func)
+					jarray_set_obj_func(jc_default_domain, a_arr, a_index, a_container);
 			}
 			static inline int valueType(int32_t a_obj, int32_t a_index)
 			{
