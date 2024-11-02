@@ -503,6 +503,8 @@ namespace slavetats_ng
 				}
 			}			
 
+			NiOverride::ApplyNodeOverrides(a_target);
+
 			if (external_on_body_count + external_on_face_count + external_on_hands_count + external_on_feet_count == 0) {
 				NiOverride::RemoveOverlays(a_target);
 				// TODO Utility.Wait(0.01)
@@ -748,6 +750,8 @@ namespace slavetats_ng
 				clear_overlay_part2(a_target, isFemale, "Feet", slot);
 			}
 		}
+
+		NiOverride::ApplyNodeOverrides(a_target);
 
 		JFormDB::setInt(a_target, ".SlaveTats.updated", 0);
 
