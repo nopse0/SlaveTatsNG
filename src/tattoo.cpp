@@ -320,7 +320,7 @@ namespace slavetats_ng
 		int apply_tattoo = JValue::addToPool(JValue::shallowCopy(a_tattoo), "SlaveTats-_add_and_get_tattoo");
 		JMap::setInt(apply_tattoo, "slot", a_slot);
 		JArray::addObj(applied, apply_tattoo);
-		_log_jcontainer(applied, "  ");
+		// _log_jcontainer(applied, "  ");
 
 		JFormDB::setInt(a_target, ".SlaveTats.updated", 1);
 
