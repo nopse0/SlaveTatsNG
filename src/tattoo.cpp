@@ -46,6 +46,7 @@ namespace slavetats_ng
 			{
 				JArray::addInt(a_matches, i);
 			} else {
+				// textures with index 6 are multilayer - but it isn't possible to apply multilayer textures with SlaveTats, so the path prefix check isn't neccessary atm.
 				overlay_path = NiOverride::GetNodeOverrideString(a_target, isFemale, nodeName.c_str(), 9, 6);
 				if (overlay_path != "" &&
 					StringUtil::SubString(overlay_path, 0, prefix_length) != prefix.c_str() &&

@@ -2,14 +2,20 @@
 #include "../include/primary_api.h"
 #include "../include/tattoo.h"
 #include "../include/overlays.h"
+#include "../include/high_level_api.h"
 
 using namespace slavetats_ng::jcwrapper;
 using std::string;
 
 namespace slavetats_ng
 {
-	fail_t simple_add_tattoo(RE::Actor* a_target, RE::BSFixedString a_section, RE::BSFixedString a_name, int a_color,
-		bool a_last, bool a_silent, float a_alpha)
+	fail_t simple_add_tattoo(RE::Actor* a_target, RE::BSFixedString a_section, RE::BSFixedString a_name, int a_color, bool a_last, bool a_silent, float a_alpha)
+	{
+		return complex_add_tattoo(a_target, a_section, a_name, a_color, a_last, a_silent, a_alpha);
+	}
+
+	fail_t complex_add_tattoo(RE::Actor* a_target, RE::BSFixedString a_section, RE::BSFixedString a_name, int a_color, bool a_last, bool a_silent,
+		float a_alpha, int a_emissive_color, bool a_gloss, RE::BSFixedString a_bump_map, RE::BSFixedString a_glow_map, float a_emissive_mult)
 	{
 		if (!a_target) {
 			logger::info("a_target is null");
@@ -35,6 +41,13 @@ namespace slavetats_ng
 		tattoo = JValue::addToPool(JArray::getObj(matches, 0), "SlaveTatsHighLevel");
 		JMap::setInt(tattoo, "color", a_color);
 		JMap::setFlt(tattoo, "invertedAlpha", 1.0f - a_alpha);
+		JMap::setInt(tattoo, "glow", a_emissive_color);
+		JMap::setInt(tattoo, "gloss", (int)a_gloss);
+		if (!a_bump_map.empty())
+			JMap::setStr(tattoo, "bump", a_bump_map);
+		if (!a_glow_map.empty())
+			JMap::setStr(tattoo, "glowMap", a_glow_map);
+		JMap::setFlt(tattoo, "emissiveMult", a_emissive_mult);
 
 		JArray::clear(matches);
 

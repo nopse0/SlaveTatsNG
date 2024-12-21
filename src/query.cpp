@@ -35,7 +35,7 @@ namespace slavetats_ng
 
 			tkey = JArray::getStr(tkeys, i);
 
-			if (a_include_configurable || (tkey != "color" && tkey != "glow" && tkey != "gloss")) {
+			if (a_include_configurable || (tkey != "color" && tkey != "glow" && tkey != "gloss" && tkey != "invertedAlpha" && tkey != "emissiveMult")) {
 				sval1 = JMap::getStr(a_template, tkey);
 
 				wildcard = StringUtil::Find(sval1, "*");

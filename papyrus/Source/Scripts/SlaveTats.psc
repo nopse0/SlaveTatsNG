@@ -18,8 +18,8 @@ int function SLOTS(string area) global
     return SlaveTatsNG.SLOTS(area)
 endfunction
 
-bool function simple_add_tattoo(Actor target, string section, string name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0) global
-	return SlaveTatsNG.simple_add_tattoo(target, section, name, color, last, silent, alpha)
+bool function simple_add_tattoo(Actor target, string section, string name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0, int emissiveColor = 0, bool gloss = false, string bump = "", string glowMap = "", float emissiveMult = 1.0) global
+	return SlaveTatsNG.simple_add_tattoo(target, section, name, color, last, silent, alpha, emissiveColor, gloss, bump, glowMap, emissiveMult)
 endfunction
 
 bool function simple_remove_tattoo(Actor target, string section, string name, bool last = true, bool silent = false) global
@@ -191,8 +191,8 @@ bool function clear_overlay(Actor target, bool isFemale, string area, int slot) 
     return SlaveTatsNG.clear_overlay(target, isFemale, area, slot)
 endfunction
 
-bool function apply_overlay(Actor target, bool isFemale, string area, int slot, string path, int color, int glow, bool gloss, string bump = "", float alpha = 1.0) global
-    return SlaveTatsNG.apply_overlay(target, isFemale, area, slot, path, color, glow, gloss, bump, alpha)
+bool function apply_overlay(Actor target, bool isFemale, string area, int slot, string path, int color, int glow, bool gloss, string bump = "", float alpha = 1.0, string glowMap = "", float emissiveMult = 1.0) global
+    return SlaveTatsNG.apply_overlay(target, isFemale, area, slot, path, color, glow, gloss, bump, alpha, glowMap, emissiveMult)
 endfunction
 
 function mark_actor(Actor target) global

@@ -21,6 +21,7 @@ int function SLOTS(string area) global native
 
 ; defined in high_level_api.cpp
 bool function simple_add_tattoo(Actor target, string section, string name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0) global native
+bool function complex_add_tattoo(Actor target, string section, string name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0, int emissiveColor = 0, bool gloss = false, string bump = "", string glowMap = "", float emissiveMult = 1.0) global native
 bool function simple_remove_tattoo(Actor target, string section, string name, bool last = true, bool silent = false) global native
 
 ; defined in query.cpp
@@ -68,6 +69,7 @@ bool function deactivate_all_tattoo_magic(Actor target) global native
 bool function upgrade_tattoos(Actor target) global native
 bool function clear_overlay(Actor target, bool isFemale, string area, int slot) global native
 bool function apply_overlay(Actor target, bool isFemale, string area, int slot, string path, int color, int glow, bool gloss, string bump = "", float alpha = 1.0) global native
+bool function complex_apply_overlay(Actor target, bool isFemale, string area, int slot, string path, int color, int glow, bool gloss, string bump = "", float alpha = 1.0, string glowMap = "", float emissiveMult = 1.0) global native
 bool function synchronize_tattoos(Actor target, bool silent = false) global native
 
 ; defined in logging.cpp

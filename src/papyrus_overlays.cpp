@@ -18,7 +18,13 @@ namespace slavetats_ng
 			fail_t apply_overlay(RE::StaticFunctionTag*, RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_path, int a_color,
 				int a_glow, bool a_gloss, RE::BSFixedString a_bump = "", float a_alpha = 1.0f)
 			{
-				return ng::apply_overlay(a_target, a_is_female, a_area, a_slot, a_path, a_color, a_glow, a_gloss, a_bump, a_alpha);
+				return ng::complex_apply_overlay(a_target, a_is_female, a_area, a_slot, a_path, a_color, a_glow, a_gloss, a_bump, a_alpha);
+			}
+
+			fail_t complex_apply_overlay(RE::StaticFunctionTag*, RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_path, int a_color,
+				int a_glow, bool a_gloss, RE::BSFixedString a_bump = "", float a_alpha = 1.0f, RE::BSFixedString a_glow_map = "", float a_emissive_mult = 1.0f)
+			{
+				return ng::complex_apply_overlay(a_target, a_is_female, a_area, a_slot, a_path, a_color, a_glow, a_gloss, a_bump, a_alpha, a_glow_map, a_emissive_mult);
 			}
 
 			fail_t upgrade_tattoos(RE::StaticFunctionTag*, RE::Actor* a_target)
@@ -35,6 +41,7 @@ namespace slavetats_ng
 			{
 				vm->RegisterFunction("clear_overlay", clazz, clear_overlay);
 				vm->RegisterFunction("apply_overlay", clazz, apply_overlay);
+				vm->RegisterFunction("complex_apply_overlay", clazz, complex_apply_overlay);
 				vm->RegisterFunction("upgrade_tattoos", clazz, upgrade_tattoos);
 				vm->RegisterFunction("synchronize_tattoos", clazz, synchronize_tattoos);
 			}
