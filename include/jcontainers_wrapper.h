@@ -88,10 +88,17 @@ namespace slavetats_ng
 		inline int32_t           (*jformdb_get_obj_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key) = nullptr;
 		inline int32_t           (*jformdb_get_int_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key) = nullptr;
 		inline RE::BSFixedString (*jformdb_get_str_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key) = nullptr;
+		inline int32_t           (*jformdb_make_entry_func)(void*, RE::BSFixedString a_storage_name, RE::TESForm* a_fKey) = nullptr;
 		inline void              (*jformdb_set_entry_func)(void*, RE::BSFixedString a_storage_name, RE::TESForm* a_fKey, int32_t a_entry) = nullptr;
 		inline void              (*jformdb_set_int_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key, int32_t a_value) = nullptr;
 		inline void              (*jformdb_set_obj_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key, int32_t a_container) = nullptr;
 		inline void              (*jformdb_set_str_func)(void*, RE::TESForm* a_fKey, RE::BSFixedString a_key, RE::BSFixedString a_value) = nullptr;
+
+		// JAtomic
+		inline int32_t (*jatomic_fetch_add_int_func)(void*, int32_t a_obj, RE::BSFixedString a_path, int32_t a_value, int32_t a_initial_value,
+			bool a_create_missing_keys, int32_t a_result_on_error) = nullptr;
+		inline int32_t (*jatomic_compare_exchange_int_func)(void*, int32_t a_obj, RE::BSFixedString a_path, int32_t a_desired, int32_t a_expected,
+			bool a_create_missing_keys, int32_t a_result_on_error) = nullptr;
 
 
 		// JContainers
@@ -323,6 +330,10 @@ namespace slavetats_ng
 			{
 				return jformdb_get_str_func ? jformdb_get_str_func(jc_default_domain, a_fKey, a_key) : "";
 			}
+			static inline int32_t makeEntry(RE::BSFixedString a_storage_name, RE::TESForm* a_fKey)
+			{
+				return jformdb_make_entry_func ? jformdb_make_entry_func(jc_default_domain, a_storage_name, a_fKey) : 0;
+			}
 			static inline void setEntry(RE::BSFixedString a_storage_name, RE::TESForm* a_fKey, int32_t a_entry)
 			{
 				if (jformdb_set_entry_func)
@@ -344,6 +355,23 @@ namespace slavetats_ng
 					jformdb_set_str_func(jc_default_domain, a_fKey, a_key, a_value);
 			}
 
+		};
+
+		class JAtomic
+		{
+		public:
+			static inline int32_t compareExchangeInt(int32_t a_obj, RE::BSFixedString a_path, int32_t a_desired, int32_t a_expected,
+				bool a_create_missing_keys, int32_t a_result_on_error)
+			{
+				return jatomic_compare_exchange_int_func ? jatomic_compare_exchange_int_func(jc_default_domain, a_obj, a_path, a_desired, a_expected,
+					a_create_missing_keys, a_result_on_error) : 0;
+			}
+			static inline int32_t fetchAddInt(int32_t a_obj, RE::BSFixedString a_path, int32_t a_value, int32_t a_initial_value,
+				bool a_create_missing_keys, int32_t a_result_on_error)
+			{
+				return jatomic_fetch_add_int_func ? jatomic_fetch_add_int_func(jc_default_domain, a_obj, a_path, a_value, a_initial_value,
+														a_create_missing_keys, a_result_on_error) : 0;
+			}
 		};
 
 		class JContainers

@@ -96,11 +96,16 @@ namespace slavetats_ng
 			get_class_function(refl, "getObj", "JFormDB", jformdb_get_obj_func);
 			get_class_function(refl, "getInt", "JFormDB", jformdb_get_int_func);
 			get_class_function(refl, "getStr", "JFormDB", jformdb_get_str_func);
+			get_class_function(refl, "makeEntry", "JFormDB", jformdb_make_entry_func);
 			get_class_function(refl, "setEntry", "JFormDB", jformdb_set_entry_func);
 			get_class_function(refl, "setInt", "JFormDB", jformdb_set_int_func);
 			get_class_function(refl, "setObj", "JFormDB", jformdb_set_obj_func);
 			get_class_function(refl, "setStr", "JFormDB", jformdb_set_str_func);
 
+			// JAtomic
+			get_class_function(refl, "compareExchangeInt", "JAtomic", jatomic_compare_exchange_int_func);
+			get_class_function(refl, "fetchAddInt", "JAtomic", jatomic_fetch_add_int_func);
+			
 			// JContainers
 			get_class_function(refl, "fileExistsAtPath", "JContainers", jcontainers_file_exists_at_path_func);
 		}

@@ -7,6 +7,7 @@
 #include "SKSE/SKSE.h"
 
 #include <spdlog/sinks/basic_file_sink.h>
+#include <gsl/gsl_util>
 
 #include <CLibUtil/distribution.hpp>
 #include <CLibUtil/hash.hpp>

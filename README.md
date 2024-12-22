@@ -8,13 +8,9 @@ SlaveTats as C++/SKSE plugin
 * [PowerShell](https://github.com/PowerShell/PowerShell/releases/latest)
 * [Vcpkg](https://github.com/microsoft/vcpkg)
 	* Add the environment variable `VCPKG_ROOT` with the value as the path to the folder containing vcpkg
-* [Visual Studio Community 2019](https://visualstudio.microsoft.com/)
+* [Visual Studio Community 2022](https://visualstudio.microsoft.com/)
 	* Desktop development with C++
-* [CommonLibSSE](https://github.com/powerof3/CommonLibSSE/tree/dev)
-	* You need to build from the powerof3/dev branch
-	* Add this as as an environment variable `CommonLibSSEPath`
-* [CommonLibVR](https://github.com/alandtse/CommonLibVR/tree/vr)
-	* Add this as as an environment variable `CommonLibVRPath` instead of /external
+* [CommonLibVR](https://github.com/alandtse/CommonLibVR.git
 
 ## User Requirements
 * [Address Library for SKSE](https://www.nexusmods.com/skyrimspecialedition/mods/32444)
@@ -37,21 +33,11 @@ git submodule init
 git submodule update
 ```
 
-### AE
+### AE/SSE/VR
 ```
-cmake --preset vs2022-windows-vcpkg-ae
-cmake --build buildae --config Release
+cmake --preset ALL
+cmake --build build --config Release
 ```
 
-### SSE
-```
-cmake --preset vs2022-windows-vcpkg-se
-cmake --build buildse --config Release
-```
-### VR (currently not supported)
-```
-cmake --preset vs2022-windows-vcpkg-vr
-cmake --build buildvr --config Release
-```
 ## License
 [MIT](LICENSE)

@@ -6,6 +6,7 @@ set(sources ${sources}
 	src/jcontainers_wrapper.cpp
 	src/logging.cpp
 	src/main.cpp
+	src/ni_node_override_lock.cpp
 	src/nioverride_wrapper.cpp
 	src/overlays.cpp
 	src/papyrus_cache.cpp
