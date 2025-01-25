@@ -14,7 +14,7 @@
     "magic-enum",
     "nlohmann-json",
     "clib-util",
-	"ms-gsl"
+    "ms-gsl"
   ],
-  "builtin-baseline": "83972272512ce4ede5fc3b2ba98f6468b179f192"
+  "builtin-baseline": "ed8fb07a8bd19568c8594c6f1a04955242f82d35"
 }
