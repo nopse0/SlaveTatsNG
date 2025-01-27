@@ -109,10 +109,10 @@ namespace skse64_native_papyrus
 		if (startIndex >= s.length())
 			return -1;
 
-		std::transform(s.begin(), s.end(), s.begin(), (char (*)(char))::toupper);
+		std::transform(s.begin(), s.end(), s.begin(), toupper);
 
 		std::string f(toFind.data());
-		std::transform(f.begin(), f.end(), f.begin(), (char (*)(char))::toupper);
+		std::transform(f.begin(), f.end(), f.begin(), toupper);
 
 		std::string::size_type pos = s.find(f, startIndex);
 		return (pos == std::string::npos) ? -1 : (int32_t)pos;
@@ -139,8 +139,8 @@ namespace skse64_native_papyrus
 		std::string delimiters(theDelimiter.data());
 
 		std::string f(str);  // Eliminate case sensitivity during find
-		std::transform(f.begin(), f.end(), f.begin(), (char (*)(char))::toupper);
-		std::transform(delimiters.begin(), delimiters.end(), delimiters.begin(), (char (*)(char))::toupper);
+		std::transform(f.begin(), f.end(), f.begin(), toupper);
+		std::transform(delimiters.begin(), delimiters.end(), delimiters.begin(), toupper);
 
 		std::string::size_type lastPos = f.find_first_not_of(delimiters, 0);
 		std::string::size_type pos = f.find_first_of(delimiters, lastPos);
