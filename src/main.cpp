@@ -96,10 +96,10 @@ namespace
 
 extern "C"
 {
-	DLLEXPORT bool simple_add_tattoo(RE::Actor* target, std::string section, std::string name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0) {
+	DLLEXPORT bool simple_add_tattoo(RE::Actor* target, RE::BSFixedString section, RE::BSFixedString name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0) {
 		return slavetats_ng::simple_add_tattoo(target, section, name, color, last, silent, alpha);
 	}
-	DLLEXPORT bool simple_remove_tattoo(RE::Actor* target, std::string section, std::string name, bool last = true, bool silent = false) {
+	DLLEXPORT bool simple_remove_tattoo(RE::Actor* target, RE::BSFixedString section, RE::BSFixedString name, bool last = true, bool silent = false) {
 		return slavetats_ng::simple_remove_tattoo(target, section, name, last, silent);
 	}
 	DLLEXPORT bool tattoo_matches(int a_template, int tattoo, bool include_configurable = false) {
@@ -132,34 +132,34 @@ extern "C"
 	DLLEXPORT void _append(int dest, int val) {
 		slavetats_ng::_append(dest, val);
 	}
-	DLLEXPORT void _extend_matching(int dest, int src, int a_template, int applied = 0, std::string domain = "default") {
+	DLLEXPORT void _extend_matching(int dest, int src, int a_template, int applied = 0, RE::BSFixedString domain = "default") {
 		slavetats_ng::_extend_matching(dest, src, a_template, applied, domain);
 	}
-	DLLEXPORT bool query_available_tattoos(int a_template, int matches, int applied = 0, std::string domain = "default") {
+	DLLEXPORT bool query_available_tattoos(int a_template, int matches, int applied = 0, RE::BSFixedString domain = "default") {
 		return slavetats_ng::query_available_tattoos(a_template, matches, applied, domain);
 	}
-	DLLEXPORT bool query_applied_tattoos(RE::Actor* target, int a_template, int matches, std::string except_area = "", int except_slot = -1) {
+	DLLEXPORT bool query_applied_tattoos(RE::Actor* target, int a_template, int matches, RE::BSFixedString except_area = "", int except_slot = -1) {
 		return slavetats_ng::query_applied_tattoos(target, a_template, matches, except_area, except_slot);
 	}
-	DLLEXPORT bool query_applied_tattoos_with_attribute(RE::Actor* target, std::string attrib, int matches, std::string except_area = "", int except_slot = -1) {
+	DLLEXPORT bool query_applied_tattoos_with_attribute(RE::Actor* target, RE::BSFixedString attrib, int matches, RE::BSFixedString except_area = "", int except_slot = -1) {
 		return slavetats_ng::query_applied_tattoos_with_attribute(target, attrib, matches, except_area, except_slot);
 	}
-	DLLEXPORT bool has_applied_tattoos_with_attribute(RE::Actor* target, std::string attrib, std::string except_area = "", int except_slot = -1) {
+	DLLEXPORT bool has_applied_tattoos_with_attribute(RE::Actor* target, RE::BSFixedString attrib, RE::BSFixedString except_area = "", int except_slot = -1) {
 		return slavetats_ng::has_applied_tattoos_with_attribute(target, attrib, except_area, except_slot);
 	}
 	DLLEXPORT bool remove_tattoos(RE::Actor* target, int a_template, bool ignore_lock = false, bool silent = false) {
 		return slavetats_ng::remove_tattoos(target, a_template, ignore_lock, silent);
 	}
-	DLLEXPORT bool remove_tattoo_from_slot(RE::Actor* target, std::string area, int slot) {
+	DLLEXPORT bool remove_tattoo_from_slot(RE::Actor* target, RE::BSFixedString area, int slot) {
 		return slavetats_ng::remove_tattoo_from_slot(target, area, slot);
 	}
-	DLLEXPORT int get_applied_tattoo_in_slot(RE::Actor* target, std::string area, int slot) {
+	DLLEXPORT int get_applied_tattoo_in_slot(RE::Actor* target, RE::BSFixedString area, int slot) {
 		return slavetats_ng::get_applied_tattoo_in_slot(target, area, slot);
 	}
 	DLLEXPORT bool get_applied_tattoos_by_area(RE::Actor* target, int on_body, int on_face, int on_hands, int on_feet) {
 		return slavetats_ng::get_applied_tattoos_by_area(target, on_body, on_face, on_hands, on_feet);
 	}
-	DLLEXPORT bool external_slots(RE::Actor* target, std::string area, int matches) {
+	DLLEXPORT bool external_slots(RE::Actor* target, RE::BSFixedString area, int matches) {
 		return slavetats_ng::external_slots(target, area, matches);
 	}
 	DLLEXPORT bool add_tattoo(RE::Actor* target, int tattoo, int slot = -1, bool ignore_lock = false, bool silent = false) {
@@ -168,7 +168,7 @@ extern "C"
 	DLLEXPORT int add_and_get_tattoo(RE::Actor* target, int tattoo, int slot = -1, bool ignore_lock = false, bool silent = false) {
 		return slavetats_ng::add_and_get_tattoo(target, tattoo, slot, ignore_lock, silent);
 	}
-	DLLEXPORT RE::TESForm* get_form(int tattoo, std::string plugin_field, std::string formid_field, RE::TESForm* a_default = nullptr) {
+	DLLEXPORT RE::TESForm* get_form(int tattoo, RE::BSFixedString plugin_field, RE::BSFixedString formid_field, RE::TESForm* a_default = nullptr) {
 		return slavetats_ng::get_form(tattoo, plugin_field, formid_field, a_default);
 	}
 	// Insert tattoo magic here when finished
@@ -178,10 +178,10 @@ extern "C"
 	DLLEXPORT bool synchronize_tattoos(RE::Actor* target, bool silent = false) {
 		return slavetats_ng::synchronize_tattoos(target, silent);
 	}
-	DLLEXPORT void _log_jcontainer(int jc, std::string indent) {
+	DLLEXPORT void _log_jcontainer(int jc, RE::BSFixedString indent) {
 		return slavetats_ng::_log_jcontainer(jc, indent);
 	}
-	DLLEXPORT void log_tattoo(std::string message, int tattoo) {
+	DLLEXPORT void log_tattoo(RE::BSFixedString message, int tattoo) {
 		return slavetats_ng::log_tattoo(message, tattoo);
 	}
 }
