@@ -2,9 +2,16 @@
 #include "../include/nioverride_wrapper.h"
 #include "../include/papyrus_interface.h"
 
+#include "SlaveTatsNG_InterFace.h"
+
+namespace SlaveTatsNG
+{
+	extern Addresses addresses_instance;
+}
+
 namespace slavetats_ng
 {
-	const char* const config_file = "data/skse/plugins/SlaveTatsNG.ini";
+	const char* const config_file = "data/skse/plugins/SlaveTatsNG/SlaveTatsNG.ini";
 
 	class config
 	{
@@ -60,7 +67,7 @@ namespace
 	{
 		switch (a_message->type) {
 		case SKSE::MessagingInterface::kPostLoad:
-			if (a_message->type == SKSE::MessagingInterface::kPostLoad) {
+			{
 				std::string pluginName = getJContainersPluginName();
 				logger::info("JContainers Plugin Name seems to be: {}", pluginName);
 
@@ -76,11 +83,18 @@ namespace
 				});
 			}
 			break;
+
+		case SKSE::MessagingInterface::kPostPostLoad:
+			// publish C++ interface	
+			SKSE::GetMessagingInterface()->Dispatch(SlaveTatsNG::MessageType::Interface, (void*)&SlaveTatsNG::addresses_instance, sizeof(void*), nullptr);
+			break;
+
 		case SKSE::MessagingInterface::kDataLoaded:
 			slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
 			slavetats_ng::skee_wrapper::NiOverride::Init();
 			break;
-				
+
+
 		default:
 			break;
 		}

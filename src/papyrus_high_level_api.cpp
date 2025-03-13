@@ -16,7 +16,7 @@ namespace slavetats_ng
 				std::thread t1
 				{
 					[&] {
-						result = ng::simple_add_tattoo(a_target, a_section.c_str(), a_name.c_str(), a_color, a_last, a_silent, a_alpha);
+						result = ng::simple_add_tattoo(a_target, a_section, a_name, a_color, a_last, a_silent, a_alpha);
 						logger::info("result is {}", result);
 					}
 				};
@@ -30,7 +30,7 @@ namespace slavetats_ng
 				fail_t result = false;
 				std::thread t1{
 					[&] {
-						result = ng::simple_remove_tattoo(a_target, a_section.c_str(), a_name.c_str(), a_last, a_silent);
+						result = ng::simple_remove_tattoo(a_target, a_section, a_name, a_last, a_silent);
 					}
 				};
 				t1.join();

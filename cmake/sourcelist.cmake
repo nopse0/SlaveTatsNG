@@ -1,4 +1,5 @@
 set(sources ${sources}
+	src/SlaveTatsNG_Interface.cpp
 	src/VMTHook.cpp
 	src/cache.cpp
 	src/constants.cpp

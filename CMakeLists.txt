@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.21)
 
 project(
 	SlaveTatsNG
-	VERSION 0.6.3
+	VERSION 0.6.5
 	LANGUAGES CXX
 )
 

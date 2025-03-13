@@ -1,6 +1,7 @@
 set(headers ${headers}
 	include/JContainers/jc_interface.h
 	include/JContainers/jcontainers_constants.h
+	include/SlaveTatsNG_Interface.h
 	include/VMTHook.h
 	include/cache.h
 	include/constants.h
