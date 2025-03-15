@@ -328,7 +328,10 @@ namespace slavetats_ng
 		}
 
 		{
-			auto _ = gsl::finally([a_target] { ni_node_override_lock::unlock(a_target); });
+			auto _ = gsl::finally([a_target] {
+				ni_node_override_lock::unlock(a_target);
+				a_target->SetPlayerControls(true);
+				});
 
 			RE::BSFixedString actor_name = actor_base->GetName();
 			bool              isFemale = actor_base->GetSex() == 1;
@@ -355,8 +358,7 @@ namespace slavetats_ng
 
 			// TODO notification, disable player controls
 			// if (!a_silent) {
-			//
-			//}
+			//	}
 
 			RE::BSFixedString prefix = PREFIX();
 
