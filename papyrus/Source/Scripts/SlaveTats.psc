@@ -19,11 +19,15 @@ int function SLOTS(string area) global
 endfunction
 
 bool function simple_add_tattoo(Actor target, string section, string name, int color = 0, bool last = true, bool silent = false, float alpha = 1.0) global
-	return SlaveTatsNG.simple_add_tattoo(target, section, name, color, last, silent, alpha)
+	bool result = SlaveTatsNG.simple_add_tattoo(target, section, name, color, last, silent, alpha)
+    Game.EnablePlayerControls()
+    return result
 endfunction
 
 bool function simple_remove_tattoo(Actor target, string section, string name, bool last = true, bool silent = false) global
-	return SlaveTatsNG.simple_remove_tattoo(target, section, name, last, silent)
+	bool result = SlaveTatsNG.simple_remove_tattoo(target, section, name, last, silent)
+    Game.EnablePlayerControls()
+    return result
 endfunction
 
 bool function tattoo_matches(int template, int tattoo, bool include_configurable = false) global
@@ -200,7 +204,9 @@ function mark_actor(Actor target) global
 endfunction
 
 bool function synchronize_tattoos(Actor target, bool silent = false) global
-    return SlaveTatsNG.synchronize_tattoos(target, silent)
+    bool result = SlaveTatsNG.synchronize_tattoos(target, silent)
+    Game.EnablePlayerControls()
+    return result
 endfunction
 
 function _log_jcontainer(int jc, string indent) global

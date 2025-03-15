@@ -330,7 +330,7 @@ namespace slavetats_ng
 		{
 			auto _ = gsl::finally([a_target] {
 				ni_node_override_lock::unlock(a_target);
-				a_target->SetPlayerControls(true);
+				// a_target->SetPlayerControls(true);
 				});
 
 			RE::BSFixedString actor_name = actor_base->GetName();
