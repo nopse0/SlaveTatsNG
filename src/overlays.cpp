@@ -27,8 +27,8 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
-		RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
+		RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
+		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 		
@@ -68,8 +68,8 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
-		RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
+		RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
+		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 
