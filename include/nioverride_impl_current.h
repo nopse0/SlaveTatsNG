@@ -79,17 +79,20 @@ namespace slavetats_ng
 
 					virtual void AddNodeOverrideFloat(RE::TESObjectREFR* a_ref, bool a_female, const char* a_node, int a_key, int a_index, float a_value, [[maybe_unused]] bool a_persist) override
 					{
+						_override_interface->RemoveNodeOverride(a_ref, a_female, a_node, (uint16_t)a_key, (uint8_t)a_index);
 						variant value(a_value);
 						_override_interface->AddNodeOverride(a_ref, a_female, a_node, (uint16_t)a_key, (uint8_t)a_index, value);
 					}
 					virtual void AddNodeOverrideInt(RE::TESObjectREFR* a_ref, bool a_female, const char* a_node, int a_key, int a_index, int a_value, [[maybe_unused]] bool a_persist) override
 					{
+						_override_interface->RemoveNodeOverride(a_ref, a_female, a_node, (uint16_t)a_key, (uint8_t)a_index);
 						variant value(a_value);
 						_override_interface->AddNodeOverride(a_ref, a_female, a_node, (uint16_t)a_key, (uint8_t)a_index, value);
 					}
 
 					virtual void AddNodeOverrideString(RE::TESObjectREFR* a_ref, bool a_female, const char* a_node, int a_key, int a_index, const char* a_value, [[maybe_unused]] bool a_persist) override
 					{
+						_override_interface->RemoveNodeOverride(a_ref, a_female, a_node, (uint16_t)a_key, (uint8_t)a_index);
 						variant value(a_value);
 						_override_interface->AddNodeOverride(a_ref, a_female, a_node, (uint16_t)a_key, (uint8_t)a_index, value);
 					}
