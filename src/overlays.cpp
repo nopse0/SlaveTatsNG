@@ -30,6 +30,7 @@ namespace slavetats_ng
 		RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
 		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
+		logger::info("Applying {} to node {}", blankPrefix, nodeName);
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 		
 		bool hasBumpOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
@@ -71,6 +72,7 @@ namespace slavetats_ng
 		RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
 		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
+		logger::info("Applying {} to node {}", blankPrefix, nodeName);
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 
 		bool hasBumpOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
@@ -314,6 +316,12 @@ namespace slavetats_ng
 			logger::info("a_target is null");
 			return true;
 		}
+
+		if (!a_target->Is3DLoaded()) {
+			logger::info("a_target->Is3DLoaded == false, aborting synchronize_tattoos, a_target = {}", (void*)a_target);
+			return true;
+		}
+
 		RE::TESNPC* actor_base = a_target->GetActorBase();
 		if (!actor_base) {
 			logger::info("actor_base is null");

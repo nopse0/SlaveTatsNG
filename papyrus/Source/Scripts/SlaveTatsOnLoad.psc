@@ -255,10 +255,12 @@ endfunction
 
 event OnPlayerLoadGame()
     int targets = JDB.solveObj(".SlaveTatsMenu.known_targets")
+    Debug.Trace("SlaveTatsOnLoad: targets=" + targets)
     int i = JArray.count(targets)
     while i > 0
         i -= 1
         Actor who = JArray.getForm(targets, i) as Actor
+        Debug.Trace("SlaveTatsOnLoad: synchronize tattoos for: " + who)
         SlaveTats.synchronize_tattoos(who)
     endwhile
 

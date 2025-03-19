@@ -28,7 +28,16 @@ namespace slavetats_ng
 
 			fail_t synchronize_tattoos(RE::StaticFunctionTag*, RE::Actor* a_target, bool a_silent = false)
 			{
-				return ng::synchronize_tattoos(a_target, a_silent);
+				fail_t      result = false;
+				// std::thread t1{
+				//	[&] {
+						logger::info("in papyrus synchronize_tattoos, a_target = {}", (void*)a_target);
+						result = ng::synchronize_tattoos(a_target, a_silent);
+						logger::info("result is {}", result);
+				//	}
+				//};
+				//t1.join();
+				return result;
 			}
 
 			void register_functions(const char* clazz, RE::BSScript::IVirtualMachine* vm)
