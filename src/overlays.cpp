@@ -821,16 +821,16 @@ namespace slavetats_ng
 
 				activate_tattoo_magic(a_target, tattoo);
 
-				// TODO send mod event
+				// Send mod event ?
 				/*
-			evt = ModEvent.Create("SlaveTats-added")
-			if evt
-				ModEvent.PushString(evt, JMap.getStr(tattoo, "section"))
-				ModEvent.PushString(evt, JMap.getStr(tattoo, "name"))
-				ModEvent.PushForm(evt, target)
-				ModEvent.Send(evt)
-			endif
-			*/
+				evt = ModEvent.Create("SlaveTats-added")
+				if evt
+					ModEvent.PushString(evt, JMap.getStr(tattoo, "section"))
+					ModEvent.PushString(evt, JMap.getStr(tattoo, "name"))
+					ModEvent.PushForm(evt, target)
+					ModEvent.Send(evt)
+				endif
+				*/
 
 				idx += 1;
 			}
