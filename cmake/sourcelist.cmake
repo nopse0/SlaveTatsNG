@@ -2,6 +2,7 @@ set(sources ${sources}
 	src/SlaveTatsNG_Interface.cpp
 	src/VMTHook.cpp
 	src/cache.cpp
+	src/config.cpp
 	src/constants.cpp
 	src/high_level_api.cpp
 	src/jcontainers_wrapper.cpp

@@ -1,6 +1,7 @@
 #include "../include/jcontainers_wrapper.h"
 #include "../include/nioverride_wrapper.h"
 #include "../include/papyrus_interface.h"
+#include "config.h"
 
 #include "SlaveTatsNG_InterFace.h"
 
@@ -12,12 +13,6 @@ namespace SlaveTatsNG
 namespace slavetats_ng
 {
 	const char* const config_file = "data/skse/plugins/SlaveTatsNG/SlaveTatsNG.ini";
-
-	class config
-	{
-	public:
-		inline static bool vm_hook = false;
-	};
 }
 
 namespace
@@ -25,7 +20,8 @@ namespace
 	void InitializePapyrus()
 	{
 		SKSE::GetPapyrusInterface()->Register(
-			[](RE::BSScript::IVirtualMachine* vm) { return slavetats_ng::papyrus::register_functions(vm, slavetats_ng::config::vm_hook); });
+			[](RE::BSScript::IVirtualMachine* vm) { return slavetats_ng::papyrus::register_functions(vm, 
+				slavetats_ng::config::Config::GetSingleton()->use_vmhook); });
 	}
 
 	void InitializeLog()
@@ -128,8 +124,13 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	CSimpleIniA config;
 	SI_Error    rc = config.LoadFile(slavetats_ng::config_file);
 	logger::info("Load {}, result = {}", slavetats_ng::config_file, rc);
+	auto ini = slavetats_ng::config::Config::GetSingleton();
+	logger::info("blank_texture_name = {}", ini->blank_texture_name);
 	if (rc >= 0) {
-		clib_util::ini::get_value(config, slavetats_ng::config::vm_hook, "Config", "vmHook", ";");
+		clib_util::ini::get_value(config, ini->blank_texture_name, "Config", "blankTextureName", ";");
+		logger::info("blank_texture_name = {}", ini->blank_texture_name);
+		clib_util::ini::get_value(config, ini->use_vmhook, "Config", "vmHook", ";");
+		logger::info("blank_texture_name = {}", ini->blank_texture_name);
 	}
 	
 	InitializePapyrus();

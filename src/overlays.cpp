@@ -7,8 +7,10 @@
 #include "../include/tattoo_magic.h"
 #include "../include/ni_node_override_lock.h"
 #include "../include/logging.h"
+#include "config.h"
 
 #include "../include/overlays.h"
+
 
 
 using namespace slavetats_ng::skee_wrapper;
@@ -27,7 +29,9 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
+		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
+		logger::info("blank_texture_name = {}", blankPrefix);
+		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
 		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
 		logger::info("Applying {} to node {}", blankPrefix, nodeName);
@@ -69,7 +73,9 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
+		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
+		logger::info("blank_texture_name = {}", blankPrefix);
+		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
 		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
 		logger::info("Applying {} to node {}", blankPrefix, nodeName);

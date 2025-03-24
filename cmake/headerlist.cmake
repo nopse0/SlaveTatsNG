@@ -4,6 +4,7 @@ set(headers ${headers}
 	include/SlaveTatsNG_Interface.h
 	include/VMTHook.h
 	include/cache.h
+	include/config.h
 	include/constants.h
 	include/high_level_api.h
 	include/jcontainers_wrapper.h
