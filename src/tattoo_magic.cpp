@@ -126,6 +126,7 @@ namespace slavetats_ng
 		if (JArray::findObj(activated, a_tattoo) < 0)
 			JArray::addObj(activated, a_tattoo);      
 
+		JValue::cleanPool("SlaveTats-activate_tattoo_magic");
 		return false;
 	}
 
