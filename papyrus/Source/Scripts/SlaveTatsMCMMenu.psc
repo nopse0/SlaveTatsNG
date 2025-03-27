@@ -142,13 +142,13 @@ bool function _setup_tattoos(string section)
     int num_tats = JArray.count(tats)
     while i < num_tats
         int entry = JArray.getObj(tats, i)
-        if (SlaveTats.find_excluding_tattoo(applied, entry) < 0) && (SlaveTats.find_required_tattoo(applied, entry) >= 0)
+        ; if (SlaveTats.find_excluding_tattoo(applied, entry) < 0) && (SlaveTats.find_required_tattoo(applied, entry) >= 0)
             JMap.removeKey(entry, "slot") ; The menu does not respect tattoo pre-specified slots. That's for mods.
             JArray.addStr(buffer, JMap.getStr(entry, "name"))
             i += 1
-        else
-            JArray.eraseIndex(tats, i)
-        endif
+        ; else
+        ;    JArray.eraseIndex(tats, i)
+        ; endif
     endwhile
 
     if JContainers.APIVersion() >= 4 && JContainers.featureVersion() >= 1
