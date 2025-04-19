@@ -10,6 +10,8 @@ namespace slavetats_ng
 	{
 		void NiOverride::Init()
 		{
+			logger::info("NiOverride::Init() entered");
+
 			bool useLegacy = true;
 
 			auto iMap = get_interface_map();

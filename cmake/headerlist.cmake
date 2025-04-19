@@ -31,6 +31,7 @@ set(headers ${headers}
 	include/skse64_native_papyrus.h
 	include/tattoo.h
 	include/tattoo_magic.h
+	include/threading.h
 	include/vm_hook.h
 	src/PCH.h
 )

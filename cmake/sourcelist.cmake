@@ -26,5 +26,6 @@ set(sources ${sources}
 	src/skse64_native_papyrus.cpp
 	src/tattoo.cpp
 	src/tattoo_magic.cpp
+	src/threading.cpp
 	src/vm_hook.cpp
 )

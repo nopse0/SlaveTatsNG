@@ -1,5 +1,6 @@
 #include "../include/overlays.h"
 #include "../include/papyrus_overlays.h"
+#include <future>
 
 namespace slavetats_ng
 {

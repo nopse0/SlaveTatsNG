@@ -8,10 +8,10 @@
 #include "../include/ni_node_override_lock.h"
 #include "../include/logging.h"
 #include "config.h"
+#include "threading.h"
+#include <future>
 
 #include "../include/overlays.h"
-
-
 
 using namespace slavetats_ng::skee_wrapper;
 using namespace slavetats_ng::jcwrapper;
@@ -304,7 +304,7 @@ namespace slavetats_ng
 		return false;
 	}
 
-	fail_t synchronize_tattoos(RE::Actor* a_target, bool a_silent)
+	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool a_silent)
 	{
 		int               i;
 		int               idx;
@@ -318,6 +318,8 @@ namespace slavetats_ng
 		RE::BSFixedString bump;
 		float             alpha;
 
+		logger::info("synchronize_tattoos_internal: a_target = {}", (void*)a_target);
+
 		if (!a_target) {
 			logger::info("a_target is null");
 			return true;
@@ -327,6 +329,11 @@ namespace slavetats_ng
 			logger::info("a_target->Is3DLoaded == false, aborting synchronize_tattoos, a_target = {}", (void*)a_target);
 			return true;
 		}
+
+		logger::info("synchronize_tattoos_internal: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
+		logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::GetSingleton()->main_thread_id()));
+
+		// std::this_thread::sleep_for(100ms);
 
 		RE::TESNPC* actor_base = a_target->GetActorBase();
 		if (!actor_base) {
@@ -846,5 +853,32 @@ namespace slavetats_ng
 		}
 	}
 
+	fail_t synchronize_tattoos(RE::Actor* a_target, bool a_silent)
+	{
+		logger::info("synchronize_tattoos: a_target = {}", (void*)a_target);
+
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
+		logger::info("synchronize_tattoos: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
+
+		if (std::this_thread::get_id() != slavetats_ng::threading::System::GetSingleton()->main_thread_id()) {
+			//std::promise<fail_t> result;
+			//auto                 future = result.get_future();
+
+			SKSE::GetTaskInterface()->AddTask([a_target, a_silent] {
+				//result.set_value(
+				synchronize_tattoos_internal(a_target, a_silent);
+				//);
+			});
+			//future.wait();
+			//return future.get();
+			return false;
+		} else {
+			return synchronize_tattoos_internal(a_target, a_silent);
+		}
+	}
 
 }

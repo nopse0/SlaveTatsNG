@@ -2,6 +2,7 @@
 #include "../include/nioverride_wrapper.h"
 #include "../include/papyrus_interface.h"
 #include "config.h"
+#include "threading.h"
 
 #include "SlaveTatsNG_InterFace.h"
 
@@ -139,6 +140,20 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 
 	const auto messaging = SKSE::GetMessagingInterface();
 	messaging->RegisterListener(messagingHook);
+
+	// This doesn't work, the thread which executes SKSE tasks changes over the time, it isn't the Skyrim main thread itself (I guess, it is a forked thread,
+	// and the Skyrim main thread only waits, until it's finished)
+	SKSE::GetTaskInterface()->AddTask([] {
+		auto id = std::this_thread::get_id();
+		auto system = slavetats_ng::threading::System::GetSingleton();
+		{
+			std::lock_guard lk(system->main_thread_id_mutex);
+			system->_main_thread_id = id;
+			system->main_thread_id_initialized = true;
+		}
+		system->main_thread_id_cv.notify_all();
+		logger::info("main thread id is {}", slavetats_ng::threading::thread_id_to_string(id));
+	});
 
 	return true;
 }
