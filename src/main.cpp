@@ -3,6 +3,7 @@
 #include "../include/papyrus_interface.h"
 #include "config.h"
 #include "threading.h"
+#include "cache.h"
 
 #include "SlaveTatsNG_InterFace.h"
 
@@ -89,8 +90,9 @@ namespace
 		case SKSE::MessagingInterface::kDataLoaded:
 			slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
 			slavetats_ng::skee_wrapper::NiOverride::Init();
+			// Force SlaveTats to update it's cache of installed tattoos
+			slavetats_ng::compile_cache();
 			break;
-
 
 		default:
 			break;
