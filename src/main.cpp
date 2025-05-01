@@ -90,8 +90,14 @@ namespace
 		case SKSE::MessagingInterface::kDataLoaded:
 			slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
 			slavetats_ng::skee_wrapper::NiOverride::Init();
-			// Force SlaveTats to update it's cache of installed tattoos
-			slavetats_ng::compile_cache();
+			break;
+
+		case SKSE::MessagingInterface::kPostLoadGame:
+			{
+				// Force SlaveTats to update it's cache of installed tattoos
+				auto areas = slavetats_ng::compile_cache();
+				logger::info("kPostLoadGame: Recompiled SlaveTats cache, cache id: {}", areas);
+			}
 			break;
 
 		default:
