@@ -1,8 +1,8 @@
-rem set pluginsrc=C:\Build\SlaveTatsNG\build\Debug
-set pluginsrc=C:\Build\SlaveTatsNG\build\Release
-set configsrc=C:\Build\SlaveTatsNG\config
-set headersrc=C:\Build\SlaveTatsNG\include
-set dist=C:\Build\SlaveTatsNG\dist\SlaveTatsNG
+set root="C:\Build\ColorGlass\SlaveTatsNG"
+set pluginsrc=%root%\build\release-msvc
+set configsrc=%root%\config
+set headersrc=%root%\include
+set dist=%root%\dist\SlaveTatsNG
 mkdir %dist%
 mkdir %dist%\SKSE
 mkdir %dist%\SKSE\Plugins

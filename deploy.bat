@@ -1,12 +1,11 @@
-rem set pluginsrc=C:\Build\SlaveTatsNG\build\Debug
-set pluginsrc=C:\Build\SlaveTatsNG\build\Release
-set configsrc=C:\Build\SlaveTatsNG\config
-set headersrc=C:\Build\SlaveTatsNG\include
-set scriptssrc=C:\Build\SlaveTatsNG\papyrus\Scripts
-set plugindest="F:\Games\Skyrim-1.6.1170\overwrite"
-rem set plugindest="D:\Games\Skyrim-1.5.97\overwrite"
+set root="C:\Build\ColorGlass\SlaveTatsNG"
+set dest="F:\Games\Skyrim-1.6.1170"
+set pluginsrc=%root%\build\release-msvc
+set configsrc=%root%\config
+set headersrc=%root%\include
+set scriptssrc=%root%\papyrus\Scripts
+set plugindest=%dest%\overwrite
 set scriptsdest="F:\Games\Skyrim-1.6.1170\overwrite"
-rem set scriptsdest="D:\Games\Skyrim-1.5.97\overwrite"
 copy %pluginsrc%\*.dll %plugindest%\SKSE\Plugins\
 copy %pluginsrc%\*.pdb %plugindest%\SKSE\Plugins\
 mkdir %plugindest%\SKSE\Plugins\SlaveTatsNG

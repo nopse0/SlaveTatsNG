@@ -1,84 +1,133 @@
 cmake_minimum_required(VERSION 3.21)
+message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 
+########################################################################################################################
+## Define project
+########################################################################################################################
 project(
-	SlaveTatsNG
-	VERSION 0.7.2
-	LANGUAGES CXX
-)
+        SlaveTatsNG
+        VERSION 0.7.3
+        DESCRIPTION "SlaveTats as SKSE plugin."
+        LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-# ########################################################################################################################
-# ## Build options
-# ########################################################################################################################
-message("Options:")
-option(AUTO_PLUGIN_DEPLOYMENT "Copy the build output and addons to env:SamplePluginOutputDir." OFF)
-option(ZIP_TO_DIST "Zip the base mod and addons to their own 7z file in dist." ON)
-option(AIO_ZIP_TO_DIST "Zip the base mod and addons to a AIO 7z file in dist." OFF)
-message("\tAuto plugin deployment: ${AUTO_PLUGIN_DEPLOYMENT}")
-message("\tZip to dist: ${ZIP_TO_DIST}")
-message("\tAIO Zip to dist: ${AIO_ZIP_TO_DIST}")
+include(GNUInstallDirs)
 
-# #######################################################################################################################
-# # Add CMake features
-# #######################################################################################################################
-include(XSEPlugin)
+configure_file(
+        ${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in
+        ${CMAKE_CURRENT_BINARY_DIR}/version.rc
+        @ONLY)
 
-# #######################################################################################################################
-# # Find dependencies
-# #######################################################################################################################
+set(sources
+        ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+
+
+
+set(headers ${headers}
+	include/JContainers/jc_interface.h
+	include/JContainers/jcontainers_constants.h
+	include/SlaveTatsNG_Interface.h
+	include/VMTHook.h
+	include/cache.h
+	include/config.h
+	include/constants.h
+	include/high_level_api.h
+	include/jcontainers_wrapper.h
+	include/logging.h
+	include/ni_node_override_lock.h
+	include/nioverride_impl.h
+	include/nioverride_impl_current.h
+	include/nioverride_impl_old.h
+	include/nioverride_wrapper.h
+	include/overlays.h
+	include/papyrus_cache.h
+	include/papyrus_constants.h
+	include/papyrus_high_level_api.h
+	include/papyrus_interface.h
+	include/papyrus_logging.h
+	include/papyrus_overlays.h
+	include/papyrus_primary_api.h
+	include/papyrus_query.h
+	include/papyrus_tattoo.h
+	include/papyrus_tattoo_magic.h
+	include/primary_api.h
+	include/query.h
+	include/skee-modders-resource-v0-4-19-16/SKEE_IPluginInterface.h
+	include/skse64_native_papyrus.h
+	include/tattoo.h
+	include/tattoo_magic.h
+	include/threading.h
+	include/vm_hook.h
+	src/PCH.h
+)
+
+set(sources ${sources}
+	src/SlaveTatsNG_Interface.cpp
+	src/VMTHook.cpp
+	src/cache.cpp
+	src/config.cpp
+	src/constants.cpp
+	src/high_level_api.cpp
+	src/jcontainers_wrapper.cpp
+	src/logging.cpp
+	src/main.cpp
+	src/ni_node_override_lock.cpp
+	src/nioverride_wrapper.cpp
+	src/overlays.cpp
+	src/papyrus_cache.cpp
+	src/papyrus_constants.cpp
+	src/papyrus_high_level_api.cpp
+	src/papyrus_interface.cpp
+	src/papyrus_logging.cpp
+	src/papyrus_overlays.cpp
+	src/papyrus_primary_api.cpp
+	src/papyrus_query.cpp
+	src/papyrus_tattoo.cpp
+	src/papyrus_tattoo_magic.cpp
+	src/primary_api.cpp
+	src/query.cpp
+	src/skse64_native_papyrus.cpp
+	src/tattoo.cpp
+	src/tattoo_magic.cpp
+	src/threading.cpp
+	src/vm_hook.cpp
+)
+
+########################################################################################################################
+## Configure target DLL
+########################################################################################################################
+find_package(CommonLibSSE CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(xbyak CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_path(CLIB_UTIL_INCLUDE_DIRS "ClibUtil/utils.hpp")
 
-target_include_directories(
-	${PROJECT_NAME}
-	PRIVATE
-	${CLIB_UTIL_INCLUDE_DIRS}
-)
+add_commonlibsse_plugin(${PROJECT_NAME} SOURCES ${headers} ${sources})
+add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 
-target_link_libraries(
-	${PROJECT_NAME}
-	PRIVATE
-	magic_enum::magic_enum
-	xbyak::xbyak
-	nlohmann_json::nlohmann_json
-)
+target_include_directories(${PROJECT_NAME}
+        PRIVATE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmake>
+        $<INSTALL_INTERFACE:src>)
 
-# https://gitlab.kitware.com/cmake/cmake/-/issues/24922#note_1371990
-if(MSVC_VERSION GREATER_EQUAL 1936 AND MSVC_IDE) # 17.6+
-	# When using /std:c++latest, "Build ISO C++23 Standard Library Modules" defaults to "Yes".
-	# Default to "No" instead.
-	#
-	# As of CMake 3.26.4, there isn't a way to control this property
-	# (https://gitlab.kitware.com/cmake/cmake/-/issues/24922),
-	# We'll use the MSBuild project system instead
-	# (https://learn.microsoft.com/en-us/cpp/build/reference/vcxproj-file-structure)
-	file(CONFIGURE OUTPUT "${CMAKE_BINARY_DIR}/Directory.Build.props" CONTENT [==[
-<Project>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <BuildStlModules>false</BuildStlModules>
-    </ClCompile>
-  </ItemDefinitionGroup>
-</Project>
-]==] @ONLY)
-endif()
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+		${CLIB_UTIL_INCLUDE_DIRS})
 
-# #######################################################################################################################
-# # Automatic deployment
-# #######################################################################################################################
-if(AUTO_PLUGIN_DEPLOYMENT)
-	foreach(DEPLOY_TARGET $ENV{SamplePluginOutputDir})
-		message("Copying AIO to ${DEPLOY_TARGET}")
-		add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${PROJECT_NAME}> "${DEPLOY_TARGET}/SKSE/Plugins/"
-			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_PDB_FILE:${PROJECT_NAME}> "${DEPLOY_TARGET}/SKSE/Plugins/"
-		)
-	endforeach()
+target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+		magic_enum::magic_enum
+		xbyak::xbyak
+		nlohmann_json::nlohmann_json
+        )
 
-	if(NOT DEFINED ENV{SamplePluginOutputDir})
-		message("When using AUTO_PLUGIN_DEPLOYMENT option, you need to set environment variable 'SamplePluginOutputDir'")
-	endif()
-endif()
+target_precompile_headers(${PROJECT_NAME}
+        PRIVATE
+        src/PCH.h)

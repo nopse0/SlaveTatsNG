@@ -1,20 +1,28 @@
 {
-  "name": "slave-tats-ng",
-  "version-string": "0.0.1",
-  "description": "SlaveTatsNG",
-  "homepage": "",
-  "license": "MIT",
-  "dependencies": [
-    "fmt",
-    "directxtk",
-    "rapidcsv",
-    "spdlog",
-    "xbyak",
-    "catch2",
-    "magic-enum",
-    "nlohmann-json",
-    "clib-util",
-	"ms-gsl"
-  ],
-  "builtin-baseline": "83972272512ce4ede5fc3b2ba98f6468b179f192"
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+    "name": "slavetats-ng",
+    "version-string": "0.7.3",
+    "port-version": 0,
+    "description": "SlaveTats as SKSE plugin.",
+    "homepage": "https://www.loverslab.com/files/file/35989-slavetatsng/",
+    "license": "Apache-2.0",
+    "features": {
+        "plugin": {
+            "description": "Build the SKSE plugin.",
+          "dependencies": [
+            "commonlibsse-ng",
+            "fmt",
+            "rapidcsv",
+            "spdlog",
+            "xbyak",
+            "magic-enum",
+            "nlohmann-json",
+			      "clib-util",
+            "ms-gsl"
+          ]
+        }
+    },
+    "default-features": [
+        "plugin"
+    ]
 }

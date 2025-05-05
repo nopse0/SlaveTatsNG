@@ -1,5 +1,5 @@
 #include "vm_hook.h"
-#include "VMTHook.h" 
+#include "VMTHook.h"
 
 namespace slavetats_ng
 {

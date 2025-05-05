@@ -30,10 +30,12 @@ namespace
 	{
 		auto path = logger::log_directory();
 		if (!path) {
-			stl::report_and_fail("Failed to find standard logging directory"sv);
+			SKSE::stl::report_and_fail("Failed to find standard logging directory"sv);
 		}
 
-		*path /= fmt::format(FMT_STRING("{}.log"), Plugin::NAME);
+		auto pluginName = SKSE::PluginDeclaration::GetSingleton()->GetName();
+		*path /= fmt::format(FMT_STRING("{}.log"), pluginName);
+
 		auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(path->string(), true);
 
 		auto log = std::make_shared<spdlog::logger>("global log"s, std::move(sink));
@@ -44,7 +46,8 @@ namespace
 		spdlog::set_default_logger(std::move(log));
 		spdlog::set_pattern("[%H:%M:%S:%e] %v"s);
 
-		logger::info(FMT_STRING("{} v{}"), Plugin::NAME, Plugin::VERSION.string());
+		auto pluginVersion = SKSE::PluginDeclaration::GetSingleton()->GetVersion();
+		logger::info(FMT_STRING("{} v{}"), pluginName, pluginVersion.string());
 	}
 
 	std::string getJContainersPluginName()
@@ -106,7 +109,7 @@ namespace
 	}
 }
 
-
+/*
 extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() noexcept {
 	SKSE::PluginVersionData v;
 	v.PluginName(Plugin::NAME.data());
@@ -123,6 +126,7 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query([[maybe_unused]] const SKSE::
 	a_info->version = SKSEPlugin_Version.pluginVersion;
 	return true;
 }
+*/
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
