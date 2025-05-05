@@ -31,4 +31,4 @@ git clone https://github.com/nopse0/SlaveTatsNG.git
 ```
 
 ## License
-[MIT](LICENSE)
+[Apache-2.0](LICENSE)
