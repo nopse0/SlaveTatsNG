@@ -6,7 +6,7 @@ SlaveTats as C++/SKSE plugin
 * [CMake](https://cmake.org/)
 	* Add this to your `PATH`
 * [Vcpkg](https://github.com/microsoft/vcpkg)
-	* Add the environment variable `VCPKG_ROOT` to the path containing vcpkg
+	* Set the environment variable `VCPKG_ROOT` to the path containing vcpkg
 * [Visual Studio Community 2022](https://visualstudio.microsoft.com/)
 	* Desktop development with C++
 * [CommonLibSSE-NG](https://github.com/CharmedBaryon/CommonLibSSE-NG)
