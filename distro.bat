@@ -1,4 +1,4 @@
-set root="C:\Build\ColorGlass\SlaveTatsNG"
+set root="C:\Build\SlaveTatsNG"
 set pluginsrc=%root%\build\release-msvc
 set configsrc=%root%\config
 set headersrc=%root%\include

@@ -1,4 +1,4 @@
-set root="C:\Build\ColorGlass\SlaveTatsNG"
+set root="C:\Build\SlaveTatsNG"
 set dest="F:\Games\Skyrim-1.6.1170"
 set pluginsrc=%root%\build\release-msvc
 set configsrc=%root%\config
