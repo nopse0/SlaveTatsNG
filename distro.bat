@@ -12,7 +12,7 @@ copy %pluginsrc%\*.dll %plugindest%
 copy %pluginsrc%\*.pdb %plugindest%
 copy %configsrc%\*.ini %plugindest%\SlaveTatsNG
 copy %headersrc%\SlaveTatsNG_Interface.h %plugindest%\SlaveTatsNG
-set papyrussrc=C:\Build\SlaveTatsNG\papyrus
+set papyrussrc=%root%\papyrus
 set scriptsdest=%dist%
 mkdir %scriptsdest%\Scripts
 mkdir %scriptsdest%\Scripts\Source
