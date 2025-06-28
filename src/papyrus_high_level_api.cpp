@@ -13,14 +13,14 @@ namespace slavetats_ng
 				bool a_last = true, bool a_silent = false, float a_alpha = 1.0f)
 			{
 				fail_t result = false;
-				std::thread t1
-				{
-					[&] {
+				//std::thread t1
+				//{
+				//	[&] {
 						result = ng::simple_add_tattoo(a_target, a_section, a_name, a_color, a_last, a_silent, a_alpha);
 						logger::info("result is {}", result);
-					}
-				};
-				t1.join();
+				//	}
+				//};
+				//t1.join();
 				return result;
 			}
 
@@ -28,12 +28,12 @@ namespace slavetats_ng
 				bool a_silent)
 			{
 				fail_t result = false;
-				std::thread t1{
-					[&] {
+				//std::thread t1{
+				//	[&] {
 						result = ng::simple_remove_tattoo(a_target, a_section, a_name, a_last, a_silent);
-					}
-				};
-				t1.join();
+				//	}
+				//};
+				//t1.join();
 				return result;
 			}			
 

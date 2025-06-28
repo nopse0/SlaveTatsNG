@@ -43,6 +43,7 @@ namespace slavetats_ng
 		inline bool              (*jmap_has_key_func)(void*, int32_t a_obj, RE::BSFixedString a_key) = nullptr;
 		inline RE::BSFixedString (*jmap_next_key_func)(void*, int32_t a_obj, RE::BSFixedString a_previous_key, RE::BSFixedString a_end_key) = nullptr;
 		inline int32_t           (*jmap_object_func)(void*) = nullptr;
+		inline bool              (*jmap_remove_key_func)(void*, int32_t a_obj, RE::BSFixedString a_key) = nullptr;
 		inline void              (*jmap_set_flt_func)(void*, int32_t a_obj, RE::BSFixedString a_key, float a_value) = nullptr;
 		inline void              (*jmap_set_int_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_value) = nullptr;
 		inline void              (*jmap_set_obj_func)(void*, int32_t a_obj, RE::BSFixedString a_key, int32_t a_value) = nullptr;
@@ -152,6 +153,10 @@ namespace slavetats_ng
 			static inline RE::BSFixedString nextKey(int32_t a_obj, RE::BSFixedString a_previous_key = "", RE::BSFixedString a_end_key = "")
 			{
 				return jmap_next_key_func ? jmap_next_key_func(jc_default_domain, a_obj, a_previous_key, a_end_key) : a_end_key;
+			}
+			static inline bool removeKey(int32_t a_obj, RE::BSFixedString a_key)
+			{
+				return jmap_remove_key_func ? jmap_remove_key_func(jc_default_domain, a_obj, a_key) : false;
 			}
 			static inline void setFlt(int32_t a_obj, RE::BSFixedString a_key, float a_value)
 			{
