@@ -13,6 +13,9 @@ int function test_int_result() global native
 bool function test_bool_result() global native
 string function test_string_result() global native
 
+; utility, unrelated to SlaveTats
+int[] function get_last_save_time() global native
+
 ; defined in constants.cpp
 string function VERSION() global native
 string function ROOT() global native

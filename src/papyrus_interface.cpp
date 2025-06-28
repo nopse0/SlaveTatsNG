@@ -9,6 +9,7 @@
 #include "../include/papyrus_tattoo.h"
 #include "../include/papyrus_tattoo_magic.h"
 #include "../include/vm_hook.h"
+#include "utility.h"
 
 namespace slavetats_ng
 {
@@ -35,6 +36,13 @@ namespace slavetats_ng
 			return "Norbert";
 		}
 
+		std::vector<std::int32_t> get_last_save_time(RE::StaticFunctionTag*)
+		{
+			auto system = slavetats_ng::utility::System::GetSingleton();
+			return system->get_time_since_last_save();
+		}
+
+
 		bool register_functions(RE::BSScript::IVirtualMachine* vm, bool install_vm_hook)
 		{
 			if (install_vm_hook)
@@ -48,6 +56,7 @@ namespace slavetats_ng
 			query::papyrus::register_functions(papyrus_class_name, vm);
 			tattoo::papyrus::register_functions(papyrus_class_name, vm);
 			tattoo_magic::papyrus::register_functions(papyrus_class_name, vm);
+			vm->RegisterFunction("get_last_save_time", papyrus_class_name, get_last_save_time);
 			vm->RegisterFunction("test_float_result", papyrus_class_name, test_float_result);
 			vm->RegisterFunction("test_int_result", papyrus_class_name, test_int_result);
 			vm->RegisterFunction("test_bool_result", papyrus_class_name, test_bool_result);

@@ -6,7 +6,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 project(
         SlaveTatsNG
-        VERSION 0.7.3
+        VERSION 0.7.4
         DESCRIPTION "SlaveTats as SKSE plugin."
         LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
@@ -62,6 +62,7 @@ set(headers ${headers}
 	include/tattoo_magic.h
 	include/threading.h
 	include/vm_hook.h
+	include/utility.h
 	src/PCH.h
 )
 
@@ -94,6 +95,7 @@ set(sources ${sources}
 	src/tattoo.cpp
 	src/tattoo_magic.cpp
 	src/threading.cpp
+	src/utility.cpp
 	src/vm_hook.cpp
 )
 

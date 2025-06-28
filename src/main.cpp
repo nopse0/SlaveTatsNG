@@ -3,6 +3,7 @@
 #include "../include/papyrus_interface.h"
 #include "config.h"
 #include "threading.h"
+#include "utility.h"
 #include "cache.h"
 
 #include "SlaveTatsNG_InterFace.h"
@@ -95,6 +96,13 @@ namespace
 			slavetats_ng::skee_wrapper::NiOverride::Init();
 			break;
 
+		case SKSE::MessagingInterface::kSaveGame:
+			{
+				auto system = slavetats_ng::utility::System::GetSingleton();
+				system->set_last_save_time();
+			}
+			break;
+
 		case SKSE::MessagingInterface::kPostLoadGame:
 			{
 				// Force SlaveTats to update it's cache of installed tattoos
@@ -108,25 +116,6 @@ namespace
 		}
 	}
 }
-
-/*
-extern "C" DLLEXPORT constinit auto SKSEPlugin_Version = []() noexcept {
-	SKSE::PluginVersionData v;
-	v.PluginName(Plugin::NAME.data());
-	v.PluginVersion(Plugin::VERSION);
-	v.UsesAddressLibrary(true);
-	v.HasNoStructUse();
-	return v;
-}();
-
-extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query([[maybe_unused]] const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
-{
-	a_info->name = SKSEPlugin_Version.pluginName;
-	a_info->infoVersion = SKSE::PluginInfo::kVersion;
-	a_info->version = SKSEPlugin_Version.pluginVersion;
-	return true;
-}
-*/
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_skse)
 {
