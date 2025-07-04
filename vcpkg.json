@@ -17,8 +17,9 @@
             "xbyak",
             "magic-enum",
             "nlohmann-json",
-			      "clib-util",
-            "ms-gsl"
+			"clib-util",
+            "ms-gsl",
+			"hash-library"
           ]
         }
     },

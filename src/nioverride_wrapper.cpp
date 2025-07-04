@@ -1,8 +1,8 @@
 #include "skee-modders-resource-v0-4-19-16/SKEE_IPluginInterface.h"
 #include "../include/nioverride_impl.h"
 #include "../include/nioverride_wrapper.h"
-#include "../include/nioverride_impl_old.h"
 #include "../include/nioverride_impl_current.h"
+#include "nioverride_impl_legacy.h"
 
 namespace slavetats_ng
 {
@@ -34,7 +34,10 @@ namespace slavetats_ng
 
 			if (useLegacy) {
 				logger::info("Using legacy address tables");
-				_funcs = nioverride_impl::nioverride_impl_old::legacy_binding::singleton();
+				auto legacy = nioverride_impl::nioverride_legacy::RaceMenuAddressTables::GetSingleton();
+				legacy->init();
+				// _funcs = nioverride_impl::nioverride_impl_old::legacy_binding::singleton();
+				_funcs = legacy;
 			} else {
 				logger::info("Using NiOverride interface");
 				_funcs = nioverride_impl::nioverride_impl_current::current_binding::singleton();

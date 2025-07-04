@@ -11,6 +11,7 @@ set plugindest=%dist%\SKSE\Plugins
 copy %pluginsrc%\*.dll %plugindest%
 copy %pluginsrc%\*.pdb %plugindest%
 copy %configsrc%\*.ini %plugindest%\SlaveTatsNG
+copy %configsrc%\*.json %plugindest%\SlaveTatsNG
 copy %headersrc%\SlaveTatsNG_Interface.h %plugindest%\SlaveTatsNG
 set papyrussrc=%root%\papyrus
 set scriptsdest=%dist%

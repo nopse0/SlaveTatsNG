@@ -5,6 +5,7 @@
 #include "threading.h"
 #include "utility.h"
 #include "cache.h"
+#include "skee_addresses.h"
 
 #include "SlaveTatsNG_InterFace.h"
 
@@ -92,8 +93,10 @@ namespace
 			break;
 
 		case SKSE::MessagingInterface::kDataLoaded:
-			slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
-			slavetats_ng::skee_wrapper::NiOverride::Init();
+			{
+				slavetats_ng::jcwrapper::JCWrapper::GetSingleton()->Init();
+				slavetats_ng::skee_wrapper::NiOverride::Init();
+			}
 			break;
 
 		case SKSE::MessagingInterface::kSaveGame:
@@ -129,6 +132,8 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 	auto ini = slavetats_ng::config::Config::GetSingleton();
 	logger::info("blank_texture_name = {}", ini->blank_texture_name);
 	if (rc >= 0) {
+		clib_util::ini::get_value(config, ini->skee_dll_name, "Config", "skeeDllName", ";");
+		logger::info("skee_dll_name = {}", ini->skee_dll_name);
 		clib_util::ini::get_value(config, ini->blank_texture_name, "Config", "blankTextureName", ";");
 		logger::info("blank_texture_name = {}", ini->blank_texture_name);
 		clib_util::ini::get_value(config, ini->use_vmhook, "Config", "vmHook", ";");

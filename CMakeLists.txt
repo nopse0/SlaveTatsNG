@@ -6,7 +6,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 project(
         SlaveTatsNG
-        VERSION 0.7.4
+        VERSION 0.7.5
         DESCRIPTION "SlaveTats as SKSE plugin."
         LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
@@ -41,7 +41,6 @@ set(headers ${headers}
 	include/ni_node_override_lock.h
 	include/nioverride_impl.h
 	include/nioverride_impl_current.h
-	include/nioverride_impl_old.h
 	include/nioverride_wrapper.h
 	include/overlays.h
 	include/papyrus_cache.h
@@ -63,6 +62,8 @@ set(headers ${headers}
 	include/threading.h
 	include/vm_hook.h
 	include/utility.h
+	include/skee_addresses.h
+	include/nioverride_impl_legacy.h
 	src/PCH.h
 )
 
@@ -96,7 +97,9 @@ set(sources ${sources}
 	src/tattoo_magic.cpp
 	src/threading.cpp
 	src/utility.cpp
+	src/skee_addresses.cpp
 	src/vm_hook.cpp
+	src/nioverride_impl_legacy.cpp
 )
 
 ########################################################################################################################
@@ -106,6 +109,7 @@ find_package(CommonLibSSE CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(xbyak CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
+find_package(unofficial-hash-library)
 find_path(CLIB_UTIL_INCLUDE_DIRS "ClibUtil/utils.hpp")
 
 add_commonlibsse_plugin(${PROJECT_NAME} SOURCES ${headers} ${sources})
@@ -128,6 +132,7 @@ target_link_libraries(${PROJECT_NAME}
 		magic_enum::magic_enum
 		xbyak::xbyak
 		nlohmann_json::nlohmann_json
+		unofficial::hash-library
         )
 
 target_precompile_headers(${PROJECT_NAME}

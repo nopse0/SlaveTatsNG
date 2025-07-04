@@ -1,0 +1,63 @@
+{
+	"6df8589175031c701b7fc5d2befa9f4a": {
+		"comment": "Skyrim 1.5.97, RaceMenu v0-4-16",
+		"offset_GetNodeOverrideInt": 778592,
+		"offset_GetNodeOverrideFloat": 778384,
+		"offset_GetNodeOverrideString": 778992,
+		"offset_AddNodeOverrideInt": 776672,
+		"offset_AddNodeOverrideFloat": 776064,
+		"offset_AddNodeOverrideString": 777264,
+		"offset_HasNodeOverride": 630144,
+		"offset_RemoveNodeOverride": 631248,
+		"offset_ApplyNodeOverrides": 630064,
+		"offset_AddOverlays": 628576,
+		"offset_HasOverlays": 628608,
+		"offset_RemoveOverlays": 628640
+	},
+	"f5bd9e8f9f7a7367c95c2d005302fd03": {
+		"comment": "Skyrim 1.4.15 (VR), RaceMenu VR v0-4-14",
+		"offset_GetNodeOverrideInt": 762032,
+		"offset_GetNodeOverrideFloat": 761808,
+		"offset_GetNodeOverrideString": 762464,
+		"offset_AddNodeOverrideInt": 760080,
+		"offset_AddNodeOverrideFloat": 759472,
+		"offset_AddNodeOverrideString": 760672,
+		"offset_HasNodeOverride": 616816,
+		"offset_RemoveNodeOverride": 617952,
+		"offset_ApplyNodeOverrides": 616736,
+		"offset_AddOverlays": 615248,
+		"offset_HasOverlays": 615280,
+		"offset_RemoveOverlays": 615312
+	},
+	"2edbd15187134395a0898d13c8372026": {
+		"comment": "Skyrim 1.6.659 (GOG), RaceMenu v0-4-19-14 GOG",
+		"offset_GetNodeOverrideInt": 828304,
+		"offset_GetNodeOverrideFloat": 828096,
+		"offset_GetNodeOverrideString": 828704,
+		"offset_AddNodeOverrideInt": 826416,
+		"offset_AddNodeOverrideFloat": 825792,
+		"offset_AddNodeOverrideString": 827008,
+		"offset_HasNodeOverride": 678560,
+		"offset_RemoveNodeOverride": 679424,
+		"offset_ApplyNodeOverrides": 678544,
+		"offset_AddOverlays": 677040,
+		"offset_HasOverlays": 677168,
+		"offset_RemoveOverlays": 677200
+	},
+	"d28195ed035cd19604d2f0c97bad6c44": {
+		"comment": "Skyrim 1.6.640, RaceMenu v0-4-19-14",
+		"offset_GetNodeOverrideInt": 827952,
+		"offset_GetNodeOverrideFloat": 827744,
+		"offset_GetNodeOverrideString": 828352,
+		"offset_AddNodeOverrideInt": 826064,
+		"offset_AddNodeOverrideFloat": 825440,
+		"offset_AddNodeOverrideString": 826656,
+		"offset_HasNodeOverride": 678208,
+		"offset_RemoveNodeOverride": 679072,
+		"offset_ApplyNodeOverrides": 678192,
+		"offset_AddOverlays": 676688,
+		"offset_HasOverlays": 676816,
+		"offset_RemoveOverlays": 676848
+	}
+}
+

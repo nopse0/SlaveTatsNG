@@ -7,6 +7,7 @@ namespace slavetats_ng
 		class Config : public clib_util::singleton::ISingleton<Config>
 		{
 		public:
+			std::string skee_dll_name;
 			std::string blank_texture_name;
 			bool use_vmhook;
 		
@@ -16,4 +17,3 @@ namespace slavetats_ng
 		};
 	}
 }
-
