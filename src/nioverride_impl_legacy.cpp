@@ -30,7 +30,7 @@ namespace slavetats_ng
 						if (GetModuleHandleA("skee64.dll") != NULL)
 							default_dll_name = "skee64.dll";
 						else if (GetModuleHandleA("skeevr.dll") != NULL)
-							default_dll_name = "skee64.dll";
+							default_dll_name = "skeevr.dll";
 						else {
 							logger::info("skee dll name undefined");
 							abort();
@@ -43,6 +43,7 @@ namespace slavetats_ng
 						logger::info("Module {} is not loaded", dll_name);
 						abort();
 					}
+					logger::info("NIOverride base address: GetModuleHandleA({}) = {}", dll_name, (uintptr_t)base_module);
 					char* base_addr = (char*)base_module;
 
 					auto hash = slavetats_ng::utility::System::md5_hash("data/skse/plugins/" + dll_name);

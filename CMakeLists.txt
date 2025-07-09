@@ -6,7 +6,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 project(
         SlaveTatsNG
-        VERSION 0.7.5
+        VERSION 0.7.6
         DESCRIPTION "SlaveTats as SKSE plugin."
         LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
