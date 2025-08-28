@@ -71,6 +71,7 @@ bool function deactivate_all_tattoo_magic(Actor target) global native
 bool function upgrade_tattoos(Actor target) global native
 bool function clear_overlay(Actor target, bool isFemale, string area, int slot) global native
 bool function apply_overlay(Actor target, bool isFemale, string area, int slot, string path, int color, int glow, bool gloss, string bump = "", float alpha = 1.0) global native
+bool function apply_overlay_ex(Actor target, bool isFemale, string area, int slot, string path, int color, int glow, float glossiness = 0.0, string bump_path = "", float alpha = 1.0, float specular = 0.0, string glow_path = "", float emissive_mult = 1.0) global native
 bool function synchronize_tattoos(Actor target, bool silent = false) global native
 
 ; defined in logging.cpp

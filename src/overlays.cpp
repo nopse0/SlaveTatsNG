@@ -30,18 +30,24 @@ namespace slavetats_ng
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
-		logger::info("blank_texture_name = {}", blankPrefix);
-		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
-		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
-		logger::info("Applying {} to node {}", blankPrefix, nodeName);
+		// logger::info("blank_texture_name = {}", blankPrefix);
+		// logger::info("Applying {} to node {}", blankPrefix, nodeName);
+
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 		
 		bool hasBumpOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
 		if (hasBumpOverride)
 			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, blankPrefix.c_str(), true);
 
+		bool hasGlowOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 3);
+		if (hasGlowOverride)
+			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 3, blankPrefix.c_str(), true);
+
 		NiOverride::ApplyNodeOverrides(a_target);
+
+		if (hasGlowOverride)
+			NiOverride::RemoveNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 3);
 
 		if (hasBumpOverride)
 			NiOverride::RemoveNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
@@ -74,16 +80,19 @@ namespace slavetats_ng
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
-		logger::info("blank_texture_name = {}", blankPrefix);
-		// RE::BSFixedString blankPrefix = string(PREFIX()) + "blank.dds";
-		// RE::BSFixedString blankPrefix = "actors\\character\\overlays\\default.dds";
 
-		logger::info("Applying {} to node {}", blankPrefix, nodeName);
+		// logger::info("blank_texture_name = {}", blankPrefix);
+		// logger::info("Applying {} to node {}", blankPrefix, nodeName);
+		
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
 
 		bool hasBumpOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
 		if (hasBumpOverride)
 			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, blankPrefix.c_str(), true);
+
+		bool hasGlowOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 3);
+		if (hasGlowOverride)
+			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 3, blankPrefix.c_str(), true);
 
 		return false;
 	}
@@ -95,8 +104,9 @@ namespace slavetats_ng
 			return true;
 		}
 
-		//if (hasBumpOverride)
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
+
+		NiOverride::RemoveNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 3);
 
 		NiOverride::RemoveNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1);
 
@@ -119,6 +129,42 @@ namespace slavetats_ng
 		return false;
 	}
 
+	fail_t apply_overlay_ex_deferred(RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_diffuse_map, int a_diffuse_color,
+		int a_emissive_color, float a_glossiness, RE::BSFixedString a_bump_map, float a_alpha, float a_specular_strength, RE::BSFixedString a_glow_map, float a_emissive_mult)
+	{
+		if (!a_target) {
+			logger::info("a_target is null");
+			return true;
+		}
+
+		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
+		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, a_diffuse_map.c_str(), true);
+		if (!a_bump_map.empty())
+			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, a_bump_map.c_str(), true);
+		if (!a_glow_map.empty())
+			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 3, a_glow_map.c_str(), true);
+		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 7, -1, a_diffuse_color, true);
+		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 0, -1, a_emissive_color, true);
+		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 1, -1, a_emissive_mult, true);
+		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 8, -1, a_alpha, true);
+		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 2, -1, a_glossiness, true);
+		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 3, -1, a_specular_strength, true);
+
+		logger::info("Applied {} = {}:{}:{}:{}", nodeName.c_str(), a_diffuse_map.c_str(), a_diffuse_color, a_emissive_color, a_glossiness);
+
+		return false;
+
+	}
+
+	fail_t apply_overlay_ex(RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_diffuse_map, int a_diffuse_color,
+		int a_emissive_color, float a_glossiness, RE::BSFixedString a_bump_map, float a_alpha, float a_specular_strength, RE::BSFixedString a_glow_map, float a_emissive_mult)
+	{
+		fail_t error = apply_overlay_ex_deferred(a_target, a_is_female, a_area, a_slot, a_diffuse_map, a_diffuse_color, a_emissive_color, a_glossiness, a_bump_map, a_alpha, a_specular_strength,
+			a_glow_map, a_diffuse_color);
+		if (!error)
+			NiOverride::ApplyNodeOverrides(a_target);
+		return error;
+	}
 
 	fail_t apply_overlay(RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_path, int a_color,
 		int a_glow, bool a_gloss, RE::BSFixedString a_bump, float a_alpha)
@@ -128,60 +174,56 @@ namespace slavetats_ng
 			return true;
 		}
 
-		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, a_path.c_str(), true);
-		if (!a_bump.empty())
-			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, a_bump.c_str(), true);
-		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 7, -1, a_color, true);
-		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 0, -1, a_glow, true);
-		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 1, -1, 1.0, true);
-		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 8, -1, a_alpha, true);
+		float glossiness, specular_strength;
 		if (a_gloss) {
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 2, -1, 5.0, true);
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 3, -1, 5.0, true);
+			glossiness = 5.0f;
+			specular_strength = 5.0f;
 		} else {
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 2, -1, 0.0, true);
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 3, -1, 0.0, true);
+			glossiness = 0.0f;
+			specular_strength = 0.0f;
 		}
-
-		NiOverride::ApplyNodeOverrides(a_target);
-
-		logger::info("Applied {} = {}:{}:{}:{}", nodeName.c_str(), a_path.c_str(), a_color, a_glow, a_gloss);
-
-		return false;
+			
+		return apply_overlay_ex(a_target, a_is_female, a_area, a_slot, a_path, a_color, a_glow, glossiness, a_bump, a_alpha, specular_strength, "", 1.0f);
 	}
 
-	fail_t apply_overlay_deferred(RE::Actor* a_target, bool a_is_female, RE::BSFixedString a_area, int a_slot, RE::BSFixedString a_path,
-		int a_color, int a_glow, bool a_gloss, RE::BSFixedString a_bump, float a_alpha)
+	fail_t upgrade_tattoos_2_0_0(RE::Actor* a_target)
 	{
 		if (!a_target) {
 			logger::info("a_target is null");
 			return true;
 		}
 
-		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, a_path.c_str(), true);
-		if (!a_bump.empty())
-			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, a_bump.c_str(), true);
-		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 7, -1, a_color, true);
-		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 0, -1, a_glow, true);
-		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 1, -1, 1.0, true);
-		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 8, -1, a_alpha, true);
-		if (a_gloss) {
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 2, -1, 5.0, true);
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 3, -1, 5.0, true);
-		} else {
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 2, -1, 0.0, true);
-			NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 3, -1, 0.0, true);
-		}
+		RE::BSFixedString actor_version = JFormDB::getStr(a_target, ".SlaveTats.version");
+		RE::BSFixedString code_version = VERSION();
 
-		logger::info("Applied deferred {} = {}:{}:{}:{}", nodeName.c_str(), a_path.c_str(), a_color, a_glow, a_gloss);
+		if (actor_version == code_version)
+			return false;
+
+		// 1.0.0 -> 2.0.0
+		if (actor_version == "1.0.0") {
+			actor_version = "2.0.0";
+
+			int tattoos = JFormDB::getObj(a_target, ".SlaveTats.applied");
+			int i = JArray::count(tattoos);
+			while (i > 0) {
+				i -= 1;
+
+				// Convert the old boolean "gloss" field to "glossiness" and "specularStrength" (the actual NiOverride node overrides)
+				int gloss = JMap::getInt(i, "gloss", -1);
+				if (gloss >= 0) {
+					JMap::removeKey(i, "gloss");
+					JMap::setFlt(i, "glossiness", gloss != 0 ? 5.0f : 0.0f);
+					JMap::setFlt(i, "specularStrength", gloss != 0 ? 5.0f : 0.0f);
+				}
+			}
+
+			JFormDB::setStr(a_target, ".SlaveTats.version", actor_version);
+			JFormDB::setInt(a_target, ".SlaveTats.updated", 1);
+		}
 
 		return false;
 	}
-
-
-
+	
 	fail_t upgrade_tattoos(RE::Actor* a_target) 
 	{
 		if (!a_target) {
@@ -301,7 +343,8 @@ namespace slavetats_ng
 		}
 
 		JValue::cleanPool("SlaveTats-upgrade_tattoos");
-		return false;
+
+		return upgrade_tattoos_2_0_0(a_target);
 	}
 
 	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool a_silent)
@@ -314,9 +357,12 @@ namespace slavetats_ng
 		RE::BSFixedString path;
 		int               color;
 		int               glow;
-		bool              gloss;
+		float             glossiness;
+		float             specular_strength;
 		RE::BSFixedString bump;
+		RE::BSFixedString glow_map;
 		float             alpha;
+		float             emissive_mult;
 
 		logger::info("synchronize_tattoos_internal: a_target = {}", (void*)a_target);
 
@@ -610,13 +656,18 @@ namespace slavetats_ng
 					path = string(prefix) + string(JMap::getStr(entry, "texture"));
 					color = JMap::getInt(entry, "color");
 					glow = JMap::getInt(entry, "glow");
-					gloss = (bool)JMap::getInt(entry, "gloss");
+					glossiness = JMap::getFlt(entry, "glossiness");
+					specular_strength = JMap::getFlt(entry, "specularStrength"); 
 					bump = JMap::getStr(entry, "bump");
+					glow_map = JMap::getStr(entry, "glowTexture");
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
+					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (!bump.empty())
 						bump = string(prefix) + string(bump);
+					if (!glow_map.empty())
+						glow_map = string(prefix) + string(glow_map);
 					if (JArray::findInt(external_on_body, slot) < 0) {
-						if (!apply_overlay_deferred(a_target, isFemale, "Body", slot, path, color, glow, gloss, bump, alpha)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_body_slots, slot);
 							if (idx >= 0) {
@@ -637,11 +688,14 @@ namespace slavetats_ng
 					path = string(prefix) + string(JMap::getStr(entry, "texture"));
 					color = JMap::getInt(entry, "color");
 					glow = JMap::getInt(entry, "glow");
-					gloss = (bool)JMap::getInt(entry, "gloss");
+					glossiness = JMap::getFlt(entry, "glossiness");
+					specular_strength = JMap::getFlt(entry, "specularStrength");
 					bump = JMap::getStr(entry, "bump");
+					glow_map = JMap::getStr(entry, "glowTexture");
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
+					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (JArray::findInt(external_on_face, slot) < 0) {
-						if (!apply_overlay_deferred(a_target, isFemale, "Face", slot, path, color, glow, gloss, bump, alpha)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_face_slots, slot);
 							if (idx >= 0) {
@@ -662,11 +716,14 @@ namespace slavetats_ng
 					path = string(prefix) + string(JMap::getStr(entry, "texture"));
 					color = JMap::getInt(entry, "color");
 					glow = JMap::getInt(entry, "glow");
-					gloss = (bool)JMap::getInt(entry, "gloss");
+					glossiness = JMap::getFlt(entry, "glossiness");
+					specular_strength = JMap::getFlt(entry, "specularStrength");
 					bump = JMap::getStr(entry, "bump");
+					glow_map = JMap::getStr(entry, "glowTexture");
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
+					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (JArray::findInt(external_on_hands, slot) < 0) {
-						if (!apply_overlay_deferred(a_target, isFemale, "Hands", slot, path, color, glow, gloss, bump, alpha)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_hands_slots, slot);
 							if (idx >= 0) {
@@ -686,11 +743,14 @@ namespace slavetats_ng
 					path = string(prefix) + string(JMap::getStr(entry, "texture"));
 					color = JMap::getInt(entry, "color");
 					glow = JMap::getInt(entry, "glow");
-					gloss = (bool)JMap::getInt(entry, "gloss");
+					glossiness = JMap::getFlt(entry, "glossiness");
+					specular_strength = JMap::getFlt(entry, "specularStrength");
 					bump = JMap::getStr(entry, "bump");
+					glow_map = JMap::getStr(entry, "glowTexture");
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
+					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (JArray::findInt(external_on_feet, slot) < 0) {
-						if (!apply_overlay_deferred(a_target, isFemale, "Feet", slot, path, color, glow, gloss, bump, alpha)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_feet_slots, slot);
 							if (idx >= 0) {

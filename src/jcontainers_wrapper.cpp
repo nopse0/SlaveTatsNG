@@ -52,6 +52,7 @@ namespace slavetats_ng
 			get_class_function(refl, "hasKey", "JMap", jmap_has_key_func);
 			get_class_function(refl, "nextKey", "JMap", jmap_next_key_func);
 			get_class_function(refl, "object", "JMap", jmap_object_func);
+			get_class_function(refl, "removeKey", "JMap", jmap_remove_key_func);
 			get_class_function(refl, "setFlt", "JMap", jmap_set_flt_func);
 			get_class_function(refl, "setInt", "JMap", jmap_set_int_func);
 			get_class_function(refl, "setObj", "JMap", jmap_set_obj_func);
