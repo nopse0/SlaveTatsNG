@@ -1,17 +1,17 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/constants.h"
-#include "../include/skse64_native_papyrus.h"
-#include "../include/primary_api.h"
-#include "../include/query.h"
-#include "../include/tattoo.h"
-#include "../include/tattoo_magic.h"
-#include "../include/ni_node_override_lock.h"
-#include "../include/logging.h"
+#include "jcontainers_wrapper.h"
+#include "constants.h"
+#include "skse64_native_papyrus.h"
+#include "primary_api.h"
+#include "query.h"
+#include "tattoo.h"
+#include "tattoo_magic.h"
+#include "ni_node_override_lock.h"
+#include "logging.h"
 #include "config.h"
 #include "threading.h"
 #include <future>
 
-#include "../include/overlays.h"
+#include "overlays.h"
 
 using namespace slavetats_ng::skee_wrapper;
 using namespace slavetats_ng::jcwrapper;

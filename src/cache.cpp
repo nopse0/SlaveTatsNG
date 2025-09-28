@@ -1,8 +1,8 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/constants.h"
-#include "../include/query.h"
-#include "../include/cache.h"
-#include "../include/logging.h"
+#include "jcontainers_wrapper.h"
+#include "constants.h"
+#include "query.h"
+#include "cache.h"
+#include "logging.h"
 
 
 using namespace slavetats_ng::jcwrapper;

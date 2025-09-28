@@ -1,5 +1,5 @@
-#include "../include/query.h"
-#include "../include/papyrus_query.h"
+#include "query.h"
+#include "papyrus_query.h"
 
 namespace slavetats_ng
 {

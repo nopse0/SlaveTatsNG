@@ -1,5 +1,5 @@
-#include "../include/constants.h"
-#include "../include/papyrus_constants.h"
+#include "constants.h"
+#include "papyrus_constants.h"
 
 namespace slavetats_ng
 {

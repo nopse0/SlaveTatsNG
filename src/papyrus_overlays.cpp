@@ -1,5 +1,5 @@
-#include "../include/overlays.h"
-#include "../include/papyrus_overlays.h"
+#include "overlays.h"
+#include "papyrus_overlays.h"
 #include <future>
 
 namespace slavetats_ng

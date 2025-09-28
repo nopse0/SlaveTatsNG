@@ -1,5 +1,5 @@
-#include "../include/high_level_api.h"
-#include "../include/papyrus_high_level_api.h"
+#include "high_level_api.h"
+#include "papyrus_high_level_api.h"
 
 namespace slavetats_ng
 {

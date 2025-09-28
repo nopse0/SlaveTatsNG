@@ -1,6 +1,6 @@
-#include "../include/jcontainers_wrapper.h"
+#include "jcontainers_wrapper.h"
 
-#include "../include/ni_node_override_lock.h"
+#include "ni_node_override_lock.h"
 
 using namespace slavetats_ng::jcwrapper;
 

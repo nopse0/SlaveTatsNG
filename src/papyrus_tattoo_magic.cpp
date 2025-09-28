@@ -1,5 +1,5 @@
-#include "../include/papyrus_tattoo_magic.h"
-#include "../include/tattoo_magic.h"
+#include "papyrus_tattoo_magic.h"
+#include "tattoo_magic.h"
 
 namespace slavetats_ng
 {

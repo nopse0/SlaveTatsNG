@@ -1,5 +1,5 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/logging.h"
+#include "jcontainers_wrapper.h"
+#include "logging.h"
 
 using namespace slavetats_ng::jcwrapper;
 using std::string;

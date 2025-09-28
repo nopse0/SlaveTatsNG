@@ -1,6 +1,6 @@
 #include <algorithm>
 #include <locale>
-#include "../include/skse64_native_papyrus.h" 
+#include "skse64_native_papyrus.h" 
 
 // Copied from skse64 2.0.6 sources
 

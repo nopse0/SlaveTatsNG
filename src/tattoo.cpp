@@ -1,12 +1,12 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/constants.h"
-#include "../include/overlays.h"
-#include "../include/skse64_native_papyrus.h"
-#include "../include/primary_api.h"
-#include "../include/query.h"
-#include "../include/logging.h"
+#include "jcontainers_wrapper.h"
+#include "constants.h"
+#include "overlays.h"
+#include "skse64_native_papyrus.h"
+#include "primary_api.h"
+#include "query.h"
+#include "logging.h"
 #include <cstring>
-#include "../include/tattoo.h"
+#include "tattoo.h"
 
 using namespace slavetats_ng::skee_wrapper;
 using namespace slavetats_ng::jcwrapper;

@@ -1,5 +1,5 @@
-#include "../include/logging.h"
-#include "../include/papyrus_logging.h"
+#include "logging.h"
+#include "papyrus_logging.h"
 
 namespace slavetats_ng
 {

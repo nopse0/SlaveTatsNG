@@ -1,5 +1,5 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/tattoo_magic.h"
+#include "jcontainers_wrapper.h"
+#include "tattoo_magic.h"
 #include "query.h"
 #include "logging.h"
 

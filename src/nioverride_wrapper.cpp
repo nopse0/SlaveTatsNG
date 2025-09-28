@@ -1,7 +1,7 @@
 #include "skee-modders-resource-v0-4-19-16/SKEE_IPluginInterface.h"
-#include "../include/nioverride_impl.h"
-#include "../include/nioverride_wrapper.h"
-#include "../include/nioverride_impl_current.h"
+#include "nioverride_impl.h"
+#include "nioverride_wrapper.h"
+#include "nioverride_impl_current.h"
 #include "nioverride_impl_legacy.h"
 
 namespace slavetats_ng

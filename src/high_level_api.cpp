@@ -1,7 +1,7 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/primary_api.h"
-#include "../include/tattoo.h"
-#include "../include/overlays.h"
+#include "jcontainers_wrapper.h"
+#include "primary_api.h"
+#include "tattoo.h"
+#include "overlays.h"
 
 using namespace slavetats_ng::jcwrapper;
 using std::string;

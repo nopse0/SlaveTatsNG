@@ -1,8 +1,8 @@
-#include "../include/jcontainers_wrapper.h"
-#include "../include/cache.h"
-#include "../include/query.h"
-#include "../include/skse64_native_papyrus.h"
-#include "../include/logging.h"
+#include "jcontainers_wrapper.h"
+#include "cache.h"
+#include "query.h"
+#include "skse64_native_papyrus.h"
+#include "logging.h"
 
 
 using namespace slavetats_ng::jcwrapper;

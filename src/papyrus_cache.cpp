@@ -1,5 +1,5 @@
-#include "../include/cache.h"
-#include "../include/papyrus_cache.h"
+#include "cache.h"
+#include "papyrus_cache.h"
 
 namespace slavetats_ng
 {
