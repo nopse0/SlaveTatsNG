@@ -211,7 +211,7 @@ namespace slavetats_ng
 				// Convert the old boolean "gloss" field to "glossiness" and "specularStrength" (the actual NiOverride node overrides)
 				int gloss = JMap::getInt(i, "gloss", -1);
 				if (gloss >= 0) {
-					JMap::removeKey(i, "gloss");
+					// JMap::removeKey(i, "gloss");  // decided to keep it in
 					JMap::setFlt(i, "glossiness", gloss != 0 ? 5.0f : 0.0f);
 					JMap::setFlt(i, "specularStrength", gloss != 0 ? 5.0f : 0.0f);
 				}

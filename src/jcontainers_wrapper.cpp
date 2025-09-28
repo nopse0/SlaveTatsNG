@@ -84,6 +84,9 @@ namespace slavetats_ng
 			get_class_function(refl, "isMap", "JValue", jvalue_is_map_func);
 			get_class_function(refl, "readFromDirectory", "JValue", jvalue_read_from_directory_func);
 			get_class_function(refl, "readFromFile", "JValue", jvalue_read_from_file_func);
+			get_class_function(refl, "release", "JValue", jvalue_release_func);
+			get_class_function(refl, "releaseObjectsWithTag", "JValue", jvalue_release_objects_with_tag_func);
+			get_class_function(refl, "retain", "JValue", jvalue_retain_func);
 			get_class_function(refl, "shallowCopy", "JValue", jvalue_shallow_copy_func);
 			get_class_function(refl, "writeToFile", "JValue", jvalue_write_to_file_func);
 

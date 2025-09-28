@@ -8,9 +8,8 @@
 #include "tattoo.h"
 #include "cache.h"
 
-namespace SlaveTatsNG
+namespace slavetats
 {
-
 	Addresses addresses_instance = {
 		Addresses::version,
 		slavetats_ng::simple_add_tattoo,
@@ -34,8 +33,9 @@ namespace SlaveTatsNG
 		slavetats_ng::add_tattoo,
 		slavetats_ng::add_and_get_tattoo,
 		slavetats_ng::get_form,
-		slavetats_ng::_log_jcontainer
+		slavetats_ng::_log_jcontainer,
 
+		// newly added
+		slavetats_ng::compile_cache
 	};
-
 }

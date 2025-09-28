@@ -9,7 +9,7 @@
 
 #include "SlaveTatsNG_InterFace.h"
 
-namespace SlaveTatsNG
+namespace slavetats
 {
 	extern Addresses addresses_instance;
 }
@@ -89,7 +89,7 @@ namespace
 
 		case SKSE::MessagingInterface::kPostPostLoad:
 			// publish C++ interface	
-			SKSE::GetMessagingInterface()->Dispatch(SlaveTatsNG::MessageType::Interface, (void*)&SlaveTatsNG::addresses_instance, sizeof(void*), nullptr);
+			SKSE::GetMessagingInterface()->Dispatch(slavetats::MessageType::Interface, (void*)&slavetats::addresses_instance, sizeof(void*), nullptr);
 			break;
 
 		case SKSE::MessagingInterface::kDataLoaded:

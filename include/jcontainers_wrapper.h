@@ -76,6 +76,10 @@ namespace slavetats_ng
 		inline bool    (*jvalue_is_map_func)(void*, int32_t a_obj) = nullptr;
 		inline int32_t (*jvalue_read_from_directory_func)(void*, RE::BSFixedString a_directory_path, RE::BSFixedString a_extension) = nullptr;
 		inline int32_t (*jvalue_read_from_file_func)(void*, RE::BSFixedString a_file_path) = nullptr;
+		inline int32_t (*jvalue_release_func)(void*, int32_t a_obj) = nullptr;
+		inline void    (*jvalue_release_objects_with_tag_func)(void*, RE::BSFixedString a_tag) = nullptr;
+		inline int32_t (*jvalue_retain_func)(void*, int32_t a_obj, RE::BSFixedString a_tag) = nullptr;
+
 		inline int32_t (*jvalue_shallow_copy_func)(void*, int32_t a_obj) = nullptr;
 		inline void    (*jvalue_write_to_file_func)(void*, int32_t a_obj, RE::BSFixedString a_file_path) = nullptr;
 
@@ -285,6 +289,19 @@ namespace slavetats_ng
 			static inline int readFromFile(RE::BSFixedString a_file_path)
 			{
 				return jvalue_read_from_file_func ? jvalue_read_from_file_func(jc_default_domain, a_file_path) : 0;
+			}
+			static inline int release(int32_t a_obj)
+			{
+				return jvalue_release_func ? jvalue_release_func(jc_default_domain, a_obj) : 0;
+			}
+			static inline void releaseObjectsWithTag(RE::BSFixedString a_tag)
+			{
+				if (jvalue_release_objects_with_tag_func)
+					jvalue_release_objects_with_tag_func(jc_default_domain, a_tag);
+			}
+			static inline int retain(int32_t a_obj, RE::BSFixedString a_tag = "")
+			{
+				return jvalue_retain_func ? jvalue_retain_func(jc_default_domain, a_obj, a_tag) : 0;
 			}
 			static inline int shallowCopy(int32_t a_obj)
 			{
