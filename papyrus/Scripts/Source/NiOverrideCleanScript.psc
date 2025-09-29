@@ -135,7 +135,9 @@ Function TestAddTattoo()
 	;bool unlockFail = NiNodeOverrideLock.unlock(Game.GetPlayer())
 	;Debug.Trace("unlockFail (1) = " + unlockFail)
 
-	SlaveTatsNG.simple_add_tattoo(Game.GetPlayer(), "Bathing In Skyrim", "mzinDirtFaceFX")
+	; SlaveTatsNG.simple_add_tattoo(Game.GetPlayer(), "Bathing In Skyrim", "mzinDirtFaceFX")
+	int colourToUse = 0xFF0087
+	SlaveTats.simple_add_tattoo(Game.GetPlayer(), "CC Tats", "CC Bimbo Lipstick", colourToUse, true, true, 0.9)
 
 	; bool unlockFail = NiNodeOverrideLock.unlock(Game.GetPlayer())
 	; Debug.Trace("unlockFail (1) = " + unlockFail)

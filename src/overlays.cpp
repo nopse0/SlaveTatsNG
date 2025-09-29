@@ -695,7 +695,7 @@ namespace slavetats_ng
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
 					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (JArray::findInt(external_on_face, slot) < 0) {
-						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Face", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_face_slots, slot);
 							if (idx >= 0) {
@@ -723,7 +723,7 @@ namespace slavetats_ng
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
 					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (JArray::findInt(external_on_hands, slot) < 0) {
-						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Hands", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_hands_slots, slot);
 							if (idx >= 0) {
@@ -750,7 +750,7 @@ namespace slavetats_ng
 					alpha = 1.0f - JMap::getFlt(entry, "invertedAlpha");
 					emissive_mult = JMap::getFlt(entry, "emissiveMult", 1.0f);
 					if (JArray::findInt(external_on_feet, slot) < 0) {
-						if (!apply_overlay_ex_deferred(a_target, isFemale, "Body", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
+						if (!apply_overlay_ex_deferred(a_target, isFemale, "Feet", slot, path, color, glow, glossiness, bump, alpha, specular_strength, glow_map, emissive_mult)) {
 							JArray::addObj(to_activate, entry);
 							idx = JArray::findInt(empty_feet_slots, slot);
 							if (idx >= 0) {
