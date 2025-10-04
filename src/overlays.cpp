@@ -137,12 +137,23 @@ namespace slavetats_ng
 			return true;
 		}
 
+		const auto& blank_texture = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
+
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, a_diffuse_map.c_str(), true);
 		if (!a_bump_map.empty())
 			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, a_bump_map.c_str(), true);
+		else {
+			// Note: This doesn't remove the node override, it only sets it to the blank texture, but this should be no problem, I think
+			if (NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 1))
+				NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 1, blank_texture.c_str(), true);
+		}
 		if (!a_glow_map.empty())
 			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 3, a_glow_map.c_str(), true);
+		else {
+			if (NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 3))
+				NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 3, blank_texture.c_str(), true);
+		}
 		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 7, -1, a_diffuse_color, true);
 		NiOverride::AddNodeOverrideInt(a_target, a_is_female, nodeName.c_str(), 0, -1, a_emissive_color, true);
 		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 1, -1, a_emissive_mult, true);
