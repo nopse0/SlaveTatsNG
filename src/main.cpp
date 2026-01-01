@@ -138,6 +138,34 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
 		logger::info("blank_texture_name = {}", ini->blank_texture_name);
 		clib_util::ini::get_value(config, ini->use_vmhook, "Config", "vmHook", ";");
 		logger::info("blank_texture_name = {}", ini->blank_texture_name);
+
+		clib_util::ini::get_value(config, ini->area_slot_ranges[0][0].range_min, "Config", "SlotRange_Body_Middle_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[0][0].range_max, "Config", "SlotRange_Body_Middle_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[0][1].range_min, "Config", "SlotRange_Body_Bottom_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[0][1].range_max, "Config", "SlotRange_Body_Bottom_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[0][2].range_min, "Config", "SlotRange_Body_Top_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[0][2].range_max, "Config", "SlotRange_Body_Top_Max", ";");
+
+		clib_util::ini::get_value(config, ini->area_slot_ranges[1][0].range_min, "Config", "SlotRange_Face_Middle_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[1][0].range_max, "Config", "SlotRange_Face_Middle_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[1][1].range_min, "Config", "SlotRange_Face_Bottom_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[1][1].range_max, "Config", "SlotRange_Face_Bottom_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[1][2].range_min, "Config", "SlotRange_Face_Top_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[1][2].range_max, "Config", "SlotRange_Face_Top_Max", ";");
+
+		clib_util::ini::get_value(config, ini->area_slot_ranges[2][0].range_min, "Config", "SlotRange_Hands_Middle_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[2][0].range_max, "Config", "SlotRange_Hands_Middle_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[2][1].range_min, "Config", "SlotRange_Hands_Bottom_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[2][1].range_max, "Config", "SlotRange_Hands_Bottom_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[2][2].range_min, "Config", "SlotRange_Hands_Top_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[2][2].range_max, "Config", "SlotRange_Hands_Top_Max", ";");
+
+		clib_util::ini::get_value(config, ini->area_slot_ranges[3][0].range_min, "Config", "SlotRange_Feet_Middle_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[3][0].range_max, "Config", "SlotRange_Feet_Middle_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[3][1].range_min, "Config", "SlotRange_Feet_Bottom_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[3][1].range_max, "Config", "SlotRange_Feet_Bottom_Max", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[3][2].range_min, "Config", "SlotRange_Feet_Top_Min", ";");
+		clib_util::ini::get_value(config, ini->area_slot_ranges[3][2].range_max, "Config", "SlotRange_Feet_Top_Max", ";");
 	}
 	
 	InitializePapyrus();

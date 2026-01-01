@@ -7,6 +7,7 @@
 #include "logging.h"
 #include <cstring>
 #include "tattoo.h"
+#include "config.h"
 
 using namespace slavetats_ng::skee_wrapper;
 using namespace slavetats_ng::jcwrapper;
@@ -126,7 +127,8 @@ namespace slavetats_ng
 		return tattoo;
 	}
 
-	int _available_slot(RE::Actor* a_target, RE::BSFixedString a_area)
+
+	int _available_slot_ex(RE::Actor* a_target, RE::BSFixedString a_area, int a_slot_min, int a_slot_max)
 	{
 		if (!a_target) {
 			logger::info("a_target is null");
@@ -136,12 +138,16 @@ namespace slavetats_ng
 		int external = JValue::addToPool(JArray::object(), "SlaveTats-_available_slot");
 
 		if (external_slots(a_target, a_area, external)) {
+			JValue::cleanPool("SlaveTats-_available_slot");
 			return -1;
 		}
 
-		int total = SLOTS(a_area);
-		int i = 0;
-		while (i < total) {
+		int slot_begin = a_slot_min >= 0 ? a_slot_min : 0;
+		int num_slots = SLOTS(a_area);
+		int slot_end = a_slot_max < 0 ? a_slot_max + num_slots : a_slot_max;
+
+		int i = slot_begin;
+		while (i < slot_end) {
 			if (JArray::findInt(external, i) == -1) {
 				if (get_applied_tattoo_in_slot(a_target, a_area, i) == 0) {
 					JValue::cleanPool("SlaveTats-_available_slot");
@@ -153,6 +159,12 @@ namespace slavetats_ng
 
 		JValue::cleanPool("SlaveTats-_available_slot");
 		return -1;
+	}
+
+
+	int _available_slot(RE::Actor* a_target, RE::BSFixedString a_area)
+	{
+		return _available_slot_ex(a_target, a_area, 0, SLOTS(a_area) - 1);
 	}
 
 	fail_t _remove_tattoos(RE::Actor* a_target, int a_template, bool a_ignore_lock, [[maybe_unused]] bool a_silent)
@@ -277,7 +289,9 @@ namespace slavetats_ng
 		}
 
 		if (a_slot == -1) {
-			a_slot = _available_slot(a_target, area);
+			auto range_name = JMap::getStr(a_tattoo, "slot_range");
+			auto range = slavetats_ng::config::Config::GetSingleton()->get_slot_range(area, range_name); 
+			a_slot = _available_slot_ex(a_target, area, range.range_min, range.range_max);
 		}
 		if (a_slot == -1) {
 			return 0;
