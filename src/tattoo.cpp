@@ -150,7 +150,6 @@ namespace slavetats_ng
 		while (i <= slot_end) {
 			if (JArray::findInt(external, i) == -1) {
 				if (get_applied_tattoo_in_slot(a_target, a_area, i) == 0) {
-					JValue::cleanPool("SlaveTats-_available_slot");
 					return i;
 				}
 			}
