@@ -81,7 +81,7 @@ namespace slavetats_ng
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
 
-		// logger::info("blank_texture_name = {}", blankPrefix);
+		// logger::info("clear_overlay_part1: blank_texture_name = {}", blankPrefix);
 		// logger::info("Applying {} to node {}", blankPrefix, nodeName);
 		
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, blankPrefix.c_str(), true);
@@ -93,6 +93,8 @@ namespace slavetats_ng
 		bool hasGlowOverride = NiOverride::HasNodeOverride(a_target, a_is_female, nodeName.c_str(), 9, 3);
 		if (hasGlowOverride)
 			NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 3, blankPrefix.c_str(), true);
+
+		NiOverride::AddNodeOverrideFloat(a_target, a_is_female, nodeName.c_str(), 8, -1, 0.f, true);
 
 		return false;
 	}

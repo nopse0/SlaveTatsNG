@@ -136,6 +136,7 @@ namespace slavetats_ng
 		int external = JValue::addToPool(JArray::object(), "SlaveTats-_available_slot");
 
 		if (external_slots(a_target, a_area, external)) {
+			JValue::cleanPool("SlaveTats-_available_slot");
 			return -1;
 		}
 
