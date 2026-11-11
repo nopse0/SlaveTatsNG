@@ -360,7 +360,7 @@ namespace slavetats_ng
 		return upgrade_tattoos_2_0_0(a_target);
 	}
 
-	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool a_silent)
+	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool a_silent, bool a_resume_pending_synchronize)
 	{
 		int               i;
 		int               idx;
@@ -389,10 +389,8 @@ namespace slavetats_ng
 			return true;
 		}
 
-		logger::info("synchronize_tattoos_internal: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
-		logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::GetSingleton()->main_thread_id()));
-
-		// std::this_thread::sleep_for(100ms);
+		//logger::info("synchronize_tattoos_internal: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
+		//logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::GetSingleton()->main_thread_id()));
 
 		RE::TESNPC* actor_base = a_target->GetActorBase();
 		if (!actor_base) {
@@ -414,15 +412,6 @@ namespace slavetats_ng
 			bool              isFemale = actor_base->GetSex() == 1;
 			logger::info("SlaveTats: Beginning synchronization for {}", actor_name.c_str());
 
-			if (!NiOverride::HasOverlays(a_target)) {
-				NiOverride::AddOverlays(a_target);
-				// TODO delay ?
-				if (!NiOverride::HasOverlays(a_target)) {
-					logger::error("AddOverlays failed");
-					return true;
-				}
-			}
-
 			if (upgrade_tattoos(a_target)) {
 				logger::error("upgrade_tattoos failed");
 				return true;
@@ -433,10 +422,33 @@ namespace slavetats_ng
 				return false;
 			}
 
-			// TODO notification, disable player controls
-			// if (!a_silent) {
-			//
-			//}
+			if (JFormDB::getInt(a_target, ".SlaveTats.update_pending") == 1) {
+				if (a_resume_pending_synchronize) {
+					JFormDB::setInt(a_target, ".SlaveTats.update_pending", 0);
+				} else {
+					logger::info("Already synchronizing tattoos for {}, skipping this call.", actor_name.c_str());
+					return false;
+				}
+				logger::info("Resuming pending synchronization for {}", actor_name.c_str());
+			}
+
+			if (a_resume_pending_synchronize && !NiOverride::HasOverlays(a_target)) {
+				logger::error("Could not resume pending synchronize");
+				return true;
+			}
+
+			if (!NiOverride::HasOverlays(a_target)) {
+				NiOverride::AddOverlays(a_target);
+				// Would be nice to clear all update_pending flags in the kPostLoadGame hook in main.cpp (otherwise synchronize_tattoos may be stuck
+				// forever, if there is an unlucky CTD between two synchronize_tattoos), but JFormDB doesn't seem to have a convenient method 
+				// to clear a key from _all_ form entries (and I am too lazy to do the iterating myself). Anyway, highly unlikely that this will happen,
+				// and if it happens, the user could still reset the whole SlaveTats JContainer DB 
+				JFormDB::setInt(a_target, ".SlaveTats.update_pending", 1);
+				SKSE::GetTaskInterface()->AddTask([a_target, a_silent] {
+					synchronize_tattoos_internal(a_target, a_silent, true);
+				});
+				return false;
+			}
 
 			RE::BSFixedString prefix = PREFIX();
 
@@ -943,14 +955,14 @@ namespace slavetats_ng
 
 			SKSE::GetTaskInterface()->AddTask([a_target, a_silent] {
 				//result.set_value(
-				synchronize_tattoos_internal(a_target, a_silent);
+				synchronize_tattoos_internal(a_target, a_silent, false);
 				//);
 			});
 			//future.wait();
 			//return future.get();
 			return false;
 		} else {
-			return synchronize_tattoos_internal(a_target, a_silent);
+			return synchronize_tattoos_internal(a_target, a_silent, false);
 		}
 	}
 
