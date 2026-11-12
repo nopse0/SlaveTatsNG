@@ -4,7 +4,7 @@ namespace slavetats_ng
 {
 	namespace config
 	{
-		class Config : public clib_util::singleton::ISingleton<Config>
+		class Config : public singleton<Config>
 		{
 		public:
 			std::string skee_dll_name;

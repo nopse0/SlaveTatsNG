@@ -23,7 +23,7 @@ namespace slavetats_ng
 				typedef void (*_RemoveNodeOverride_t)(RE::StaticFunctionTag*, RE::TESObjectREFR* a_ref, bool a_female, const char* a_node, int a_key, int a_index);
 				typedef void (*_RemoveOverlays_t)(RE::StaticFunctionTag*, RE::TESObjectREFR* a_ref);
 
-				class RaceMenuAddressTables : public clib_util::singleton::ISingleton<RaceMenuAddressTables>, public NiOverride_functions
+				class RaceMenuAddressTables : public singleton<RaceMenuAddressTables>, public NiOverride_functions
 				{
 				public:
 					RaceMenuAddressTables();

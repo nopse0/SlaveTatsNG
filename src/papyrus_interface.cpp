@@ -38,7 +38,7 @@ namespace slavetats_ng
 
 		std::vector<std::int32_t> get_last_save_time(RE::StaticFunctionTag*)
 		{
-			auto system = slavetats_ng::utility::System::GetSingleton();
+			auto system = &slavetats_ng::utility::System::get_instance();
 			return system->get_time_since_last_save();
 		}
 

@@ -1,25 +1,28 @@
 {
     "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
-    "name": "slavetats-ng",
-    "version-string": "0.7.3",
+    "name": "miniutil",
+    "version-string": "0.0.1",
     "port-version": 0,
-    "description": "SlaveTats as SKSE plugin.",
-    "homepage": "https://www.loverslab.com/files/file/35989-slavetatsng/",
+    "description": "MiniUtil.",
+    "homepage": "",
     "license": "Apache-2.0",
     "features": {
         "plugin": {
-            "description": "Build the SKSE plugin.",
+            "description": "...",
           "dependencies": [
-            "commonlibsse-ng",
+            "directxtk",
+            "directxmath",
             "fmt",
-            "rapidcsv",
             "spdlog",
+            "rapidcsv",
             "xbyak",
-            "magic-enum",
             "nlohmann-json",
-			"clib-util",
+            "simpleini",
+            "toml11",
+            "catch2",
+            "magic-enum",
             "ms-gsl",
-			"hash-library"
+            "hash-library"
           ]
         }
     },

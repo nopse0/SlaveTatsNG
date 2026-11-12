@@ -5,7 +5,7 @@ namespace slavetats_ng
 {
 	namespace threading
 	{	
-		class System : public clib_util::singleton::ISingleton<System>
+		class System : public singleton<System>
 		{
 		public:
 			std::mutex main_thread_id_mutex;

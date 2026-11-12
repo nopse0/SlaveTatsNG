@@ -34,7 +34,7 @@ namespace slavetats_ng
 
 			if (useLegacy) {
 				logger::info("Using legacy address tables");
-				auto legacy = nioverride_impl::nioverride_legacy::RaceMenuAddressTables::GetSingleton();
+				auto legacy = &nioverride_impl::nioverride_legacy::RaceMenuAddressTables::get_instance();
 				legacy->init();
 				// _funcs = nioverride_impl::nioverride_impl_old::legacy_binding::singleton();
 				_funcs = legacy;
@@ -51,10 +51,11 @@ namespace slavetats_ng
 			logger::info("Load {}, result = {}", skee_config_file, rc);
 
 			if (rc >= 0) {
-				clib_util::ini::get_value(skeeConfig, _numBodyOvls, "Overlays/Body", "iNumOverlays", ";");
-				clib_util::ini::get_value(skeeConfig, _numHandsOvls, "Overlays/Hands", "iNumOverlays", ";");
-				clib_util::ini::get_value(skeeConfig, _numFeetOvls, "Overlays/Feet", "iNumOverlays", ";");
-				clib_util::ini::get_value(skeeConfig, _numFaceOvls, "Overlays/Face", "iNumOverlays", ";");
+				bool multipleKeys = false;
+				_numBodyOvls = skeeConfig.GetLongValue("Overlays/Body", "iNumOverlays", 0, &multipleKeys);
+				_numHandsOvls = skeeConfig.GetLongValue("Overlays/Hands", "iNumOverlays", 0, &multipleKeys);
+				_numFeetOvls = skeeConfig.GetLongValue("Overlays/Feet", "iNumOverlays", 0, &multipleKeys);
+				_numFaceOvls = skeeConfig.GetLongValue("Overlays/Face", "iNumOverlays", 0, &multipleKeys);
 			}
 
 			logger::info("# Overlay: {} {} {} {}", _numBodyOvls, _numHandsOvls, _numFeetOvls, _numFaceOvls);

@@ -1,163 +1,30 @@
 #pragma once
 
-/*
-#include <cassert>
-#include <cctype>
-#include <cerrno>
-#include <cfenv>
-#include <cfloat>
-#include <cinttypes>
-#include <climits>
-#include <clocale>
-#include <cmath>
-#include <csetjmp>
-#include <csignal>
-#include <cstdarg>
-#include <cstddef>
-#include <cstdint>
-#include <cstdlib>
-#include <cstdio>
-#include <cstring>
-#include <ctime>
-#include <cuchar>
-#include <cwchar>
-#include <cwctype>
-
-#include <algorithm>
-#include <any>
-#include <array>
-#include <atomic>
-#include <barrier>
-#include <bit>
-#include <bitset>
-#include <charconv>
-#include <chrono>
-#include <compare>
-#include <complex>
-#include <concepts>
-#include <condition_variable>
-#include <deque>
-#include <exception>
-#include <execution>
-#include <filesystem>
-#include <format>
-#include <forward_list>
-#include <fstream>
-#include <functional>
-#include <future>
-#include <initializer_list>
-#include <iomanip>
-#include <iosfwd>
-#include <ios>
-#include <iostream>
-#include <istream>
-#include <iterator>
-#include <latch>
-#include <limits>
-#include <locale>
-#include <map>
-#include <memory>
-#include <memory_resource>
-#include <mutex>
-#include <new>
-#include <numbers>
-#include <numeric>
-#include <optional>
-#include <ostream>
-#include <queue>
-#include <random>
-#include <ranges>
-#include <regex>
-#include <ratio>
-#include <scoped_allocator>
-#include <semaphore>
-#include <set>
-#include <shared_mutex>
-#include <source_location>
-#include <span>
-#include <sstream>
-#include <stack>
-#include <stdexcept>
-#include <streambuf>
-#include <string>
-#include <string_view>
-#include <syncstream>
-#include <system_error>
-#include <thread>
-#include <tuple>
-#include <typeindex>
-#include <typeinfo>
-#include <type_traits>
-#include <unordered_map>
-#include <unordered_set>
-#include <utility>
-#include <valarray>
-#include <variant>
-#include <vector>
-#include <version>
-*/
-#include <latch>
-
 #include <RE/Skyrim.h>
 #include <SKSE/SKSE.h>
-// #include <REL/Relocation.h>
+#include <SimpleIni.h>
+//#include <SKSEMenuFramework.h>
+#include <spdlog/pattern_formatter.h>
+//#ifndef _Windows_
+//	#define _Windows_
+//#endif
+//#include "FrontierAPI.h"
+#include <latch>
+#include <gsl/util>
 
-// #include <ShlObj_core.h>
-// #include <Windows.h>
-// #include <Psapi.h>
-#undef cdecl // Workaround for Clang 14 CMake configure error.
+using namespace std::string_view_literals;
 
-#include <gsl/gsl_util>
-
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/msvc_sink.h>
-
-#include <CLibUtil/distribution.hpp>
-#include <CLibUtil/hash.hpp>
-#include <CLibUtil/numeric.hpp>
-#include <CLibUtil/rng.hpp>
-#include <CLibUtil/string.hpp>
-#include <ClibUtil/simpleINI.hpp>
-#include <ClibUtil/singleton.hpp>
-#include <ClibUtil/editorID.hpp>
-#include <fmt/format.h>
-
-template <>
-struct fmt::formatter<RE::BSFixedString>
+namespace slavetats_ng
 {
-	// Presentation format: 'f' - fixed, 'e' - exponential.
-	char presentation = 'f';
+	typedef bool fail_t;
+}
 
-	// Parses format specifications of the form ['f' | 'e'].
-	constexpr auto parse(format_parse_context& ctx) -> format_parse_context::iterator
-	{
-		auto it = ctx.begin(), end = ctx.end();
-		if (it != end && (*it == 'f'))
-			presentation = *it++;
+// Set on fatal errors, e.g. if I can't load my Forms from the .esp
+//inline bool ModDisabled = false;
 
-		// Check if reached the end of the range:
-		if (it != end && *it != '}')
-			throw_format_error("invalid format");
+//inline FrontierAPI::IFrontier1* Frontier1 = nullptr;
 
-		// Return an iterator past the end of the parsed range:
-		return it;
-	}
-	// Formats the point p using the parsed format specification (presentation)
-	// stored in this formatter.
-	auto format(const RE::BSFixedString& v, format_context& ctx) const -> format_context::iterator
-	{
-		// ctx.out() is an output iterator to write to.
-		return fmt::format_to(ctx.out(), "{}", v.data());
-	}
-};
-
-// Compatible declarations with other sample projects.
-#define DLLEXPORT __declspec(dllexport)
-
-using namespace std::literals;
-using namespace REL::literals;
-
-#define SLAVETATS_MAKE_RUNTIME_LOGGER(a_func, a_level_val)                                              \
+#define MAKE_DEFAULT_LOGGER(a_func, a_level_val)                                              \
                                                                                       \
 	template <class... Args>                                                          \
 	struct [[maybe_unused]] a_func                                                    \
@@ -168,7 +35,7 @@ using namespace REL::literals;
 			/*spdlog::level::level_enum a_level,*/                                    \
 			fmt::format_string<Args...> a_fmt,                                        \
 			Args&&... a_args,                                                         \
-			SKSE::stl::source_location a_loc = SKSE::stl::source_location::current()) \
+			std::source_location a_loc = std::source_location::current()) \
 		{                                                                             \
 			auto logger = spdlog::default_logger();                                   \
 			if (logger && logger->should_log(a_level_val)) {                          \
@@ -189,21 +56,174 @@ using namespace REL::literals;
 
 namespace logger
 {
-	SLAVETATS_MAKE_RUNTIME_LOGGER(info, spdlog::level::info);
-	SLAVETATS_MAKE_RUNTIME_LOGGER(error, spdlog::level::err);
-	SLAVETATS_MAKE_RUNTIME_LOGGER(debug, spdlog::level::debug);
-	SLAVETATS_MAKE_RUNTIME_LOGGER(trace, spdlog::level::trace);
-	SLAVETATS_MAKE_RUNTIME_LOGGER(warn, spdlog::level::warn);
-
+	MAKE_DEFAULT_LOGGER(info, spdlog::level::info);
+	MAKE_DEFAULT_LOGGER(error, spdlog::level::err);
+	MAKE_DEFAULT_LOGGER(debug, spdlog::level::debug);
+	MAKE_DEFAULT_LOGGER(trace, spdlog::level::trace);
+	MAKE_DEFAULT_LOGGER(warn, spdlog::level::warn);
+	MAKE_DEFAULT_LOGGER(critical, spdlog::level::critical);
 }
 
-// namespace logger = SKSE::log;
 
-namespace util {
-    using SKSE::stl::report_and_fail;
+#define MAKE_CUSTOM_LOGGER(a_func, a_logger_name, a_level_val)              \
+                                                                                      \
+	template <class... Args>                                                          \
+	struct [[maybe_unused]] a_func                                                    \
+	{                                                                                 \
+		a_func() = delete;                                                            \
+                                                                                      \
+		explicit a_func(                                                              \
+			fmt::format_string<Args...> a_fmt,                                        \
+			Args&&... a_args,                                                         \
+			std::source_location a_loc = std::source_location::current())             \
+		{                                                                             \
+			auto logger = spdlog::get(a_logger_name);                                 \
+			if (logger && logger->should_log(a_level_val)) {                          \
+				logger->log(                                                          \
+					spdlog::source_loc{                                               \
+						a_loc.file_name(),                                            \
+						static_cast<int>(a_loc.line()),                               \
+						a_loc.function_name() },                                      \
+					a_level_val,                                                      \
+					a_fmt,                                                            \
+					std::forward<Args>(a_args)...);                                   \
+			}                                                                         \
+		}                                                                             \
+	};                                                                                \
+                                                                                      \
+	template <class... Args>                                                          \
+	a_func(fmt::format_string<Args...>, Args&&...) -> a_func<Args...>;
+
+
+#define INIT_CUSTOM_LOGGER(a_logger_name)\
+inline void init_logger() {\
+	auto logger = spdlog::get(a_logger_name);\
+	if (!logger) {\
+		auto def_logger = spdlog::default_logger();                           \
+		if (def_logger) {													  \
+			logger = std::make_shared<spdlog::logger> (                       \
+				a_logger_name,                                                \
+				def_logger->sinks().begin(),                                  \
+				def_logger->sinks().end());									  \
+				spdlog::initialize_logger(logger); 							  \
+				logger->flush_on(spdlog::level::debug);		                  \
+		}\
+	}\
 }
 
-namespace slavetats_ng
+/*
+#define MINIUTILS_CUSTOM_LOGGER_SHOULD_LOG(a_logger_name)\
+inline bool should_log(spdlog::level::level_enum a_level_val) {\
+	auto logger = spdlog::get(a_logger_name);\
+	if (!logger) return false;\
+	return logger->should_log(a_level_val);\
+}
+
+namespace event_chain {
+	namespace logger_custom {
+		MINIUTILS_INIT_CUSTOM_LOGGER("event_chain")
+		MINIUTILS_MAKE_CUSTOM_LOGGER(error, "event_chain", spdlog::level::err);
+		MINIUTILS_MAKE_CUSTOM_LOGGER(debug, "event_chain", spdlog::level::debug);
+		MINIUTILS_CUSTOM_LOGGER_SHOULD_LOG("event_chain")
+	}
+}
+
+namespace fsm {
+	namespace logger_custom {
+		MINIUTILS_INIT_CUSTOM_LOGGER("fsm")
+		MINIUTILS_MAKE_CUSTOM_LOGGER(trace, "fsm", spdlog::level::trace);
+		MINIUTILS_MAKE_CUSTOM_LOGGER(debug, "fsm", spdlog::level::debug);
+		MINIUTILS_CUSTOM_LOGGER_SHOULD_LOG("fsm");
+	}
+}
+
+namespace animation {
+	namespace logger_custom {
+		MINIUTILS_INIT_CUSTOM_LOGGER("animation")
+		MINIUTILS_MAKE_CUSTOM_LOGGER(debug, "animation", spdlog::level::debug);
+		MINIUTILS_MAKE_CUSTOM_LOGGER(trace, "animation", spdlog::level::trace);
+	}
+}
+
+namespace controller {
+	namespace logger_custom {
+		MINIUTILS_INIT_CUSTOM_LOGGER("controller")
+		MINIUTILS_MAKE_CUSTOM_LOGGER(debug, "controller", spdlog::level::debug);
+		MINIUTILS_MAKE_CUSTOM_LOGGER(trace, "controller", spdlog::level::trace);
+	}
+}
+
+namespace scanner {
+	namespace logger_custom {
+		MINIUTILS_INIT_CUSTOM_LOGGER("scanner")
+		MINIUTILS_MAKE_CUSTOM_LOGGER(debug, "scanner", spdlog::level::debug);
+		MINIUTILS_MAKE_CUSTOM_LOGGER(trace, "scanner", spdlog::level::trace);
+	}
+}
+*/
+
+namespace skse {
+	using SKSE::stl::report_and_fail;
+}
+
+[[noreturn]] inline void FatalerAssertAbsturz(
+	const char* expressionText,
+	const std::source_location& loc = std::source_location::current()) // Holt die Position des Aufrufers [2]
 {
-	typedef bool fail_t;
+	// 1. Wir bauen eine extrem detaillierte Fehlermeldung
+	std::string crashMeldung = std::format(
+		"Assertion failed: ({}) in File: {}:{} ({})",
+		expressionText,
+		loc.file_name(),
+		loc.line(),
+		loc.function_name()
+	);
+
+	// 2. Unbedingt ins eigene Plugin-Log spiegeln
+	logger::critical("{}", crashMeldung);
+
+	// 3. Übergabe an Windows SEH für den Crash Logger SSE
+	// Wir kopieren den String in den Heap, damit der Zeiger im Dump garantiert gültig bleibt
+	char* permanentMessage = _strdup(crashMeldung.c_str());
+
+	ULONG_PTR args[2];
+	args[0] = 0xDEADC0DE;                          // Unser Plugin-Marker
+	args[1] = reinterpret_cast<ULONG_PTR>(permanentMessage); // Die detaillierte Nachricht
+
+	RaiseException(
+		0xE0000001,
+		EXCEPTION_NONCONTINUABLE,
+		2,
+		args
+	);
 }
+
+// Das Makro, das die Condition prüft und lesbar macht
+#define release_assert(expression) \
+    do { \
+        if (!(expression)) { \
+            FatalerAssertAbsturz(#expression); \
+        } \
+    } while (0)
+
+
+
+
+template <typename T>
+class singleton {
+public:
+	static T& get_instance() {
+		static T instance;
+		return instance;
+	}
+
+	// Kopieren und Zuweisen strikt verbieten
+	singleton(const singleton&) = delete;
+	singleton& operator=(const singleton&) = delete;
+	singleton(singleton&&) = delete;
+	singleton& operator=(singleton&&) = delete;
+
+protected:
+	singleton() = default;
+	virtual ~singleton() = default;
+};

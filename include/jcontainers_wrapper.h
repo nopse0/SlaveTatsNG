@@ -20,7 +20,7 @@ namespace slavetats_ng
 {
 	namespace jcwrapper
 	{
-		class JCWrapper : public clib_util::singleton::ISingleton<JCWrapper>
+		class JCWrapper : public singleton<JCWrapper>
 		{
 		private:
 			const jc::root_interface* root_interface = nullptr;

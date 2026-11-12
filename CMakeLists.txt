@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.21)
+cmake_minimum_required(VERSION 3.24)
 message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 
 ########################################################################################################################
@@ -6,7 +6,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 project(
         SlaveTatsNG
-        VERSION 0.8.2
+        VERSION 0.8.3
         DESCRIPTION "SlaveTats as SKSE plugin."
         LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
@@ -15,7 +15,10 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
 
 list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake")
 
-include(GNUInstallDirs)
+#include(GNUInstallDirs)
+
+add_subdirectory(lib/commonlibsse-ng)
+include(${CMAKE_CURRENT_SOURCE_DIR}/lib/commonlibsse-ng/cmake/CommonLibSSE.cmake)
 
 configure_file(
         ${CMAKE_CURRENT_SOURCE_DIR}/cmake/version.rc.in
@@ -23,11 +26,9 @@ configure_file(
         @ONLY)
 
 set(sources
-        ${CMAKE_CURRENT_BINARY_DIR}/version.rc)
+	${CMAKE_CURRENT_BINARY_DIR}/version.rc)
 
-
-
-set(headers ${headers}
+set(headers
 	include/JContainers/jc_interface.h
 	include/JContainers/jcontainers_constants.h
 	include/SlaveTatsNG_Interface.h
@@ -105,27 +106,40 @@ set(sources ${sources}
 ########################################################################################################################
 ## Configure target DLL
 ########################################################################################################################
-find_package(CommonLibSSE CONFIG REQUIRED)
+find_package(directxtk CONFIG REQUIRED)
 find_package(magic_enum CONFIG REQUIRED)
 find_package(xbyak CONFIG REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 find_package(unofficial-hash-library)
-find_path(CLIB_UTIL_INCLUDE_DIRS "ClibUtil/utils.hpp")
+find_path(SIMPLEINI_INCLUDE_DIRS "SimpleIni.h")
 
 add_commonlibsse_plugin(${PROJECT_NAME} SOURCES ${headers} ${sources})
 add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 
-target_include_directories(${PROJECT_NAME}
-        PRIVATE
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
-		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmake>
-        $<INSTALL_INTERFACE:src>)
+#target_include_directories(${PROJECT_NAME}
+#        PRIVATE
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
+#		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmake>
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/cmake>
+#        $<INSTALL_INTERFACE:src>
+#		)
+
+#target_include_directories(${PROJECT_NAME}
+#        PUBLIC
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+#		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/MCP>
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/extern/SlaveTatsNG/include>
+#		${CLIB_UTIL_INCLUDE_DIRS}
+#		)
 
 target_include_directories(${PROJECT_NAME}
         PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-		${CLIB_UTIL_INCLUDE_DIRS})
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/mcp>
+#        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/lib/frontier>
+		${SIMPLEINI_INCLUDE_DIRS}
+)
 
 target_link_libraries(${PROJECT_NAME}
         PRIVATE
@@ -133,7 +147,7 @@ target_link_libraries(${PROJECT_NAME}
 		xbyak::xbyak
 		nlohmann_json::nlohmann_json
 		unofficial::hash-library
-        )
+)
 
 target_precompile_headers(${PROJECT_NAME}
         PRIVATE

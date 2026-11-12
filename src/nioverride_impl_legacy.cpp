@@ -23,7 +23,7 @@ namespace slavetats_ng
 					offset_tables_t offset_tables;
 					slavetats_ng::skee_offsets::load_offset_tables(offset_tables);
 
-					auto        config = slavetats_ng::config::Config::GetSingleton();
+					auto config = &slavetats_ng::config::Config::get_instance();
 					std::string dll_name = config->skee_dll_name;
 					if (dll_name.empty()) {
 						std::string default_dll_name;

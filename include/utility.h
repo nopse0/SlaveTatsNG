@@ -5,7 +5,7 @@ namespace slavetats_ng
 	namespace utility
 	{
 
-		class System : public clib_util::singleton::ISingleton<System>
+		class System : public singleton<System>
 		{
 			SYSTEMTIME _last_save_time;
 

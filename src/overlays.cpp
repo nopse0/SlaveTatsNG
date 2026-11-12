@@ -29,7 +29,7 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
+		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::get_instance().blank_texture_name;
 
 		// logger::info("blank_texture_name = {}", blankPrefix);
 		// logger::info("Applying {} to node {}", blankPrefix, nodeName);
@@ -79,7 +79,7 @@ namespace slavetats_ng
 		}
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
-		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
+		RE::BSFixedString blankPrefix = slavetats_ng::config::Config::get_instance().blank_texture_name;
 
 		// logger::info("clear_overlay_part1: blank_texture_name = {}", blankPrefix);
 		// logger::info("Applying {} to node {}", blankPrefix, nodeName);
@@ -139,7 +139,7 @@ namespace slavetats_ng
 			return true;
 		}
 
-		const auto& blank_texture = slavetats_ng::config::Config::GetSingleton()->blank_texture_name;
+		const auto& blank_texture = slavetats_ng::config::Config::get_instance().blank_texture_name;
 
 		RE::BSFixedString nodeName = string(a_area) + " [Ovl" + to_string(a_slot) + "]";
 		NiOverride::AddNodeOverrideString(a_target, a_is_female, nodeName.c_str(), 9, 0, a_diffuse_map.c_str(), true);
@@ -390,7 +390,7 @@ namespace slavetats_ng
 		}
 
 		logger::info("synchronize_tattoos_internal: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
-		logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::GetSingleton()->main_thread_id()));
+		logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::get_instance().main_thread_id()));
 
 		// std::this_thread::sleep_for(100ms);
 
@@ -937,7 +937,7 @@ namespace slavetats_ng
 
 		logger::info("synchronize_tattoos: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
 
-		if (std::this_thread::get_id() != slavetats_ng::threading::System::GetSingleton()->main_thread_id()) {
+		if (std::this_thread::get_id() != slavetats_ng::threading::System::get_instance().main_thread_id()) {
 			//std::promise<fail_t> result;
 			//auto                 future = result.get_future();
 
