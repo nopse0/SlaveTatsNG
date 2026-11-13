@@ -47,9 +47,9 @@ namespace
 				}
 				slavetats_ng::jcwrapper::JFormDB::setInt(actor, ".SlaveTats.updated", 1);
 				auto formId = actor->GetFormID();
-				SKSE::GetTaskInterface()->AddTask([actor]() {
-					//slavetats_ng::synchronizer::synchronizer::get_instance().schedule(formId, 3);
-					slavetats_ng::synchronize_tattoos(actor, true);
+				SKSE::GetTaskInterface()->AddTask([formId]() {
+					slavetats_ng::synchronizer::synchronizer::get_instance().schedule(formId, 3);
+					//slavetats_ng::synchronize_tattoos(actor, true);
 				});
 			}
 			return RE::BSEventNotifyControl::kContinue;
@@ -173,8 +173,8 @@ namespace
 			{
 				slavetats_ng::jcwrapper::JCWrapper::get_instance().Init();
 				slavetats_ng::skee_wrapper::NiOverride::Init();
-				//main_loop::install();
-				//RegisterNiNodeSink();
+				main_loop::install();
+				RegisterNiNodeSink();
 			}
 			break;
 
