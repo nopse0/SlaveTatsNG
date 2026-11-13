@@ -6,6 +6,31 @@
 
 namespace slavetats_ng
 {
+	static long extract_long(const char* rawValue, long defaultValue = 0)
+	{
+		if (rawValue == nullptr) {
+			return defaultValue;
+		}
+
+		errno = 0;
+		char*      end = nullptr;
+		const long value = std::strtol(rawValue, &end, 10);
+
+		if (end == rawValue || errno == ERANGE) {
+			return defaultValue;
+		}
+
+		while (*end != '\0' && std::isspace(static_cast<unsigned char>(*end))) {
+			++end;
+		}
+
+		if (*end != '\0' && *end != ';' && *end != '#') {
+			return defaultValue;
+		}
+
+		return value;
+	}
+
 	namespace skee_wrapper
 	{
 		void NiOverride::Init()
@@ -50,12 +75,16 @@ namespace slavetats_ng
 			SI_Error rc = skeeConfig.LoadFile(skee_config_file);
 			logger::info("Load {}, result = {}", skee_config_file, rc);
 
-			if (rc >= 0) {
+			if (rc == SI_OK) {
+				//const char* rawBodyValue = skeeConfig.GetValue("Overlays/Body", "iNumOverlays", "<missing>");
+				//long        bodyValue = skeeConfig.GetLongValue("Overlays/Body", "iNumOverlays", -1);
+				//logger::info("INI lookup Overlays/Body/iNumOverlays: raw='{}', parsed={}", rawBodyValue, bodyValue);
+
 				bool multipleKeys = false;
-				_numBodyOvls = skeeConfig.GetLongValue("Overlays/Body", "iNumOverlays", 0, &multipleKeys);
-				_numHandsOvls = skeeConfig.GetLongValue("Overlays/Hands", "iNumOverlays", 0, &multipleKeys);
-				_numFeetOvls = skeeConfig.GetLongValue("Overlays/Feet", "iNumOverlays", 0, &multipleKeys);
-				_numFaceOvls = skeeConfig.GetLongValue("Overlays/Face", "iNumOverlays", 0, &multipleKeys);
+				_numBodyOvls = extract_long(skeeConfig.GetValue("Overlays/Body", "iNumOverlays", "0"));
+				_numHandsOvls = extract_long(skeeConfig.GetValue("Overlays/Hands", "iNumOverlays", "0"));
+				_numFeetOvls = extract_long(skeeConfig.GetValue("Overlays/Feet", "iNumOverlays", "0"));
+				_numFaceOvls = extract_long(skeeConfig.GetValue("Overlays/Face", "iNumOverlays", "0"));
 			}
 
 			logger::info("# Overlay: {} {} {} {}", _numBodyOvls, _numHandsOvls, _numFeetOvls, _numFaceOvls);

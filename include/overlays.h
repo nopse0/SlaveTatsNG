@@ -9,4 +9,5 @@ namespace slavetats_ng
 		int a_emissive_color, float a_glossiness, RE::BSFixedString a_bump_map, float a_alpha, float a_specular_strength, RE::BSFixedString a_glow_map, float a_emissive_mult);
 	fail_t upgrade_tattoos(RE::Actor* a_target);
 	fail_t synchronize_tattoos(RE::Actor* a_target, bool a_silent = false);
+	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool* a_to_be_continued);
 }

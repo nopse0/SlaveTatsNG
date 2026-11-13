@@ -1,4 +1,6 @@
 #pragma once
+
+/*
 #include <semaphore>
 
 namespace slavetats_ng
@@ -30,3 +32,4 @@ namespace slavetats_ng
 		}
 	}
 }
+*/

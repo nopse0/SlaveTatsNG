@@ -9,6 +9,7 @@
 #include "overlays.h"
 #include "spdlog/cfg/helpers.h"
 #include "spdlog/sinks/sink.h"
+#include "synchronizer.h"
 
 #include "SlaveTatsNG_InterFace.h"
 
@@ -20,6 +21,11 @@ namespace slavetats
 namespace slavetats_ng
 {
 	const char* const config_file = "data/skse/plugins/SlaveTatsNG/SlaveTatsNG.ini";
+}
+
+namespace main_loop
+{
+	void install();
 }
 
 namespace
@@ -40,7 +46,9 @@ namespace
 					return RE::BSEventNotifyControl::kContinue;
 				}
 				slavetats_ng::jcwrapper::JFormDB::setInt(actor, ".SlaveTats.updated", 1);
+				auto formId = actor->GetFormID();
 				SKSE::GetTaskInterface()->AddTask([actor]() {
+					//slavetats_ng::synchronizer::synchronizer::get_instance().schedule(formId, 3);
 					slavetats_ng::synchronize_tattoos(actor, true);
 				});
 			}
@@ -165,7 +173,8 @@ namespace
 			{
 				slavetats_ng::jcwrapper::JCWrapper::get_instance().Init();
 				slavetats_ng::skee_wrapper::NiOverride::Init();
-				RegisterNiNodeSink();
+				//main_loop::install();
+				//RegisterNiNodeSink();
 			}
 			break;
 
@@ -215,19 +224,8 @@ extern "C" __declspec(dllexport) bool SKSEPlugin_Load(const SKSE::LoadInterface*
 	const auto messaging = SKSE::GetMessagingInterface();
 	messaging->RegisterListener(messagingHook);
 
-	// This doesn't work, the thread which executes SKSE tasks changes over the time, it isn't the Skyrim main thread itself (I guess, it is a forked thread,
-	// and the Skyrim main thread only waits, until it's finished)
-	SKSE::GetTaskInterface()->AddTask([] {
-		auto id = std::this_thread::get_id();
-		auto system = &slavetats_ng::threading::System::get_instance();
-		{
-			std::lock_guard lk(system->main_thread_id_mutex);
-			system->_main_thread_id = id;
-			system->main_thread_id_initialized = true;
-		}
-		system->main_thread_id_cv.notify_all();
-		logger::info("main thread id is {}", slavetats_ng::threading::thread_id_to_string(id));
-	});
+	// Memory for hooks
+	SKSE::AllocTrampoline(1400);
 
 	return true;
 }

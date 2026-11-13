@@ -9,7 +9,8 @@
 #include "logging.h"
 #include "config.h"
 #include "threading.h"
-#include <future>
+#include "synchronizer.h"
+//#include <future>
 
 #include "overlays.h"
 
@@ -360,7 +361,7 @@ namespace slavetats_ng
 		return upgrade_tattoos_2_0_0(a_target);
 	}
 
-	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool a_silent)
+	fail_t synchronize_tattoos_internal(RE::Actor* a_target, bool* a_to_be_continued)
 	{
 		int               i;
 		int               idx;
@@ -377,6 +378,10 @@ namespace slavetats_ng
 		float             alpha;
 		float             emissive_mult;
 
+		if (a_to_be_continued) {
+			*a_to_be_continued = false;
+		}
+
 		logger::info("synchronize_tattoos_internal: a_target = {}", (void*)a_target);
 
 		if (!a_target) {
@@ -389,8 +394,8 @@ namespace slavetats_ng
 			return true;
 		}
 
-		logger::info("synchronize_tattoos_internal: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
-		logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::get_instance().main_thread_id()));
+		//logger::info("synchronize_tattoos_internal: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
+		//logger::info("main thread id = {}", slavetats_ng::threading::thread_id_to_string(slavetats_ng::threading::System::get_instance().main_thread_id()));
 
 		// std::this_thread::sleep_for(100ms);
 
@@ -416,7 +421,10 @@ namespace slavetats_ng
 
 			if (!NiOverride::HasOverlays(a_target)) {
 				NiOverride::AddOverlays(a_target);
-				// TODO delay ?
+				if (a_to_be_continued) {
+					*a_to_be_continued = true;
+					return false;
+				}
 				if (!NiOverride::HasOverlays(a_target)) {
 					logger::error("AddOverlays failed");
 					return true;
@@ -432,11 +440,6 @@ namespace slavetats_ng
 				logger::info("According to JFormDB, nothing ´has changed. Cancelling synchronization.");
 				return false;
 			}
-
-			// TODO notification, disable player controls
-			// if (!a_silent) {
-			//
-			//}
 
 			RE::BSFixedString prefix = PREFIX();
 
@@ -461,48 +464,33 @@ namespace slavetats_ng
 					i -= 1;
 
 					if (find_required_tattoo(applied, JArray::getObj(applied, i)) < 0) {
-						remove_tattoos(a_target, JArray::getObj(applied, i), true, a_silent);
+						remove_tattoos(a_target, JArray::getObj(applied, i), true, true);
 						loop = true;
 					}
 				}
 			}
 
 			if (get_applied_tattoos_by_area(a_target, on_body, on_face, on_hands, on_feet)) {
-				if (!a_silent) {
-					// TODO Enable player controls
-				}
 				JValue::cleanPool("SlaveTats-synchronize_tattoos");
 				return true;
 			}
 
 			if (external_slots(a_target, "Body", external_on_body)) {
-				if (!a_silent) {
-					// TODO Enable player controls
-				}
 				JValue::cleanPool("SlaveTats-synchronize_tattoos");
 				return true;
 			}
 
 			if (external_slots(a_target, "Face", external_on_face)) {
-				if (!a_silent) {
-					// TODO Enable player controls
-				}
 				JValue::cleanPool("SlaveTats-synchronize_tattoos");
 				return true;
 			}
 
 			if (external_slots(a_target, "Hands", external_on_hands)) {
-				if (!a_silent) {
-					// TODO Enable player controls
-				}
 				JValue::cleanPool("SlaveTats-synchronize_tattoos");
 				return true;
 			}
 
 			if (external_slots(a_target, "Feet", external_on_feet)) {
-				if (!a_silent) {
-					// TODO Enable player controls
-				}
 				JValue::cleanPool("SlaveTats-synchronize_tattoos");
 				return true;
 			}
@@ -603,9 +591,6 @@ namespace slavetats_ng
 					// TODO test if GetIsPlayerOwner works
 					if (NiOverride::HasOverlays(a_target) && !actor_base->GetIsPlayerOwner()) {
 						logger::error("NPC overlay uninstallation failed");
-						if (!a_silent) {
-							// TODO Enable player controls
-						}
 						JValue::cleanPool("SlaveTats-synchronize_tattoos");
 						return true;
 					}
@@ -615,9 +600,6 @@ namespace slavetats_ng
 
 				logger::info("SlaveTats is done with {}", actor_name.c_str());
 
-				if (!a_silent) {
-					// TODO Enable player controls
-				}
 				JValue::cleanPool("SlaveTats-synchronize_tattoos");
 				return false;
 			}
@@ -916,10 +898,6 @@ namespace slavetats_ng
 			}
 
 			logger::info("Synchronization complete.");
-			// notify("SlaveTats is done with " + target.GetLeveledActorBase().GetName() + ".", silent)
-			if (!a_silent) {
-				// TODO Enable player controls
-			}
 
 			JValue::cleanPool("SlaveTats-synchronize_tattoos");
 			return false;
@@ -935,23 +913,13 @@ namespace slavetats_ng
 			return true;
 		}
 
-		logger::info("synchronize_tattoos: current thread id = {}", slavetats_ng::threading::thread_id_to_string(std::this_thread::get_id()));
-
-		if (std::this_thread::get_id() != slavetats_ng::threading::System::get_instance().main_thread_id()) {
-			//std::promise<fail_t> result;
-			//auto                 future = result.get_future();
-
-			SKSE::GetTaskInterface()->AddTask([a_target, a_silent] {
-				//result.set_value(
-				synchronize_tattoos_internal(a_target, a_silent);
-				//);
-			});
-			//future.wait();
-			//return future.get();
-			return false;
-		} else {
-			return synchronize_tattoos_internal(a_target, a_silent);
-		}
+		// After my tests, native fuction calls from the Papyrus VM are _not_ executed concurrently to the Skyrim main thread,
+		// but I also call this from the ImGui render thread, so I cannot execute this directly
+		SKSE::GetTaskInterface()->AddTask([a_target] {
+			synchronizer::synchronizer::get_instance().schedule(a_target->GetFormID(), 0);
+			// synchronize_tattoos_internal(a_target, nullptr);
+		});
+		return false;
 	}
 
 }

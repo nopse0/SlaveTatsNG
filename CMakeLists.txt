@@ -6,7 +6,7 @@ message("Using toolchain file ${CMAKE_TOOLCHAIN_FILE}.")
 ########################################################################################################################
 project(
         SlaveTatsNG
-        VERSION 0.8.3
+        VERSION 0.8.4
         DESCRIPTION "SlaveTats as SKSE plugin."
         LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
@@ -65,6 +65,7 @@ set(headers
 	include/utility.h
 	include/skee_addresses.h
 	include/nioverride_impl_legacy.h
+	include/synchronizer.h
 	src/PCH.h
 )
 
@@ -101,6 +102,8 @@ set(sources ${sources}
 	src/skee_addresses.cpp
 	src/vm_hook.cpp
 	src/nioverride_impl_legacy.cpp
+	src/synchronizer.cpp
+	src/main_loop.cpp
 )
 
 ########################################################################################################################

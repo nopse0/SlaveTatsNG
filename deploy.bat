@@ -10,7 +10,7 @@ set scriptsdest=%dest%\overwrite
 copy %pluginsrc%\*.dll %plugindest%\SKSE\Plugins\
 copy %pluginsrc%\*.pdb %plugindest%\SKSE\Plugins\
 rem mkdir %plugindest%\SKSE\Plugins\SlaveTatsNG
-rem copy %configsrc%\*.ini %plugindest%\SKSE\Plugins\SlaveTatsNG
+copy %configsrc%\*.ini %plugindest%\SKSE\Plugins\SlaveTatsNG
 rem copy %configsrc%\*.json %plugindest%\SKSE\Plugins\SlaveTatsNG
 rem copy %headersrc%\SlaveTatsNG_Interface.h %plugindest%\SKSE\Plugins\SlaveTatsNG
 copy %scriptssrc%\Scripts\*.pex %scriptsdest%\Scripts\
