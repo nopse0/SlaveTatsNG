@@ -916,8 +916,8 @@ namespace slavetats_ng
 		// After my tests, native fuction calls from the Papyrus VM are _not_ executed concurrently to the Skyrim main thread,
 		// but I also call this from the ImGui render thread, so I cannot execute this directly
 		SKSE::GetTaskInterface()->AddTask([a_target] {
-			synchronizer::synchronizer::get_instance().schedule(a_target->GetFormID(), 0);
-			// synchronize_tattoos_internal(a_target, nullptr);
+			//synchronizer::synchronizer::get_instance().schedule(a_target->GetFormID(), 0);
+			synchronize_tattoos_internal(a_target, nullptr);
 		});
 		return false;
 	}
